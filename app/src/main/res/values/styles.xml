@@ -1,0 +1,75 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+
+    <!--message item-->
+
+    <style name="img_item_message_profile">
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="text_item_message_nickname">
+        <item name="android:textColor">@color/gray_45</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginLeft">63dp</item>
+    </style>
+
+    <style name="text_item_message_content">
+        <item name="android:textColor">@color/gray_5c</item>
+        <item name="android:textSize">12.5dp</item>
+        <item name="android:maxLines">5</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">11.5dp</item>
+        <item name="android:layout_marginLeft">63dp</item>
+    </style>
+
+    <style name="text_item_message_time">
+        <item name="android:textColor">@color/gray_97</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:maxLines">5</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">7.5dp</item>
+        <item name="android:layout_marginLeft">63dp</item>
+    </style>
+
+    <style name="view_item_message_divider">
+        <item name="android:background">@color/gray_d8</item>
+        <item name="android:layout_height">2px</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="img_item_message_image">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">11.5dp</item>
+        <item name="android:layout_marginLeft">63dp</item>
+    </style>
+
+    <style name="voice_item_message_image">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_marginTop">11.5dp</item>
+        <item name="android:layout_marginLeft">63dp</item>
+        <item name="android:background">@color/gray_97</item>
+    </style>
+
+</resources>

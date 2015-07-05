@@ -1,0 +1,25 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- navigation drawer -->
+    <dimen name="drawer_item_icon_margin_end">32dp</dimen>
+    <dimen name="drawer_item_height">48dp</dimen>
+    <dimen name="drawer_item_horizontal_padding">16dp</dimen>
+
+    <!-- group information -->
+    <dimen name="group_dimen">20dp</dimen>
+
+
+    <!-- user information -->
+    <dimen name="user_portrait_width">60dp</dimen>
+    <dimen name="user_portrait_left">25dp</dimen>
+    <dimen name="user_shr_number">20dp</dimen>
+    <dimen name="user_tag_left">25dp</dimen>
+    <dimen name="user_shr_text">10dp</dimen>
+    <dimen name="user_gratitude_number">20dp</dimen>
+    <dimen name="user_gratitude_text">10dp</dimen>
+    <dimen name="user_header1_height">120dp</dimen>
+    <dimen name="user_header2_height">80dp</dimen>
+</resources>

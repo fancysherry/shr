@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">shr</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!--login-->
+    <string name="login">登录</string>
+    <string name="username">用户名</string>
+    <string name="pwd">密码</string>
+    <string name="imgcode">验证码</string>
+
+    <string name="empty_username">请输入用户名</string>
+    <string name="empty_pwd">请输入密码</string>
+    <string name="login_success">登录成功</string>
+
+    <string name="dialog_ensure">确认</string>
+    <string name="dialog_cancel">取消</string>
+
+    <!--item-->
+    <string name="unsupported_content">不支持的类型</string>
+
+    <!--drawer item-->
+    <string name="fragment_notification">/@me</string>
+    <string name="fragment_group_android">Android group</string>
+    <string name="fragment_group_design">Design group</string>
+    <string name="fragment_group_ios">ios group</string>
+    <string name="fragment_group_alg">Alg group</string>
+    <string name="fragment_group_pm">PM group</string>
+    <string name="fragment_group_game">Game group</string>
+    <string name="fragment_group_it">IT group</string>
+    <string name="fragment_group_esd">Esd group</string>
+    <string name="fragment_group_web">Web group</string>
+    <string name="fragment_unique">Unique Studio</string>
+
+    <string name="add_group">+添加组</string>
+    <string name="message">消息</string>
+
+
+    <!--toorbar-->
+    <string name="open_content_drawer">Open the main menu</string>
+    <string name="close_content_drawer">Close the main menu</string>
+    <string name="title_activity_shr_content">ShrContentActivity</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_review">ReviewActivity</string>
+    <string name="title_activity_article">ArticleActivity</string>
+
+
+    <!--group information-->
+    <string name="active_member">活跃组员</string>
+    <string name="group_member">组成员</string>
+    <string name="title_activity_browser">BrowserActivity</string>
+
+    <!--user information-->
+    <string name="user_group_android">Android</string>
+    <string name="user_group_design">Design</string>
+    <string name="user_group_ios">iOS</string>
+    <string name="user_group_web">Web</string>
+    <string name="user_group_it">IT</string>
+    <string name="user_group_esd">Esd</string>
+    <string name="user_group_pm">PM</string>
+    <string name="user_group_game">Game</string>
+    <string name="user_group_alg">Alg</string>
+    <string name="user_group_unique_studio">Unique Studio</string>
+
+
+</resources>

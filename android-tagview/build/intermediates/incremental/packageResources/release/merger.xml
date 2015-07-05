@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/fancysherry/AndroidStudioProjects/shr/android-tagview/src/main/res"><file path="/home/fancysherry/AndroidStudioProjects/shr/android-tagview/src/main/res/values/styles.xml" qualifiers=""><style name="Widget.TagView" parent="@android:style/Widget.TextView">
+        <item name="tagCornerRadius">6dp</item>
+        <item name="tagPadding">8dp</item>
+        <item name="tagUppercase">true</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textStyle">bold</item>
+    </style><style name="Widget"/></file><file path="/home/fancysherry/AndroidStudioProjects/shr/android-tagview/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="TagView">
+        <attr format="dimension" name="tagCornerRadius"/>
+        <attr format="dimension" name="tagPadding"/>
+        <attr format="boolean" name="tagUppercase"/>
+    </declare-styleable><attr format="reference" name="tagViewStyle"/></file></source><source path="/home/fancysherry/AndroidStudioProjects/shr/android-tagview/build/generated/res/rs/release"/><source path="/home/fancysherry/AndroidStudioProjects/shr/android-tagview/build/generated/res/generated/release"/></dataSet><dataSet config="release"><source path="/home/fancysherry/AndroidStudioProjects/shr/android-tagview/src/release/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="TagView"><attr format="dimension" name="tagCornerRadius"/><attr format="dimension" name="tagPadding"/><attr format="boolean" name="tagUppercase"/></declare-styleable></configuration></mergedItems></merger>

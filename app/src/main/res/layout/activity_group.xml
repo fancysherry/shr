@@ -1,0 +1,258 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="unique.fancysherry.shr.ui.activity.GroupActivity">
+
+    <RelativeLayout
+        android:id="@+id/group_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/drawer_header_background">
+
+
+        <LinearLayout
+            android:id="@+id/group_header_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:orientation="horizontal"
+            android:paddingRight="40dp">
+
+            <ImageView
+                android:id="@+id/group_header_portrait"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/ic_launcher"
+                />
+
+            <TextView
+                android:id="@+id/drawer_header_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/group_header_portrait"
+                android:text="unique studio"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/drawer_header_gratitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/group_header_up"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="gratitude"/>
+
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@id/group_header"
+        android:layout_margin="@dimen/group_dimen"
+        android:background="@color/gray_d8"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/active_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_chart"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/group_dimen">
+
+
+        <ImageView
+            android:id="@+id/active_members_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_launcher"
+            />
+
+        <TextView
+            android:id="@+id/active_member_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/active_member"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/active_member_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/active_member"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/active_member_layout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/active_member_layout1_portrait"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/mine"
+                tools:border_color="#FF000000"
+                tools:border_width="0dp"/>
+
+            <TextView
+                android:id="@+id/active_member_layout1_name"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="name"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/active_member_layout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/active_member_layout2_portrait"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/mine"
+                tools:border_color="#FF000000"
+                tools:border_width="0dp"/>
+
+            <TextView
+                android:id="@+id/active_member_layout2_name"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="name"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/active_member_layout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/active_member_layout3_portrait"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/mine"
+                tools:border_color="#FF000000"
+                tools:border_width="0dp"/>
+
+            <TextView
+                android:id="@+id/active_member_layout3_name"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="name"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/active_member_layout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/active_member_layout4_portrait"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/mine"
+                tools:border_color="#FF000000"
+                tools:border_width="0dp"/>
+
+            <TextView
+                android:id="@+id/active_member_layout4_name"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="name"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/group_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/active_member_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/group_dimen">
+
+
+        <ImageView
+            android:id="@+id/group_members_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_launcher"
+            />
+
+        <TextView
+            android:id="@+id/group_member_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/group_member"
+            />
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/group_members_list"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/group_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</RelativeLayout>

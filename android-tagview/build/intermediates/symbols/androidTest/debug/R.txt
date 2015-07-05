@@ -1,0 +1,10 @@
+int attr tagCornerRadius 0x7f010001
+int attr tagPadding 0x7f010002
+int attr tagUppercase 0x7f010003
+int attr tagViewStyle 0x7f010000
+int style Widget 0x7f020000
+int style Widget_TagView 0x7f020001
+int[] styleable TagView { 0x7f010001, 0x7f010002, 0x7f010003 }
+int styleable TagView_tagCornerRadius 0
+int styleable TagView_tagPadding 1
+int styleable TagView_tagUppercase 2
