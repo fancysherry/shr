@@ -35,8 +35,6 @@ public class APIConstants {
   public static final String PATH_USER_SETTING = "/setting"; // 获取个人设置 get
   public static final String PATH_USER_INFORMATION = "/homepage[?uid=:uid]"; // 个人主页 登陆权限
 
-
-
   /**
    * ShareGroup
    */
@@ -48,9 +46,7 @@ public class APIConstants {
   public static final String PATH_GROUP_CHANGE_ADMIN = "/group/change_admin"; // 管理员转让
   public static final String PATH_GROUP_APPLY_USERS = "/group/apply_users";// ?group_id=:group_id
   public static final String PATH_GROUP_GETSHARES = "/group/shares"; // ?group_id=:group_id
-                                                                     // 获取组内的share
   public static final String PATH_GROUP_GETUSERS = "/group/users"; // group_id=:group_id 获取组内的user信息
-
 
   /**
    * Share
