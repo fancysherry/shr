@@ -47,7 +47,7 @@ public class ShrProvider extends ContentProvider {
 
   @Override
   public boolean onCreate() {
-      shrDatabaseHelper =new ShrDatabaseHelper(getContext())
+    shrDatabaseHelper = new ShrDatabaseHelper(getContext());
     return false;
   }
 
