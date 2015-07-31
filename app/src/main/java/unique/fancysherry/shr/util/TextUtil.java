@@ -47,7 +47,7 @@ public class TextUtil {
   }
 
 
-  public static String getUrl(String url, Map<String, String> params)
+  public static String getEncodedGETUrl(String url, Map<String, String> params)
   {
     if (params == null) {
       return url;

@@ -3,19 +3,54 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
-        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
-        <item name="android:windowSharedElementsUseOverlay">false</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--<item name="android:windowSharedElementEnterTransition">@android:transition/move</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@android:transition/move</item>-->
+        <!--<item name="android:windowSharedElementsUseOverlay">false</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+
+
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
+
+
+        <item name="colorPrimary">#569597</item>
+        <item name="colorPrimaryDark">#569597</item>
+        <item name="colorAccent">#569597</item>
     </style>
+
+
+
+    <style name="UserActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--<item name="android:windowSharedElementEnterTransition">@android:transition/move</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@android:transition/move</item>-->
+        <!--<item name="android:windowSharedElementsUseOverlay">false</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
+
+
+        <item name="colorPrimary">#ffbf360c</item>
+        <item name="colorPrimaryDark">#ffbf360c</item>
+        <item name="colorAccent">#ffbf360c</item>
+    </style>
+
+
 
 
     <!--message item-->
 
     <style name="img_item_message_profile">
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">50dp</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
@@ -30,22 +65,22 @@
         <item name="android:layout_marginLeft">63dp</item>
     </style>
 
-    <style name="text_item_message_content">
+    <style name="text_item_message_time">
         <item name="android:textColor">@color/gray_5c</item>
         <item name="android:textSize">12.5dp</item>
         <item name="android:maxLines">5</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginTop">11.5dp</item>
-        <item name="android:layout_marginLeft">63dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
-    <style name="text_item_message_time">
+    <style name="text_item_message_content">
         <item name="android:textColor">@color/gray_97</item>
         <item name="android:textSize">10dp</item>
         <item name="android:maxLines">5</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginTop">7.5dp</item>
         <item name="android:layout_marginLeft">63dp</item>
     </style>

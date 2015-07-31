@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+
+              android:layout_margin="20dp"
+              android:orientation="vertical">
+
+
+
+       <de.hdodenhof.circleimageview.CircleImageView
+           android:id="@+id/group_member_item_portrait"
+           android:layout_marginLeft="5dp"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:src="@drawable/mine"
+           tools:border_color="#FF000000"
+           tools:border_width="0dp"/>
+
+
+       <TextView
+           android:id="@+id/group_member_item_name"
+           android:layout_height="wrap_content"
+           android:layout_width="match_parent"
+           android:layout_marginTop="0dp"
+           android:textColor="@color/gray_97"
+           android:textSize="18dp"
+           />
+
+
+    <TextView
+        android:id="@+id/group_member_item_level"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
+        android:textColor="@color/gray_97"
+        />
+
+
+
+    <ImageView
+           android:id="@+id/group_member_item_delete_button"
+           android:layout_width="80dp"
+           android:layout_height="35dp"
+           android:background="@color/gray_d8"
+           android:layout_alignParentBottom="true"
+           />
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

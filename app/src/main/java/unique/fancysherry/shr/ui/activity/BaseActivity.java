@@ -14,6 +14,7 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.app.ActivityOptions;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -22,10 +23,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.system.ResourceHelper;
 
@@ -40,20 +43,19 @@ import unique.fancysherry.shr.util.system.ResourceHelper;
  * a {@link ListView} with id 'drawerList'.
  * 在抽象类中抽离出了toolbar和drawertoggle的逻辑
  */
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity
+{
 
 
 
-  private Toolbar mToolbar;
+  public Toolbar mToolbar;
   private ActionBarDrawerToggle mDrawerToggle;
   private DrawerLayout mDrawerLayout;
-  private ListView mDrawerList;
+  protected ListView mDrawerList;
 
   private boolean mToolbarInitialized;
 
   private int mItemToOpenWhenDrawerCloses = -1;
-
-
 
   private DrawerLayout.DrawerListener mDrawerListener = new DrawerLayout.DrawerListener() {
     @Override
@@ -136,6 +138,20 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
   }
 
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
+      return true;
+    }
+    // If not handled by drawerToggle, home needs to be handled by returning to previous
+    if (item != null && item.getItemId() == android.R.id.home) {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
   @Override
   public void onPause() {
     super.onPause();
@@ -190,9 +206,12 @@ public abstract class BaseActivity extends ActionBarActivity {
       mDrawerLayout.setStatusBarBackgroundColor(
           ResourceHelper.getThemeColor(this, R.attr.colorPrimary, android.R.color.black));
       setSupportActionBar(mToolbar);
+      mToolbar.setNavigationIcon(R.drawable.ic_launcher); // TODO
       updateDrawerToggle();
-    } else {
+    }
+    else {
       setSupportActionBar(mToolbar);
+      mToolbar.setNavigationIcon(R.drawable.ic_launcher); // TODO
     }
 
     mToolbarInitialized = true;

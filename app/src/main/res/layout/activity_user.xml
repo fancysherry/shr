@@ -2,17 +2,23 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 tools:context="unique.fancysherry.shr.ui.activity.UserActivity">
+
+
 
     <FrameLayout
         android:id="@+id/user_header_layout"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="250dp">
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="@color/gray_87">
+            android:layout_height="120dp"
+            android:background="@color/base_blue">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -59,13 +65,23 @@
 
             </LinearLayout>
 
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/user_activity_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:background="?attr/colorPrimary"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
         </RelativeLayout>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="120dp"
             android:background="@color/pure_white">
 
 
@@ -175,13 +191,13 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_portrait"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="150dp"
-            android:background="@drawable/mine"
-            tools:border_color="#FF000000"
-            tools:border_width="0dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="85dp"
+            android:src="@drawable/mine"
+            tools:border_color="@color/pure_white"
+            tools:border_width="2dp"/>
 
 
     </FrameLayout>
@@ -192,13 +208,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/user_header_layout"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="2dp"
         android:padding="6dp">
 
-        <RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/user_shr_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
     </RelativeLayout>
 
 

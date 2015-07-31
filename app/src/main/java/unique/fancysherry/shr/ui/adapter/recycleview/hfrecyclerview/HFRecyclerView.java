@@ -1,4 +1,4 @@
-package unique.fancysherry.shr.ui.adapter;
+package unique.fancysherry.shr.ui.adapter.recycleview.hfrecyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -4,5 +4,45 @@
              android:layout_height="match_parent"
              tools:context="com.unique.fancysherry.scan.ui.fragment.SetttingFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/unique_group_share_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
+
+    <LinearLayout
+        android:id="@+id/no_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:orientation="vertical"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="70dp"
+            android:gravity="center_horizontal"
+            android:text="这里还没有人投递内容，有点寂寞～"/>
+
+
+        <Button
+            android:id="@+id/new_group_button"
+            android:layout_width="180dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="@color/gray_d8"
+            android:gravity="center"
+            android:text="投递我的第一条share"
+            />
+
+    </LinearLayout>
+
 
 </FrameLayout>

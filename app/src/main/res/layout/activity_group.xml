@@ -2,12 +2,24 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 tools:context="unique.fancysherry.shr.ui.activity.GroupActivity">
 
+
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <include
+        android:id="@+id/group_activity_toolbar"
+        layout="@layout/include_toolbar"/>
+
+    <RelativeLayout
+        android:layout_below="@id/group_activity_toolbar"
         android:id="@+id/group_header"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
         android:background="@color/drawer_header_background">
 
 
@@ -17,48 +29,90 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingRight="40dp">
 
-            <ImageView
-                android:id="@+id/group_header_portrait"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/ic_launcher"
-                />
 
             <TextView
-                android:id="@+id/drawer_header_name"
+                android:id="@+id/group_create_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textColor="@color/pure_white"
                 android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/group_header_portrait"
-                android:text="unique studio"/>
+                android:text="创建于xxxxxx"/>
 
 
-        </LinearLayout>
 
 
         <TextView
-            android:id="@+id/drawer_header_gratitude"
+            android:textColor="@color/pure_white"
+            android:id="@+id/group_header_share_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/group_header_up"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:text="gratitude"/>
+            android:layout_marginTop="5dp"
+            android:text="共x条share"/>
 
+        </LinearLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/manage_group_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/group_header"
+
+        >
+
+        <ImageView
+            android:id="@+id/group_invite_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+
+            android:layout_gravity="center"
+            android:background="@drawable/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/group_invite_text"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginLeft="7dp"
+            android:text="邀请新成员"/>
+
+        <ImageView
+            android:layout_marginLeft="40dp"
+            android:id="@+id/group_manage_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_launcher"/>
+
+        <TextView
+            android:layout_marginLeft="7dp"
+            android:gravity="center_vertical"
+            android:id="@+id/group_manage_text"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="群组管理"/>
+
+
+    </LinearLayout>
 
 
     <View
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_below="@id/group_header"
+        android:layout_below="@id/manage_group_layout"
         android:layout_margin="@dimen/group_dimen"
         android:background="@color/gray_d8"
         />
@@ -115,7 +169,7 @@
                 android:id="@+id/active_member_layout1_portrait"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/mine"
+                android:src="@drawable/mine"
                 tools:border_color="#FF000000"
                 tools:border_width="0dp"/>
 
@@ -143,7 +197,7 @@
                 android:id="@+id/active_member_layout2_portrait"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/mine"
+                android:src="@drawable/mine"
                 tools:border_color="#FF000000"
                 tools:border_width="0dp"/>
 
@@ -171,7 +225,7 @@
                 android:id="@+id/active_member_layout3_portrait"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/mine"
+                android:src="@drawable/mine"
                 tools:border_color="#FF000000"
                 tools:border_width="0dp"/>
 
@@ -199,7 +253,7 @@
                 android:id="@+id/active_member_layout4_portrait"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/mine"
+                android:src="@drawable/mine"
                 tools:border_color="#FF000000"
                 tools:border_width="0dp"/>
 
@@ -245,14 +299,14 @@
     </LinearLayout>
 
 
-    <ListView
-        android:id="@+id/group_members_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/group_activity_group_members_list"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="30dp"
         android:layout_below="@id/group_member"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
+</RelativeLayout>
 
 </RelativeLayout>

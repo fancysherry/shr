@@ -37,8 +37,8 @@
             android:id="@+id/drawer_header_portrait"
             style="@style/img_item_message_profile"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/ic_launcher"
+            android:layout_marginTop="45dp"
+            android:src="@drawable/mine"
             custom:border_color="#FF000000"
             custom:border_width="0dp"/>
 
@@ -47,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/drawer_header_portrait"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
             android:text="name"/>
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/drawer_header_name"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginTop="10dp"
             android:text="gratitude"/>
 

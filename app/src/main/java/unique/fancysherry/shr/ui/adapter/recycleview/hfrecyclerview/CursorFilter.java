@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package unique.fancysherry.shr.ui.adapter;
+package unique.fancysherry.shr.ui.adapter.recycleview.hfrecyclerview;
 
 import android.database.Cursor;
 import android.widget.Filter;

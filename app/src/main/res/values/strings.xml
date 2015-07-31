@@ -64,6 +64,14 @@
     <string name="user_group_game">Game</string>
     <string name="user_group_alg">Alg</string>
     <string name="user_group_unique_studio">Unique Studio</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_user_information_reset">UserInformationResetActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_group_member">GroupMemberActivity</string>
+    <string name="title_activity_actionbar_cast">ActionbarCastActivity</string>
 
 
 </resources>

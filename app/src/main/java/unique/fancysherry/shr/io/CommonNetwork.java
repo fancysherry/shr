@@ -22,10 +22,9 @@ import unique.fancysherry.shr.util.config.SApplication;
  */
 public class CommonNetwork extends BasicNetwork {
 
-  static String userAgent = "volley/0";
 
   public CommonNetwork() {
-    super(new HttpClientStack(AndroidHttpClient.newInstance(userAgent))); // deprecated
+    super(new OkHttpStack());
   }
 
 

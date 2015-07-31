@@ -2,6 +2,7 @@ package unique.fancysherry.shr.io;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.DiskBasedCache;
 
@@ -72,16 +73,16 @@ public class RequestManager {
    */
 
 
-  public <T> void executeRequest(BaseRequest<T> request, Object tag)
+  public <T> void executeRequest(Request<T> request, Object tag)
   {
     if (request instanceof PhotoRequest)
     {
-
+      requestQueue.add(request);
     }
 
     else
     {
-
+      requestQueue.add(request);
     }
   }
 
