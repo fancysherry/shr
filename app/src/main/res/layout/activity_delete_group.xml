@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                >
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_toolbar"/>
+
+
+    <TextView
+        android:id="@+id/delete_group_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="60dp"
+        android:text="143天前design组被创建，现在这里已经聚集了133个小伙伴，积累了234条分享经验"
+        android:textSize="35px"/>
+
+    <TextView
+        android:id="@+id/delete_group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/delete_group_information"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="85dp"
+        android:layout_marginRight="85dp"
+        android:layout_marginTop="30dp"
+        android:text="你确定要删除design组吗？"
+        android:textSize="43px"/>
+
+
+    <TextView
+        android:id="@+id/delete_group_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/delete_group_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="58dp"
+        android:layout_marginRight="58dp"
+        android:layout_marginTop="20dp"
+        android:text="解散后组员仍可以在个人主页查看他们在design组Shr过的分享的源网页，但评论和组员数据将全部删除"
+        android:textSize="35px"/>
+
+<FrameLayout
+    android:layout_below="@id/delete_group_result"
+    android:layout_marginTop="20dp"
+    android:layout_width="90dp"
+    android:layout_centerHorizontal="true"
+    android:layout_height="90dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/delete_group_btn"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        tools:border_color="@color/base_blue"
+        tools:border_width="5dp"/>
+
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="长按确认解散组"/>
+
+
+</FrameLayout>
+
+</RelativeLayout>

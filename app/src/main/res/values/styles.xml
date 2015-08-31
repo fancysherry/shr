@@ -49,45 +49,46 @@
     <!--message item-->
 
     <style name="img_item_message_profile">
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">35dp</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="text_item_message_nickname">
         <item name="android:textColor">@color/gray_45</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">15dp</item>
         <item name="android:maxLines">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginTop">12dp</item>
-        <item name="android:layout_marginLeft">63dp</item>
+        <item name="android:layout_marginLeft">80dp</item>
     </style>
 
     <style name="text_item_message_time">
         <item name="android:textColor">@color/gray_5c</item>
-        <item name="android:textSize">12.5dp</item>
+        <item name="android:textSize">13.5dp</item>
         <item name="android:maxLines">5</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginRight">16dp</item>
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginTop">12.5dp</item>
     </style>
 
     <style name="text_item_message_content">
         <item name="android:textColor">@color/gray_97</item>
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">13dp</item>
         <item name="android:maxLines">5</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginTop">7.5dp</item>
-        <item name="android:layout_marginLeft">63dp</item>
+        <item name="android:layout_marginTop">0.5dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginLeft">80dp</item>
     </style>
 
     <style name="view_item_message_divider">
         <item name="android:background">@color/gray_d8</item>
-        <item name="android:layout_height">2px</item>
+        <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginTop">5dp</item>
     </style>

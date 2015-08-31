@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:background="#eeeeee"
+                tools:context="unique.fancysherry.shr.ui.activity.GroupChangeManagerActivity">
+
+
+    <TextView
+        android:id="@+id/assure_change_manage_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#ffbf360c"
+        android:textSize="43px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="确认提交"/>
+
+
+
+    <RelativeLayout
+        android:id="@+id/activity_group_change_manage_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/assure_change_manage_btn"
+
+        >
+
+        <include
+            android:id="@+id/group_manage_activity_toolbar"
+            layout="@layout/include_toolbar"/>
+
+
+        <TextView
+            android:id="@+id/group_manage_number"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/group_manage_activity_toolbar"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="请选择要移交管理员的组员对象"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/group_manage_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/group_manage_number"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

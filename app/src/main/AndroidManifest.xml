@@ -29,13 +29,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.ShareUrlActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activity.ShrContentActivity"
             android:label="@string/title_activity_shr_content" >
         </activity>
         <activity
             android:name=".ui.activity.UserActivity"
-            android:label="@string/title_activity_user" >
+            android:label="@string/title_activity_user"
+            >
         </activity>
         <activity
             android:name=".ui.activity.GroupActivity"
@@ -81,7 +93,22 @@
             android:name=".ui.activity.GroupMemberActivity"
             android:label="@string/title_activity_group_member" >
         </activity>
-
+        <activity
+            android:name=".ui.activity.InviteMemberActivity"
+            android:label="@string/title_activity_invite_member" >
+        </activity>
+        <activity
+            android:name=".ui.activity.GroupManageActivity"
+            android:label="@string/title_activity_group_manage" >
+        </activity>
+        <activity
+            android:name=".ui.activity.DeleteGroupActivity"
+            android:label="@string/title_activity_delete_group" >
+        </activity>
+        <activity
+            android:name=".ui.activity.GroupChangeManagerActivity"
+            android:label="@string/title_activity_group_change_manager" >
+        </activity>
     </application>
 
 </manifest>

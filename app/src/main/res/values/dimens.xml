@@ -22,4 +22,6 @@
     <dimen name="user_gratitude_text">10dp</dimen>
     <dimen name="user_header1_height">120dp</dimen>
     <dimen name="user_header2_height">80dp</dimen>
+
+    <dimen name="default_center_margin">16dp</dimen>
 </resources>

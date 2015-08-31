@@ -45,9 +45,6 @@ import unique.fancysherry.shr.util.system.ResourceHelper;
  */
 public abstract class BaseActivity extends ActionBarActivity
 {
-
-
-
   public Toolbar mToolbar;
   private ActionBarDrawerToggle mDrawerToggle;
   private DrawerLayout mDrawerLayout;

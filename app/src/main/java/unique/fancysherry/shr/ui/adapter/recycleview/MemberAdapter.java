@@ -2,9 +2,7 @@ package unique.fancysherry.shr.ui.adapter.recycleview;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 
 import android.content.Context;
@@ -12,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by fancysherry on 15-7-14.
@@ -44,7 +44,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView =
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_list_item, parent, false);
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item_group_activity, parent, false);
 
     // itemView.setOnClickListener(this);
 
@@ -54,9 +54,9 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    holder.member_item_nickname.setText(items.get(position).name);
-//    holder.member_item_shr_num.setText(String.valueOf(items.get(position).shares.size()));
-//    holder.member_item_gratitude_num.setText(items.get(position).gratitude_shares_sum);
+    holder.group_member_item_name.setText(items.get(position).name);
+    // holder.member_item_shr_num.setText(String.valueOf(items.get(position).shares.size()));
+    // holder.member_item_gratitude_num.setText(items.get(position).gratitude_shares_sum);
     // holder.member_item_level.setText(items.get(position).level);
     // holder.view.setTag(items.get(position));
 
@@ -98,14 +98,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
-    CircleImageView member_item_portrait;
-    TextView member_item_nickname;
+    CircleImageView group_member_item_portrait;
+    TextView group_member_item_name;
 
-    TextView member_item_level;
+    TextView group_member_item_level;
 
-    TextView member_item_shr_num;
+    Button group_member_item_delete_button;
 
-    TextView member_item_gratitude_num;
 
 
     Context context;
@@ -113,15 +112,15 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
 
 
-    public ViewHolder(View itemView, MemberAdapter shareAdapter, Context pContext) {
+    public ViewHolder(View itemView, MemberAdapter pDeleteMemberAdapter, Context pContext) {
       super(itemView);
       this.context = pContext;
-      this.member_item_portrait = (CircleImageView) itemView.findViewById(R.id.member_item_profile);
-      this.member_item_level = (TextView) itemView.findViewById(R.id.member_item_level);
-      this.member_item_shr_num = (TextView) itemView.findViewById(R.id.member_item_shr_num);
-      this.member_item_gratitude_num =
-          (TextView) itemView.findViewById(R.id.member_item_gratitude_num);
-      this.member_item_nickname = (TextView) itemView.findViewById(R.id.member_item_nickname);
+      this.group_member_item_portrait =
+          (CircleImageView) itemView.findViewById(R.id.group_member_item_portrait);
+      this.group_member_item_level = (TextView) itemView.findViewById(R.id.group_member_item_level);
+      this.group_member_item_name = (TextView) itemView.findViewById(R.id.group_member_item_name);
+      this.group_member_item_delete_button =
+          (Button) itemView.findViewById(R.id.group_member_item_delete_button);
 
       this.view = itemView;
     }

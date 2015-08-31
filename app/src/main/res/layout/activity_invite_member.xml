@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:background="#eeeeee"
+                tools:context="unique.fancysherry.shr.ui.activity.GroupManageActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/invite_email_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/invite_email"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:background="@drawable/edittext_normal"
+            android:gravity="center_vertical"
+            android:hint="发送一封邮件给你想邀请的人"/>
+
+        <Button
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:background="#569597"
+            android:text="发送"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/invite_method_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/invite_email_layout"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@color/gray_d8_20"
+            android:gravity="center"
+            android:text="第一方"
+            />
+
+        <Button
+            android:gravity="center"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/gray_d8_20"
+            android:text="第二方"
+            />
+
+        <Button
+            android:gravity="center"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/gray_d8_20"
+            android:text="第三方"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/invited_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/invite_method_layout"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:background="@color/gray_d8_20">
+
+        <TextView
+            android:id="@+id/invited_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:text="已邀请的用户"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/group_invited_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

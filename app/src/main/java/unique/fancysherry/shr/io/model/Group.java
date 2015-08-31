@@ -22,6 +22,8 @@ public class Group implements Parcelable {
   public List<Share> shares;
   public List<User> admin;
   public String group_intro;
+  public String name;
+  public String id;
 
   // 1.必须实现Parcelable.Creator接口,否则在获取Person数据的时候，会报错，如下：
   // android.os.BadParcelableException:
@@ -65,6 +67,8 @@ public class Group implements Parcelable {
     in.readList(admin,getClass().getClassLoader());
 
     group_intro=in.readString();
+    name=in.readString();
+    id=in.readString();
   }
 
   @Override
@@ -86,6 +90,8 @@ public class Group implements Parcelable {
     dest.writeList(shares);
     dest.writeList(admin);
     dest.writeString(group_intro);
+    dest.writeString(name);
+    dest.writeString(id);
 
 
   }

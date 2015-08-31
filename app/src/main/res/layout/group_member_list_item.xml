@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-
-              android:layout_margin="20dp"
-              android:orientation="vertical">
-
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:padding="15dp"
+                android:orientation="vertical">
 
 
-       <de.hdodenhof.circleimageview.CircleImageView
-           android:id="@+id/group_member_item_portrait"
-           android:layout_marginLeft="5dp"
-           android:layout_width="50dp"
-           android:layout_height="50dp"
-           android:src="@drawable/mine"
-           tools:border_color="#FF000000"
-           tools:border_width="0dp"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_member_item_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/mine"
+        tools:border_color="#FF000000"
+        tools:border_width="0dp"/>
 
 
-       <TextView
-           android:id="@+id/group_member_item_name"
-           android:layout_height="wrap_content"
-           android:layout_width="match_parent"
-           android:layout_marginTop="0dp"
-           android:textColor="@color/gray_97"
-           android:textSize="18dp"
-           />
+    <TextView
+        android:id="@+id/group_member_item_name"
+        android:layout_width="wrap_content"
+        android:text="老罗"
+        android:layout_toRightOf="@id/group_member_item_portrait"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/gray_97"
+        android:textSize="27px"
+
+        />
 
 
     <TextView
         android:id="@+id/group_member_item_level"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group_member_item_name"
+        android:layout_marginLeft="22dp"
+        android:layout_toRightOf="@id/group_member_item_portrait"
+        android:layout_marginTop="5dp"
+        android:text="Lvl 6"
         android:textColor="@color/gray_97"
+        android:textSize="20px"
         />
 
 
-
-    <ImageView
-           android:id="@+id/group_member_item_delete_button"
-           android:layout_width="80dp"
-           android:layout_height="35dp"
-           android:background="@color/gray_d8"
-           android:layout_alignParentBottom="true"
-           />
-
-
-
-
-
-
-
+    <Button
+        android:id="@+id/group_member_item_delete_button"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="移除"
+        android:background="@color/gray_d8"
+        />
 
 
 </RelativeLayout>

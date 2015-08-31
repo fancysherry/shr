@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/action_edit"
-        android:icon="@drawable/ic_group3x"
+        android:icon="@drawable/ic_group2x"
         android:orderInCategory="80"
         android:title=""
         app:showAsAction="ifRoom"/>

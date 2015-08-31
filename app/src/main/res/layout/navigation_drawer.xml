@@ -30,14 +30,15 @@
         android:id="@+id/drawer_header"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/drawer_header_background">
+        android:background="#569597">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/drawer_header_portrait"
-            style="@style/img_item_message_profile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="54dp"
             android:src="@drawable/mine"
             custom:border_color="#FF000000"
             custom:border_width="0dp"/>
@@ -65,13 +66,35 @@
 
 
     <LinearLayout
-        android:id="@+id/drawer_message"
+        android:id="@+id/drawer_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/drawer_header"
+        android:layout_marginTop="10dp"
         android:minHeight="@dimen/drawer_item_height"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/drawer_item_horizontal_padding"
+        android:paddingLeft="20dp"
+        android:paddingStart="@dimen/drawer_item_horizontal_padding">
+
+        <TextView
+            android:id="@+id/drawer_add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/add_group"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/drawer_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_add"
+        android:minHeight="@dimen/drawer_item_height"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/drawer_item_horizontal_padding"
+        android:paddingLeft="20dp"
         android:paddingStart="@dimen/drawer_item_horizontal_padding">
 
 
@@ -98,26 +121,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/drawer_message"
+        android:layout_marginLeft="10dp"
+        android:dividerHeight="0dp"
         android:drawSelectorOnTop="true"
         android:listSelector="?android:selectableItemBackground"/>
 
-
-    <LinearLayout
-        android:id="@+id/drawer_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/drawer_list"
-        android:layout_marginTop="10dp"
-        android:minHeight="@dimen/drawer_item_height"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/drawer_item_horizontal_padding"
-        android:paddingStart="@dimen/drawer_item_horizontal_padding">
-
-        <TextView
-            android:id="@+id/drawer_add_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_group"/>
-    </LinearLayout>
 
 </unique.fancysherry.shr.ui.widget.ScrimInsetsRelativeLayout>

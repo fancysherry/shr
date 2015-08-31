@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                tools:context="unique.fancysherry.shr.ui.activity.GroupActivity">
+               >
 
 
     <RelativeLayout
@@ -13,14 +13,14 @@
 
     <include
         android:id="@+id/group_activity_toolbar"
-        layout="@layout/include_toolbar"/>
+        layout="@layout/include_toolbar_noelevation"/>
 
     <RelativeLayout
         android:layout_below="@id/group_activity_toolbar"
         android:id="@+id/group_header"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="@color/drawer_header_background">
+        android:background="#569597">
 
 
         <LinearLayout

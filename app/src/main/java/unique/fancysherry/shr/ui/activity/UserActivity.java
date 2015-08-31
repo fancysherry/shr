@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -94,7 +97,7 @@ public class UserActivity extends ActionbarCastActivity {
     shr_number.setText(String.valueOf(mUser.shares.size()));
     gratitude_number.setText(mUser.gratitude_shares_sum);
     group_name.setText(mUser.groups.get(0).group_name);
-    user_attend_time.setText(mUser.register_time);
+    user_attend_time.setText(getTime(mUser.register_time));
     introduce.setText(mUser.brief);
 
 
@@ -114,6 +117,18 @@ public class UserActivity extends ActionbarCastActivity {
 
 
   }
+
+  private String getTime(String time)
+  {
+    Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
+    Matcher matcher = pattern.matcher(time);
+    if (matcher.find()) {
+      return matcher.group(0)+"加入";
+    }
+    else
+      return null;
+  }
+
 
   @Override
   protected void onDestroy() {

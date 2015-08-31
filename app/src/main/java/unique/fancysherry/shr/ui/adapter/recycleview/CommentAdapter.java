@@ -1,10 +1,13 @@
 package unique.fancysherry.shr.ui.adapter.recycleview;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.Comment;
 import unique.fancysherry.shr.io.model.Share;
+import unique.fancysherry.shr.util.DateUtil;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -54,11 +57,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
   public void onBindViewHolder(ViewHolder holder, int position) {
     holder.comment_nickname.setText(items.get(position).nickname);
     holder.comment_content.setText(items.get(position).content);
-    holder.comment_time.setText(items.get(position).time);
+    holder.comment_time.setText(getTime(items.get(position).time));
     holder.view.setTag(items.get(position));
 
 
   }
+
+  private String getTime(String time)
+  {
+    Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
+    Matcher matcher = pattern.matcher(time);
+    if (matcher.find()) {
+      return matcher.group(0);
+    }
+    else
+      return null;
+  }
+
+
 
   @Override
   public int getItemCount() {

@@ -40,6 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.ShareList;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
@@ -118,6 +119,8 @@ public class DrawerFragment extends Fragment {
       public void run() {
         nickname.setText(user.nickname);
         gratitude_num.setText("感谢数  " + user.gratitude_shares_sum);
+        refreshData(user.groups);
+        mCallbacks.onGetAllGroup(group_name_list);
       }
     };
 
@@ -248,18 +251,39 @@ public class DrawerFragment extends Fragment {
 
   public void refreshData(String new_group_name)
   {
-    item_max_size++;
-    group_name_list.add(new_group_name);
+    // item_max_size++;
+    // group_name_list.add(new_group_name);
+    //
+    // Map<String, Object> item = new HashMap<String, Object>();
+    // item.put("image", R.mipmap.ic_launcher);
+    // item.put("title", new_group_name);
+    // mData.add(item);
+    //
+    //
+    // simpleAdapter.notifyDataSetChanged();
+    // mDrawerListView.setAdapter(simpleAdapter);
+    // LogUtil.e("list_size   " + String.valueOf(group_name_list.size()));
+  }
 
-    Map<String, Object> item = new HashMap<String, Object>();
-    item.put("image", R.mipmap.ic_launcher);
-    item.put("title", new_group_name);
-    mData.add(item);
+  public void refreshData(List<Group> groups)
+  {
+    item_max_size = +groups.size();
+    for (int i = 0; i < groups.size(); i++)
+      group_name_list.add(groups.get(i).name);
 
 
+//    LogUtil.e("group_name_list_size   +++++++++"+String.valueOf(group_name_list.size()));
+//    for (int i = 0; i < group_name_list.size(); i++)
+//    LogUtil.e("aaa" +group_name_list.get(i));
+
+    for (int i = 2; i < item_max_size; i++) {
+      Map<String, Object> item = new HashMap<String, Object>();
+      item.put("image", R.mipmap.ic_launcher);
+      item.put("title", getListTitle(i));
+      mData.add(item);
+    }
     simpleAdapter.notifyDataSetChanged();
-    mDrawerListView.setAdapter(simpleAdapter);
-    LogUtil.e("list_size   " + String.valueOf(group_name_list.size()));
+
   }
 
 
@@ -340,6 +364,8 @@ public class DrawerFragment extends Fragment {
     void onNavigationDrawerItemSelected(int position);
 
     void onAddGroupListener();
+
+    void onGetAllGroup(List<String> group_name_list);
   }
 
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee"
+    android:orientation="vertical"
+
+    >
+
+    <TextView
+        android:id="@+id/dialog_shr_content_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Motion 新视界 qzone 5.0 大片诞生记 哦哦哦哦哦哦哦哦哦"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textSize="16sp"
+        />
+
+    <EditText
+        android:id="@+id/dialog_shr_content_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/pure_white"
+        android:hint="说点什么"
+        android:padding="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_shr_content_togroup_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="投递到"
+            android:textColor="@color/black_overlay"
+            android:textSize="15sp"/>
+
+        <LinearLayout
+            android:id="@+id/user_groups_tag_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_information_introduce_layout"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+
+            <pl.charmas.android.tagview.TagView
+                android:id="@+id/dialog_shr_content_tagview1"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:background="@color/gray_d8"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="@string/user_group_unique_studio"
+                />
+
+            <pl.charmas.android.tagview.TagView
+                android:id="@+id/dialog_shr_content_tagview2"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/gray_d8"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="@string/user_group_design"
+                />
+
+            <pl.charmas.android.tagview.TagView
+                android:id="@+id/dialog_shr_content_tagview3"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/gray_d8"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="+"
+                />
+
+
+        </LinearLayout>
+
+
+        <!--<GridView-->
+        <!--android:id="@+id/dialog_shr_content_togroup_gridview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+    </LinearLayout>
+
+</LinearLayout>
+

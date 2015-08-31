@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:background="@color/pure_white"
+            android:background="@drawable/edittext_normal"
             android:gravity="center_vertical"
             android:hint="nickname"
             android:textSize="12dp"/>

@@ -3,6 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                android:background="#eeeeee"
                 tools:context="unique.fancysherry.shr.ui.activity.GroupMemberActivity">
 
 
@@ -21,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/group_member_activity_toolbar"
-            android:background="@color/pure_white"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
