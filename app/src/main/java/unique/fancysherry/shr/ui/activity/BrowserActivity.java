@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.Map;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
@@ -29,7 +31,7 @@ import unique.fancysherry.shr.ui.fragment.NotificationFragment;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class BrowserActivity extends ActionBarActivity {
+public class BrowserActivity extends AppCompatActivity {
   private String url;
   private String id;
 
@@ -65,7 +67,7 @@ public class BrowserActivity extends ActionBarActivity {
 
 
     GsonRequest<Share> share_request =
-        new GsonRequest<>(Request.Method.GET, "http://104.236.46.64:8888/share", getHeader(),
+        new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL+"/share", getHeader(),
             getParams(), Share.class,
             new Response.Listener<Share>() {
               @Override

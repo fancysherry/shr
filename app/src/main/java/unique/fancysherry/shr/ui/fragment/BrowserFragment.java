@@ -71,6 +71,14 @@ public class BrowserFragment extends Fragment {
       }
     });
 
+    StringBuilder builder = new StringBuilder("<html>");
+    builder.append("<head>");
+    builder.append("<link rel=stylesheet href='css/style.css'>");
+    builder.append("</head>");
+    builder.append("");
+    builder.append("</html>");
+
+
     mWebview.setScrollbarFadingEnabled(true);
     mWebview.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
     mWebview.setMapTrackballToArrowKeys(false);
@@ -80,10 +88,13 @@ public class BrowserFragment extends Fragment {
     settings.setBuiltInZoomControls(true);
     settings.setDomStorageEnabled(true);
 
+
     mWebview.setWebViewClient(new MyWebViewClient());
     mWebview.setWebChromeClient(new MyWebChromeClient());
 
-    mWebview.loadUrl(url);
+     mWebview.loadUrl(url);
+//    mWebview.loadDataWithBaseURL("file:///android_asset/", builder.toString(), "text/html",
+//        "UTF-8", "");
   }
 
   public void refresh() {

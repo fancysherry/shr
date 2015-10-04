@@ -9,7 +9,7 @@ public class APIConstants {
   /**
    * base url
    */
-  public static final String BASE_URL = "http://104.236.46.64:8888/";
+  public static final String BASE_URL = "http://104.236.46.64:8888";
 
 
   /***

@@ -2,12 +2,13 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import unique.fancysherry.shr.R;
 
-public class DeleteGroupActivity extends ActionBarActivity {
+public class DeleteGroupActivity extends AppCompatActivity {
 
   private String group_id;
 

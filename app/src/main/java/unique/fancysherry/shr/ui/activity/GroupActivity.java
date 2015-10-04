@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,6 +24,7 @@ import butterknife.InjectView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.adapter.recycleview.DeleteMemberAdapter;
@@ -30,7 +32,7 @@ import unique.fancysherry.shr.ui.adapter.recycleview.MemberAdapter;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class GroupActivity extends ActionBarActivity {
+public class GroupActivity extends AppCompatActivity {
     @InjectView(R.id.group_create_time)
     TextView group_create_time;
     @InjectView(R.id.group_header_share_number)
@@ -113,7 +115,7 @@ public class GroupActivity extends ActionBarActivity {
     public void getGroupData() {
         GsonRequest<Group> group_share_request =
                 new GsonRequest<>(Request.Method.GET,
-                        "http://104.236.46.64:8888/group/info?group_id=" + group_id,
+                        APIConstants.BASE_URL+"/group/info?group_id=" + group_id,
                         getHeader(), null,
                         Group.class,
                         new Response.Listener<Group>() {

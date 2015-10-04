@@ -22,6 +22,7 @@ import java.util.Map;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
@@ -89,7 +90,7 @@ public class NewGroupFragment extends Fragment {
   {
     GsonRequest<GsonRequest.FormResult> comment_request =
         new GsonRequest<>(Request.Method.POST,
-            "http://104.236.46.64:8888/group", getHeader(),
+            APIConstants.BASE_URL + "/group", getHeader(),
             getParams(),
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
@@ -148,10 +149,10 @@ public class NewGroupFragment extends Fragment {
   public Map<String, String> getParams()
   {
     group_name_input = new_group_name.getText().toString();
-    group_intro_input=new_group_introduce.getText().toString();
+    group_intro_input = new_group_introduce.getText().toString();
     Map<String, String> params = new HashMap<String, String>();
     params.put("name", group_name_input);
-    params.put("intro",group_intro_input);
+    params.put("intro", group_intro_input);
     return params;
   }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import unique.fancysherry.shr.R;
 
-public class GroupManageActivity extends ActionBarActivity {
+public class GroupManageActivity extends AppCompatActivity {
     @InjectView(R.id.change_group_name_layout_content)
     EditText change_group_name_edittext;
     @InjectView(R.id.change_group_introduce_layout_content)

@@ -1,72 +1,73 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-               >
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/group_activity_toolbar"
-        layout="@layout/include_toolbar_noelevation"/>
+        <include
+            android:id="@+id/group_activity_toolbar"
+            layout="@layout/include_toolbar_noelevation"/>
 
-    <RelativeLayout
-        android:layout_below="@id/group_activity_toolbar"
-        android:id="@+id/group_header"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="#569597">
-
-
-        <LinearLayout
-            android:id="@+id/group_header_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
-            android:orientation="vertical"
-            android:paddingRight="40dp">
+        <RelativeLayout
+            android:id="@+id/group_header"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_below="@id/group_activity_toolbar"
+            android:background="#569597">
 
 
-            <TextView
-                android:id="@+id/group_create_time"
+            <LinearLayout
+                android:id="@+id/group_header_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/pure_white"
-                android:layout_marginLeft="20dp"
-                android:text="创建于xxxxxx"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                android:orientation="vertical"
+                android:paddingRight="40dp">
 
 
+                <TextView
+                    android:id="@+id/group_create_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="创建于xxxxxx"
+                    android:textColor="@color/pure_white"/>
 
 
-        <TextView
-            android:textColor="@color/pure_white"
-            android:id="@+id/group_header_share_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/group_header_up"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:text="共x条share"/>
+                <TextView
+                    android:id="@+id/group_header_share_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/group_header_up"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="5dp"
+                    android:text="共x条share"
+                    android:textColor="@color/pure_white"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </RelativeLayout>
+        </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/manage_group_layout"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
         android:layout_below="@id/group_header"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
 
         >
 
@@ -80,28 +81,28 @@
 
         <TextView
             android:id="@+id/group_invite_text"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="7dp"
+            android:gravity="center_vertical"
             android:text="邀请新成员"/>
 
         <ImageView
-            android:layout_marginLeft="40dp"
             android:id="@+id/group_manage_button"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
             android:background="@drawable/ic_launcher"/>
 
         <TextView
-            android:layout_marginLeft="7dp"
-            android:gravity="center_vertical"
             android:id="@+id/group_manage_text"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="7dp"
+            android:gravity="center_vertical"
             android:text="群组管理"/>
 
 
@@ -160,9 +161,9 @@
             android:id="@+id/active_member_layout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:orientation="vertical"
             >
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -188,9 +189,9 @@
             android:id="@+id/active_member_layout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:orientation="vertical"
             >
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -216,9 +217,9 @@
             android:id="@+id/active_member_layout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:orientation="vertical"
             >
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -244,9 +245,9 @@
             android:id="@+id/active_member_layout4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:orientation="vertical"
             >
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -266,7 +267,6 @@
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>
@@ -301,12 +301,11 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/group_activity_group_members_list"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="30dp"
-        android:layout_below="@id/group_member"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group_member"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="30dp"/>
 
-</RelativeLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

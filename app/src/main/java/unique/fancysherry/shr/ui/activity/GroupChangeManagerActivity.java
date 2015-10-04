@@ -2,6 +2,7 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -10,7 +11,7 @@ import butterknife.InjectView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupManageAdapter;
 
-public class GroupChangeManagerActivity extends ActionBarActivity {
+public class GroupChangeManagerActivity extends AppCompatActivity {
 
     @InjectView(R.id.group_manage_list)
     RecyclerView group_manage_list;

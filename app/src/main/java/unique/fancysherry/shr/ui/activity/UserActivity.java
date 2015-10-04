@@ -2,14 +2,17 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.regex.Matcher;
@@ -23,7 +26,7 @@ import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.ShareAdapter;
 
-public class UserActivity extends ActionbarCastActivity {
+public class UserActivity extends AppCompatActivity {
   @InjectView(R.id.user_portrait)
   CircleImageView imageview_portrait;
   @InjectView(R.id.shr_number)
@@ -42,6 +45,7 @@ public class UserActivity extends ActionbarCastActivity {
   private ShareAdapter shareAdapter;
   private Context context;
   private User mUser;
+  private Toolbar mToolbar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +53,23 @@ public class UserActivity extends ActionbarCastActivity {
     setContentView(R.layout.activity_user);
     ButterKnife.inject(this);
     context = this;
+    initializeToolbar();
     initData();
   }
 
-  @Override
+
   protected void initializeToolbar() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+    }
     mToolbar = (Toolbar) findViewById(R.id.user_activity_toolbar);
-    mToolbar.setTitle("我");
+    mToolbar.setTitle("");
     mToolbar.getBackground().setAlpha(0);
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    mToolbar.setNavigationIcon(R.drawable.ic_launcher);
     mToolbar.setOnMenuItemClickListener(onMenuItemClick);
 
   }

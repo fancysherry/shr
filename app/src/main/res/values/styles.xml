@@ -8,19 +8,15 @@
         <!--<item name="android:windowSharedElementsUseOverlay">false</item>-->
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-
-
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentTransitions">true</item>
 
-
         <item name="colorPrimary">#569597</item>
         <item name="colorPrimaryDark">#569597</item>
         <item name="colorAccent">#569597</item>
     </style>
-
 
 
     <style name="UserActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -32,18 +28,29 @@
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
 
 
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowContentTransitions">true</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowContentTransitions">true</item>-->
 
 
-        <item name="colorPrimary">#ffbf360c</item>
-        <item name="colorPrimaryDark">#ffbf360c</item>
-        <item name="colorAccent">#ffbf360c</item>
+        <item name="colorPrimary">#569597</item>
+        <item name="colorPrimaryDark">#569597</item>
+        <item name="colorAccent">#569597</item>
     </style>
 
 
+    <!--TagView-->
+
+    <style name="Widget.TagView" parent="@android:style/Widget.TextView">
+        <item name="tagCornerRadius">6dp</item>
+        <item name="tagPadding">8dp</item>
+        <item name="tagUppercase">true</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
     <!--message item-->

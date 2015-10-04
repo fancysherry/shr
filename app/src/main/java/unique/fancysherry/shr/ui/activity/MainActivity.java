@@ -99,32 +99,31 @@ public class MainActivity extends BaseActivity
 
 
   @Override
-  public void onNavigationDrawerItemSelected(int position) {
+  public void onNavigationDrawerItemSelected(String group_name) {
     // update the main content by replacing fragments
     fragmentManager = getSupportFragmentManager();
-    switch (position) {
-      case 0:
-        fragmentManager.beginTransaction()
-            .replace(R.id.container, new NotificationFragment())
-            .commit();
-        break;
-      case 1:
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.container,
-                ShareContentFragment.newInstance("unique"))
-            .commit();
-        break;
-      default:
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.container,
-                ShareContentFragment.newInstance(group_name_list.get(position - 2)))
-            .commit();
-        break;
 
 
+    if (group_name.equals("notification")) {
+      fragmentManager.beginTransaction()
+          .replace(R.id.container, new NotificationFragment())
+          .commit();
     }
+    else if (group_name.equals("at_me")) {
+      fragmentManager
+          .beginTransaction()
+          .replace(R.id.container,
+              ShareContentFragment.newInstance("at_me"))
+          .commit();
+    }
+    else {
+      fragmentManager
+          .beginTransaction()
+          .replace(R.id.container,
+              ShareContentFragment.newInstance(group_name))
+          .commit();
+    }
+
   }
 
   @Override
@@ -139,16 +138,14 @@ public class MainActivity extends BaseActivity
 
   @Override
   public void onGetAllGroup(List<String> group_name_list) {
-    this.group_name_list = group_name_list;
+    // this.group_name_list = group_name_list;
   }
 
 
   @Override
   public void OnNewGroupFinish(String group_name) {
-    mDrawerFragment.refreshData(group_name);
+    mDrawerFragment.refresh();
 
-    group_name_list.add(group_name);
-    LogUtil.e("group_name--------------------------------------------------------" + group_name);
     fragmentManager
         .beginTransaction()
         .replace(R.id.container,

@@ -20,23 +20,18 @@
               android:layout_height="wrap_content"
               android:minHeight="@dimen/drawer_item_height"
               android:orientation="horizontal"
-              android:paddingEnd="@dimen/drawer_item_horizontal_padding"
-              android:paddingStart="@dimen/drawer_item_horizontal_padding">
+              android:paddingEnd="10dp"
+              android:paddingStart="10dp">
 
 
     <TextView
         android:id="@+id/drawer_item_title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textColor="@color/drawer_item_tint_color"/>
+        android:text="uniquestudio"
+        android:textColor="@color/drawer_item_tint_color"
+        android:textSize="15sp"/>
 
-    <ImageView
-        android:id="@+id/drawer_item_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_gravity="center_vertical"
-        android:tint="@color/drawer_item_tint_color"
-        tools:ignore="ContentDescription"/>
 
 </LinearLayout>

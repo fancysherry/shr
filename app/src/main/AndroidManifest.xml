@@ -19,10 +19,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,27 +44,33 @@
         </activity>
         <activity
             android:name=".ui.activity.ShrContentActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_shr_content" >
         </activity>
         <activity
             android:name=".ui.activity.UserActivity"
             android:label="@string/title_activity_user"
+            android:theme="@style/UserActivityTheme"
             >
         </activity>
         <activity
             android:name=".ui.activity.GroupActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_group" >
         </activity>
         <activity
             android:name=".ui.activity.ReviewActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_review" >
         </activity>
         <activity
             android:name=".ui.activity.ArticleActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_article" >
         </activity>
         <activity
             android:name=".ui.activity.BrowserActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_browser" >
         </activity>
 
@@ -79,34 +87,42 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <activity android:name=".ui.activity.MainActivity" >
+        <activity android:name=".ui.activity.MainActivity"
+                  android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.activity.CommentActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_comment" >
         </activity>
         <activity
             android:name=".ui.activity.UserInformationResetActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_user_information_reset" >
         </activity>
         <activity
             android:name=".ui.activity.GroupMemberActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_group_member" >
         </activity>
         <activity
             android:name=".ui.activity.InviteMemberActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_invite_member" >
         </activity>
         <activity
             android:name=".ui.activity.GroupManageActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_group_manage" >
         </activity>
         <activity
             android:name=".ui.activity.DeleteGroupActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_delete_group" >
         </activity>
         <activity
             android:name=".ui.activity.GroupChangeManagerActivity"
+            android:theme="@style/UserActivityTheme"
             android:label="@string/title_activity_group_change_manager" >
         </activity>
     </application>

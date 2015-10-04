@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.Map;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Comment;
 import unique.fancysherry.shr.io.model.CommentList;
 import unique.fancysherry.shr.io.request.GsonRequest;
@@ -32,7 +34,7 @@ import unique.fancysherry.shr.ui.adapter.recycleview.CommentAdapter;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class CommentActivity extends ActionBarActivity {
+public class CommentActivity extends AppCompatActivity {
 
   private RecyclerView comment_list;
   private ImageView send_button;
@@ -138,7 +140,7 @@ public class CommentActivity extends ActionBarActivity {
 
     GsonRequest<GsonRequest.FormResult> comment_request =
         new GsonRequest<>(Request.Method.POST,
-            "http://104.236.46.64:8888/comment", getHeader(),
+                APIConstants.BASE_URL+"/comment", getHeader(),
             getParams_send_comment(),
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
@@ -174,7 +176,7 @@ public class CommentActivity extends ActionBarActivity {
 
     GsonRequest<GsonRequest.FormResult> comment_request =
             new GsonRequest<>(Request.Method.POST,
-                    "http://104.236.46.64:8888/comment", getHeader(),
+                    APIConstants.BASE_URL+"/comment", getHeader(),
                     getParams_send_comment(),
                     GsonRequest.FormResult.class,
                     new Response.Listener<GsonRequest.FormResult>() {

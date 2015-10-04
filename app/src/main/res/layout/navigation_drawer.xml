@@ -30,14 +30,14 @@
         android:id="@+id/drawer_header"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="#569597">
+        android:background="#83b6b8">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/drawer_header_portrait"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="54dp"
             android:src="@drawable/mine"
             custom:border_color="#FF000000"
@@ -48,25 +48,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/drawer_header_portrait"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="15dp"
-            android:text="name"/>
+            android:text="老罗"
+            android:textColor="@color/pure_white"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/drawer_header_gratitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/drawer_header_name"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
-            android:text="gratitude"/>
+            android:text="11 感谢"
+            android:textColor="@color/pure_white"
+            android:textSize="13sp"/>
 
 
     </RelativeLayout>
 
 
     <LinearLayout
-        android:id="@+id/drawer_add"
+        android:id="@+id/drawer_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/drawer_header"
@@ -74,57 +78,80 @@
         android:minHeight="@dimen/drawer_item_height"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/drawer_item_horizontal_padding"
-        android:paddingLeft="20dp"
+        android:paddingLeft="25dp"
         android:paddingStart="@dimen/drawer_item_horizontal_padding">
+
+
+        <TextView
+            android:id="@+id/drawer_message_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/message"
+            android:textColor="@color/drawer_item_tint_color"
+            android:textSize="15sp"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/drawer_at"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_message"
+        android:minHeight="@dimen/drawer_item_height"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/drawer_item_horizontal_padding"
+        android:paddingLeft="25dp"
+        android:paddingStart="@dimen/drawer_item_horizontal_padding">
+
+
+        <TextView
+            android:id="@+id/drawer_at_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text=" @me"
+            android:textColor="@color/drawer_item_tint_color"
+            android:textSize="15sp"/>
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawer_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/drawer_at"
+        android:layout_marginLeft="15dp"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true"
+        android:clipToPadding="false"
+        android:listSelector="?android:selectableItemBackground"/>
+
+
+    <LinearLayout
+        android:id="@+id/drawer_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/drawer_item_height"
+        android:orientation="horizontal"
+        android:layout_below="@id/drawer_list"
+        android:paddingLeft="25dp"
+        >
 
         <TextView
             android:id="@+id/drawer_add_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/add_group"/>
-    </LinearLayout>
+            android:text="@string/add_group"
+            android:textSize="16sp"
+            android:textColor="#c2c2c2"/>
 
-
-    <LinearLayout
-        android:id="@+id/drawer_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/drawer_add"
-        android:minHeight="@dimen/drawer_item_height"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/drawer_item_horizontal_padding"
-        android:paddingLeft="20dp"
-        android:paddingStart="@dimen/drawer_item_horizontal_padding">
-
-
-        <TextView
-            android:id="@+id/drawer_message_title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/message"
-            android:textColor="@color/drawer_item_tint_color"/>
-
-        <ImageView
-            android:id="@+id/drawer_message_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:tint="@color/drawer_item_tint_color"
-            />
 
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/drawer_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/drawer_message"
-        android:layout_marginLeft="10dp"
-        android:dividerHeight="0dp"
-        android:drawSelectorOnTop="true"
-        android:listSelector="?android:selectableItemBackground"/>
 
 
 </unique.fancysherry.shr.ui.widget.ScrimInsetsRelativeLayout>

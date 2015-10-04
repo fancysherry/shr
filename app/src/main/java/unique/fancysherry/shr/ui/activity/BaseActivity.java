@@ -21,6 +21,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -48,7 +49,7 @@ public abstract class BaseActivity extends ActionBarActivity
   public Toolbar mToolbar;
   private ActionBarDrawerToggle mDrawerToggle;
   private DrawerLayout mDrawerLayout;
-  protected ListView mDrawerList;
+  protected RecyclerView mDrawerList;
 
   private boolean mToolbarInitialized;
 
@@ -190,7 +191,7 @@ public abstract class BaseActivity extends ActionBarActivity
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
     if (mDrawerLayout != null) {
-      mDrawerList = (ListView) findViewById(R.id.drawer_list);
+      mDrawerList = (RecyclerView) findViewById(R.id.drawer_list);
       if (mDrawerList == null) {
         throw new IllegalStateException("A layout with a drawerLayout is required to" +
             "include a ListView with id 'drawerList'");

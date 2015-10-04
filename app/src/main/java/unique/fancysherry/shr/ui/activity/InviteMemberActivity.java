@@ -2,6 +2,7 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -12,7 +13,7 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupManageAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.InvitedMemberAdapter;
 
-public class InviteMemberActivity extends ActionBarActivity {
+public class InviteMemberActivity extends AppCompatActivity {
     @InjectView(R.id.group_invited_list)
     RecyclerView group_invited_list;
 

@@ -59,7 +59,7 @@
             android:orientation="horizontal">
 
 
-            <pl.charmas.android.tagview.TagView
+            <unique.fancysherry.shr.ui.widget.TagView
                 android:id="@+id/dialog_shr_content_tagview1"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
@@ -70,7 +70,7 @@
                 android:text="@string/user_group_unique_studio"
                 />
 
-            <pl.charmas.android.tagview.TagView
+            <unique.fancysherry.shr.ui.widget.TagView
                 android:id="@+id/dialog_shr_content_tagview2"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
@@ -82,7 +82,7 @@
                 android:text="@string/user_group_design"
                 />
 
-            <pl.charmas.android.tagview.TagView
+            <unique.fancysherry.shr.ui.widget.TagView
                 android:id="@+id/dialog_shr_content_tagview3"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"

@@ -32,6 +32,7 @@ import java.util.Map;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.ShareList;
@@ -142,9 +143,9 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
 
   private void showDialog(int gravity) {
     Holder holder = new ViewHolder(R.layout.dialog_shr_content);
-    LayoutInflater mLayoutInflater=getActivity().getLayoutInflater();
-    View diaglog_view=mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
-    dialog_intro_input=(EditText)diaglog_view.findViewById(R.id.dialog_shr_content_intro);
+    LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
+    View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
+    dialog_intro_input = (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
 
 
     OnClickListener clickListener = new OnClickListener() {
@@ -238,17 +239,18 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
 
   public void post_share_url() {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =
-            new GsonRequest<>(Request.Method.POST,
-                    "http://104.236.46.64:8888/share",
-                    getHeader(), getParams_share(),
-                    GsonRequest.FormResult.class,
-                    new Response.Listener<GsonRequest.FormResult>() {
-                      @Override
-                      public void onResponse(GsonRequest.FormResult pGroup) {
-                        if (pGroup.message.equals("success"))
-                        Toast.makeText(getActivity(), "share a page successful", Toast.LENGTH_LONG).show();
-                      }
-                    }, new Response.ErrorListener() {
+        new GsonRequest<>(Request.Method.POST,
+            APIConstants.BASE_URL + "/share",
+            getHeader(), getParams_share(),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult pGroup) {
+                if (pGroup.message.equals("success"))
+                  Toast.makeText(getActivity(), "share a page successful", Toast.LENGTH_LONG)
+                      .show();
+              }
+            }, new Response.ErrorListener() {
               @Override
               public void onErrorResponse(VolleyError pVolleyError) {
                 LogUtil.e("response error " + pVolleyError);
@@ -261,7 +263,7 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
   public void getGroupId() {
     GsonRequest<Group> group_share_id_request =
         new GsonRequest<>(Request.Method.GET,
-            "http://104.236.46.64:8888/group?group_name=" + group_name,
+            APIConstants.BASE_URL + "/group?group_name=" + group_name,
             getHeader(), null,
             Group.class,
             new Response.Listener<Group>() {
@@ -286,7 +288,7 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
   public void getShareList() {
     GsonRequest<ShareList> group_share_request =
         new GsonRequest<>(Request.Method.GET,
-            "http://104.236.46.64:8888/group/shares?group_id=" + group_id,
+            APIConstants.BASE_URL + "/group/shares?group_id=" + group_id,
             getHeader(), null,
             ShareList.class,
             new Response.Listener<ShareList>() {
@@ -330,12 +332,12 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
     mJSONArray.put(gourps[0]);
     mJSONArray.put(gourps[1]);
 
-    String url="http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
-    String intro=dialog_intro_input.getText().toString();
+    String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
+    String intro = dialog_intro_input.getText().toString();
     Map<String, String> params = new HashMap<String, String>();
     params.put("title", "aaaaaaaaaaaa");
     params.put("url", url);
-    params.put("comment",intro);
+    params.put("comment", intro);
     params.put("groups", mJSONArray.toString());
     return params;
   }

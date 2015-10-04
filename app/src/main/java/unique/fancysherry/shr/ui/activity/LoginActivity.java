@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,13 +20,14 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountBean;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.io.request.LoginRequest;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends AppCompatActivity {
   private String return_message;
   private Context context;
   private String sessionid;
@@ -51,7 +53,7 @@ public class LoginActivity extends ActionBarActivity {
   {
 
     login_request =
-        new LoginRequest<>("http://104.236.46.64:8888/login", null,
+        new LoginRequest<>(APIConstants.BASE_URL+"/login", null,
             getParams_login(), LoginRequest.FormResult.class,
             new Response.Listener<LoginRequest.FormResult>() {
               @Override
