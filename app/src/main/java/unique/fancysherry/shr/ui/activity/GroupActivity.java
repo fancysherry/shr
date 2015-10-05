@@ -2,13 +2,16 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +54,7 @@ public class GroupActivity extends AppCompatActivity {
 
     private MemberAdapter manageAdapter;
     private Context context;
+    private Toolbar mToolbar;
 
 
     @Override
@@ -81,6 +85,7 @@ public class GroupActivity extends AppCompatActivity {
         Bundle mBundle = getIntent().getExtras();
         group_id = mBundle.getString("group_id");
         getGroupData();
+        initializeToolbar();
         initAdapter();
 
 
@@ -94,6 +99,21 @@ public class GroupActivity extends AppCompatActivity {
             }
         };
 
+
+    }
+
+
+    protected void initializeToolbar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+        mToolbar = (Toolbar) findViewById(R.id.group_activity_toolbar);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 

@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,7 +22,6 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,16 +35,12 @@ import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.ShareList;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
-import unique.fancysherry.shr.ui.adapter.recycleview.HeaderAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.ShareAdapter;
-import unique.fancysherry.shr.ui.adapter.recycleview.stickheader.OnHeaderClickListener;
-import unique.fancysherry.shr.ui.adapter.recycleview.stickheader.StickyHeadersBuilder;
-import unique.fancysherry.shr.ui.adapter.recycleview.stickheader.StickyHeadersItemDecoration;
 import unique.fancysherry.shr.ui.widget.Dialog.DialogPlus;
 import unique.fancysherry.shr.ui.widget.Dialog.Holder;
 import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
 import unique.fancysherry.shr.ui.widget.Dialog.OnDismissListener;
-import unique.fancysherry.shr.ui.widget.Dialog.OnItemClickListener;
 import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
@@ -60,13 +53,10 @@ import unique.fancysherry.shr.util.config.SApplication;
  * Use the {@link ShareContentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShareContentFragment extends Fragment implements OnHeaderClickListener {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class ShareContentFragment extends Fragment {
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
 
-  // TODO: Rename and change types of parameters
   private static String group_name;
   private String group_id;
 
@@ -74,10 +64,8 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
   private LinearLayout linearLayout;
   private Button first_shr_bt;
 
-  private StickyHeadersItemDecoration top;
   private ShareAdapter shareAdapter;
   private List<Share> mShares;
-  private List<String> header_items = new ArrayList<>();
   private Handler handler;
   private Runnable runnable;
   private Runnable runnable_changle_layout;
@@ -89,7 +77,7 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
 
   public interface OnGetGroupIdListener
   {
-    public void OnGetGroupId(String id);
+    void OnGetGroupId(String id);
   }
 
 
@@ -219,13 +207,8 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
 
   public void initAdapter() {
     shareAdapter = new ShareAdapter(getActivity());
-    top = new StickyHeadersBuilder()
-        .setAdapter(shareAdapter)
-        .setRecyclerView(share_list)
-        .setStickyHeadersAdapter(new HeaderAdapter(header_items))
-        .build();
     share_list.setAdapter(shareAdapter);
-    share_list.addItemDecoration(top);
+    share_list.addItemDecoration(new DividerItemDecoration(40));
     shareAdapter.setOnItemClickListener(new ShareAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Share data) {
@@ -309,7 +292,7 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
   }
 
   public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
+    Map<String, String> headers = new HashMap<>();
     UserBean currentUser = AccountManager.getInstance().getCurrentUser();
     if (currentUser != null && currentUser.getCookieHolder() != null) {
       currentUser.getCookieHolder().generateCookieString();
@@ -334,7 +317,7 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
 
     String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
     String intro = dialog_intro_input.getText().toString();
-    Map<String, String> params = new HashMap<String, String>();
+    Map<String, String> params = new HashMap<>();
     params.put("title", "aaaaaaaaaaaa");
     params.put("url", url);
     params.put("comment", intro);
@@ -343,13 +326,6 @@ public class ShareContentFragment extends Fragment implements OnHeaderClickListe
   }
 
 
-
-  @Override
-  public void onHeaderClick(View header, long headerId) {
-    TextView text = (TextView) header.findViewById(R.id.title);
-    Toast.makeText(getActivity().getApplicationContext(), "Click on " + text.getText(),
-        Toast.LENGTH_SHORT).show();
-  }
 
   @Override
   public void onAttach(Activity activity) {

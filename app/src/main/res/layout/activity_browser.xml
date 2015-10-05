@@ -6,66 +6,60 @@
                 tools:context="unique.fancysherry.shr.ui.activity.BrowserActivity">
 
 
-    <RelativeLayout
+    <include
+        android:id="@+id/browser_activity_toolbar"
+        layout="@layout/include_toolbar"/>
+
+    <FrameLayout
+        android:id="@+id/webview_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-
-        <include
-            android:id="@+id/browser_activity_toolbar"
-            layout="@layout/include_toolbar"/>
+        android:layout_below="@id/browser_activity_toolbar">
 
         <FrameLayout
-            android:id="@+id/webview_layout"
+            android:id="@+id/webview_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/browser_activity_toolbar">
-
-            <FrameLayout
-                android:id="@+id/webview_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/browser_activity_toolbar"/>
+            android:layout_below="@id/browser_activity_toolbar"/>
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/webview_content_back_button"
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="25dp"
-                android:layout_marginLeft="25dp"
-                android:src="@drawable/ic_launcher"
-                tools:border_color="#FF000000"
-                tools:border_width="0dp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/webview_content_back_button"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_launcher"
+            tools:border_color="#FF000000"
+            tools:border_width="0dp"/>
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/webview_content_commment_button"
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                android:layout_gravity="bottom|right"
-                android:layout_marginBottom="25dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_launcher"
-                tools:border_color="#FF000000"
-                tools:border_width="0dp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/webview_content_commment_button"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="25dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_launcher"
+            tools:border_color="#FF000000"
+            tools:border_width="0dp"/>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/webview_content_gratitude_button"
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                android:layout_gravity="bottom|right"
-                android:layout_marginBottom="25dp"
-                android:layout_marginRight="65dp"
-                android:src="@drawable/ic_launcher"
-                tools:border_color="#FF000000"
-                tools:border_width="0dp"/>
-
-
-        </FrameLayout>
-    </RelativeLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/webview_content_gratitude_button"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="25dp"
+            android:layout_marginRight="65dp"
+            android:src="@drawable/ic_launcher"
+            tools:border_color="#FF000000"
+            tools:border_width="0dp"/>
 
 
+    </FrameLayout>
 </RelativeLayout>
+
+
+

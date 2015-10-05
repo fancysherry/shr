@@ -24,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.ShareAdapter;
 
 public class UserActivity extends AppCompatActivity {
@@ -65,7 +66,6 @@ public class UserActivity extends AppCompatActivity {
     }
     mToolbar = (Toolbar) findViewById(R.id.user_activity_toolbar);
     mToolbar.setTitle("");
-    mToolbar.getBackground().setAlpha(0);
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -114,6 +114,7 @@ public class UserActivity extends AppCompatActivity {
     shareAdapter = new ShareAdapter(this);
     shareAdapter.setData(mUser.shares);
     shr_list.setAdapter(shareAdapter);
+    shr_list.addItemDecoration(new DividerItemDecoration());
     shareAdapter.setOnItemClickListener(new ShareAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Share data) {
@@ -131,7 +132,7 @@ public class UserActivity extends AppCompatActivity {
     Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
     Matcher matcher = pattern.matcher(time);
     if (matcher.find()) {
-      return matcher.group(0)+"加入";
+      return matcher.group(0) + "加入";
     }
     else
       return null;
