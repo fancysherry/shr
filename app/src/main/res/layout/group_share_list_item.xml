@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/pure_white"
+              android:orientation="vertical"
+              android:paddingBottom="15dp"
+
+              android:paddingTop="12dp">
+
+    <RelativeLayout
+        android:id="@+id/share_list_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="155dp">
+
+        <LinearLayout
+            android:id="@+id/share_list_item_share_icon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="20dp">
+
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/share_list_item_share_icon"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/gray_87"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/share_list_item_share_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/share_list_item_share_icon"
+                android:maxLines="2"
+                android:text="投递了这条分享"
+                android:textColor="#333333"
+                android:textSize="19sp"
+
+                />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/share_list_item_share_divide"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/share_list_item_share_icon_layout"
+            android:layout_marginTop="12dp"
+            android:background="#eeeeee"
+            />
+
+        <LinearLayout
+            android:id="@+id/share_list_item_user_icon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/share_list_item_share_divide"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="20dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/share_list_item_user_portrait"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="1dp"
+                android:scaleType="fitXY"
+                app:placeholderImage="@drawable/mine"
+                app:roundAsCircle="true"/>
+
+
+            <TextView
+                android:id="@+id/share_list_item_user_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:maxLines="2"
+                android:text="棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒棒"
+                android:textColor="#a0a0a0"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="20dp">
+
+
+            <ImageView
+                android:id="@+id/share_list_item_share_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="1dp"
+                android:background="@drawable/ic_launcher"
+                />
+
+            <TextView
+                android:id="@+id/share_list_item_share_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="1dp"
+                android:gravity="center_vertical"
+                android:text="郭唱、吴兵分享过"
+                android:textColor="#c0c0c0"
+                android:textSize="13sp"
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

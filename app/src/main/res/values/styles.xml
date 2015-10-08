@@ -43,13 +43,20 @@
     <!--TagView-->
 
     <style name="Widget.TagView" parent="@android:style/Widget.TextView">
-        <item name="tagCornerRadius">6dp</item>
-        <item name="tagPadding">8dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">#c2c2c2</item>
+        <item name="tagCornerRadius">7dp</item>
+        <item name="tagPadding">9dp</item>
         <item name="tagUppercase">true</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -114,5 +121,36 @@
         <item name="android:layout_marginLeft">63dp</item>
         <item name="android:background">@color/gray_97</item>
     </style>
+
+
+    <style name="TagGroup">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="atg_borderStrokeWidth">0.5dp</item>
+        <item name="atg_textSize">13sp</item>
+        <item name="atg_horizontalSpacing">15dp</item>
+        <item name="atg_verticalSpacing">8dp</item>
+        <item name="atg_horizontalPadding">12dp</item>
+        <item name="atg_verticalPadding">3dp</item>
+    </style>
+
+    <style name="TagGroup.Small" parent="TagGroup">
+        <item name="atg_textSize">10sp</item>
+        <item name="atg_horizontalSpacing">6dp</item>
+        <item name="atg_verticalSpacing">3dp</item>
+        <item name="atg_horizontalPadding">8dp</item>
+        <item name="atg_verticalPadding">2dp</item>
+    </style>
+
+    <style name="TagGroup.Large" parent="TagGroup">
+        <item name="atg_borderStrokeWidth">0.7dp</item>
+        <item name="atg_textSize">15sp</item>
+        <item name="atg_horizontalSpacing">9dp</item>
+        <item name="atg_verticalSpacing">5dp</item>
+        <item name="atg_horizontalPadding">14dp</item>
+        <item name="atg_verticalPadding">4dp</item>
+    </style>
+
 
 </resources>

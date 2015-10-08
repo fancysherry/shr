@@ -36,7 +36,7 @@ import unique.fancysherry.shr.io.model.ShareList;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
-import unique.fancysherry.shr.ui.adapter.recycleview.ShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.widget.Dialog.DialogPlus;
 import unique.fancysherry.shr.ui.widget.Dialog.Holder;
 import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
@@ -64,7 +64,7 @@ public class ShareContentFragment extends Fragment {
   private LinearLayout linearLayout;
   private Button first_shr_bt;
 
-  private ShareAdapter shareAdapter;
+  private GroupShareAdapter groupShareAdapter;
   private List<Share> mShares;
   private Handler handler;
   private Runnable runnable;
@@ -124,9 +124,6 @@ public class ShareContentFragment extends Fragment {
         }
       }
     };
-
-
-
   }
 
   private void showDialog(int gravity) {
@@ -162,12 +159,7 @@ public class ShareContentFragment extends Fragment {
       public void onDismiss(DialogPlus dialog) {}
     };
     showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
-
-
-
   }
-
-
 
   private void showOnlyContentDialog(Holder holder, int gravity,
       OnDismissListener dismissListener, OnClickListener clickListener
@@ -188,7 +180,7 @@ public class ShareContentFragment extends Fragment {
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view;
-    view = inflater.inflate(R.layout.fragment_unique, container, false);
+    view = inflater.inflate(R.layout.fragment_share_content, container, false);
     first_shr_bt = (Button) view.findViewById(R.id.new_group_button);
     first_shr_bt.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -206,19 +198,19 @@ public class ShareContentFragment extends Fragment {
   }
 
   public void initAdapter() {
-    shareAdapter = new ShareAdapter(getActivity());
-    share_list.setAdapter(shareAdapter);
-    share_list.addItemDecoration(new DividerItemDecoration(40));
-    shareAdapter.setOnItemClickListener(new ShareAdapter.OnRecyclerViewItemClickListener() {
-      @Override
-      public void onItemClick(View view, Share data) {
-        Intent mIntent = new Intent(getActivity(), BrowserActivity.class);
-        mIntent.putExtra("id", data.id);
-        startActivity(mIntent);
-      }
-    });
+    groupShareAdapter = new GroupShareAdapter(getActivity());
+    share_list.setAdapter(groupShareAdapter);
+    share_list.addItemDecoration(new DividerItemDecoration(30));
+    groupShareAdapter
+        .setOnItemClickListener(new GroupShareAdapter.OnRecyclerViewItemClickListener() {
+          @Override
+          public void onItemClick(View view, Share data) {
+            Intent mIntent = new Intent(getActivity(), BrowserActivity.class);
+            mIntent.putExtra("id", data.id);
+            startActivity(mIntent);
+          }
+        });
   }
-
 
   public void post_share_url() {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =
@@ -241,7 +233,6 @@ public class ShareContentFragment extends Fragment {
             });
     executeRequest(group_share_url_request);
   }
-
 
   public void getGroupId() {
     GsonRequest<Group> group_share_id_request =
@@ -266,8 +257,6 @@ public class ShareContentFragment extends Fragment {
     executeRequest(group_share_id_request);
   }
 
-
-
   public void getShareList() {
     GsonRequest<ShareList> group_share_request =
         new GsonRequest<>(Request.Method.GET,
@@ -278,7 +267,7 @@ public class ShareContentFragment extends Fragment {
               @Override
               public void onResponse(ShareList shares) {
                 LogUtil.e("share" + shares.shares.toString());
-                shareAdapter.setData(shares.shares);
+                groupShareAdapter.setData(shares.shares);
                 mShares = shares.shares;
                 handler.post(runnable_changle_layout);
               }
@@ -306,7 +295,6 @@ public class ShareContentFragment extends Fragment {
     return headers;
   }
 
-
   public Map<String, String> getParams_share() {
     JSONArray mJSONArray = new JSONArray();
     String[] gourps = new String[2];
@@ -325,12 +313,9 @@ public class ShareContentFragment extends Fragment {
     return params;
   }
 
-
-
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-
     // This makes sure that the container activity has implemented
     // the callback interface. If not, it throws an exception
     try {
@@ -341,11 +326,8 @@ public class ShareContentFragment extends Fragment {
     }
   }
 
-
-
   public void executeRequest(Request request) {
     SApplication.getRequestManager().executeRequest(request, this);
   }
-
 
 }

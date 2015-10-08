@@ -77,6 +77,7 @@ public class DrawerFragment extends Fragment {
   private User user;
   private Handler handler;
   private Runnable runnable;
+
   public DrawerFragment() {}
 
   @Override
@@ -193,6 +194,7 @@ public class DrawerFragment extends Fragment {
         mBundle.putParcelable("user", user);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
+        mDrawerLayout.closeDrawers();
       }
     });
 
@@ -226,13 +228,13 @@ public class DrawerFragment extends Fragment {
 
   }
 
-  //重新获取数据
+  // 重新获取数据
   public void refresh()
   {
     getUserData();
   }
 
-  //更新适配器数据
+  // 更新适配器数据
   public void refreshData(List<Group> groups)
   {
     drawItemAdapter.setData(groups, null);
@@ -246,7 +248,7 @@ public class DrawerFragment extends Fragment {
     // else if (2 <= position && position < item_max_size)
     // return group_name_list.get(position - 2);
     // else if (position == 1)
-    // return getString(R.string.fragment_unique);
+    // return getString(R.string.fragment_share_content);
     // else
     return null;
   }

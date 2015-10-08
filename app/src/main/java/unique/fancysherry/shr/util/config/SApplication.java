@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.DiskBasedCache;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.io.File;
 
@@ -32,6 +33,7 @@ public class SApplication extends Application {
 
   private void init() {
     context = getApplicationContext();
+    Fresco.initialize(this);
     sRequestManager = initRequestManager();
   }
 
@@ -43,9 +45,9 @@ public class SApplication extends Application {
   private RequestManager initRequestManager() {
     RequestManager requestManager = new RequestManager(this, appFolderName);
     String diskHTTPCacheDir = FileUtil.getAppRootDirectory(appFolderName) +
-            "/httpCache";
+        "/httpCache";
     RequestQueue requestQueue =
-            new RequestQueue(new DiskBasedCache(new File(diskHTTPCacheDir)), new CommonNetwork());
+        new RequestQueue(new DiskBasedCache(new File(diskHTTPCacheDir)), new CommonNetwork());
     requestManager.setVolleyRequestQueue(requestQueue);
     return requestManager;
   }

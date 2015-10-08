@@ -1,4 +1,4 @@
-package unique.fancysherry.shr.util;
+// package unique.fancysherry.shr.UtilTest;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -6,12 +6,37 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class DateUtil {
-  private DateUtil() {}
+/**
+ * Created by fancysherry on 15-10-6.
+ */
+public class DateUtilTest {
+  public String input_date = "2015-09-11 09:12:35.79300";
+
+  public static String date1 = "2015-10-08 09:12:35.79300";
+
+  public static String date2 = "2015-10-07 09:12:35.79300";
+
+  public static String date3 = "2015-10-06 09:12:35.79300";
+
+  public static void main(String[] args) throws ParseException {
+    // Scanner sin = new Scanner(System.in);
+    // String input = sin.nextLine();
+    // String result1 = improveDateString(input);
+    // long result2 = parsePubdateDate(input, true);
+    // System.out.print("improveDateString:    " + result1 + "\n");
+    // System.out.print("parsePubdateDateString:    " + result2 + "\n");
+    System.out.print("DVALUE     " + dateDValue(date1, date2));
+    System.out.print("\n1     " + toListDate(date1));
+    System.out.print("\n2     " + toListDate(date2));
+    System.out.print("\n3     " + toListDate(date3));
+  }
+
+
 
   public static final String FORMATE_HH_MM = "HH:mm";
   public static final String FORMATE_MM_DD_HH_MM = "MM.dd.HH:mm";
@@ -117,6 +142,7 @@ public class DateUtil {
   }
 
 
+
   // 计算日期天数的差值
   public static int dateDValue(String date_max, String date_min) throws ParseException {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -147,7 +173,7 @@ public class DateUtil {
 
     else
     {
-      String date_month_day = date.substring(5, 10);
+      String date_month_day = date.substring(5,10);
       return date_month_day;
     }
   }

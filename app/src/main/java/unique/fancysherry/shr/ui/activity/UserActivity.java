@@ -3,7 +3,6 @@ package unique.fancysherry.shr.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +14,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,11 +26,13 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
-import unique.fancysherry.shr.ui.adapter.recycleview.ShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.UserShareAdapter;
+import unique.fancysherry.shr.ui.widget.TagGroup;
 
 public class UserActivity extends AppCompatActivity {
   @InjectView(R.id.user_portrait)
-  CircleImageView imageview_portrait;
+  SimpleDraweeView imageview_portrait;
   @InjectView(R.id.shr_number)
   TextView shr_number;
   @InjectView(R.id.gratitude_number)
@@ -42,11 +45,14 @@ public class UserActivity extends AppCompatActivity {
   TextView introduce;
   @InjectView(R.id.user_shr_history)
   RecyclerView shr_list;
+  @InjectView(R.id.activity_user_taggroup)
+  TagGroup tagGroup;
 
-  private ShareAdapter shareAdapter;
+  private UserShareAdapter userShareAdapter;
   private Context context;
   private User mUser;
   private Toolbar mToolbar;
+  private String[] test_taggroup = {"UniqueStudio", "ios", "android", "pm", "design", "lab"};
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +71,7 @@ public class UserActivity extends AppCompatActivity {
       getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
     mToolbar = (Toolbar) findViewById(R.id.user_activity_toolbar);
-    mToolbar.setTitle("");
+
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,18 +110,19 @@ public class UserActivity extends AppCompatActivity {
     mUser = getIntent().getParcelableExtra("user");
     shr_number.setText(String.valueOf(mUser.shares.size()));
     gratitude_number.setText(mUser.gratitude_shares_sum);
-    group_name.setText(mUser.groups.get(0).group_name);
+    group_name.setText(mUser.groups.get(0).name);
     user_attend_time.setText(getTime(mUser.register_time));
     introduce.setText(mUser.brief);
+    mToolbar.setTitle(mUser.nickname);
 
 
     shr_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
-    shareAdapter = new ShareAdapter(this);
-    shareAdapter.setData(mUser.shares);
-    shr_list.setAdapter(shareAdapter);
+    userShareAdapter = new UserShareAdapter(this);
+    userShareAdapter.setData(mUser.shares);
+    shr_list.setAdapter(userShareAdapter);
     shr_list.addItemDecoration(new DividerItemDecoration());
-    shareAdapter.setOnItemClickListener(new ShareAdapter.OnRecyclerViewItemClickListener() {
+    userShareAdapter.setOnItemClickListener(new UserShareAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Share data) {
         Intent mIntent = new Intent(context, BrowserActivity.class);
@@ -124,6 +131,16 @@ public class UserActivity extends AppCompatActivity {
       }
     });
 
+    tagGroup.setTags(test_taggroup);
+    tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+      @Override
+      public void onTagClick(String tag) {
+        if (tag.equals("..."))
+          tagGroup.setAllTags(test_taggroup);
+        else if (tag.equals("<-"))
+          tagGroup.setTags(test_taggroup);
+      }
+    });
 
   }
 

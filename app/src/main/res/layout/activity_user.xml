@@ -1,28 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                tools:context="unique.fancysherry.shr.ui.activity.UserActivity">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
 
     <FrameLayout
         android:id="@+id/user_header_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/toolbar">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="148dp"
             android:background="#569597">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="130dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -31,7 +31,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="36"
-                    android:textSize="@dimen/user_shr_number"/>
+                    android:textColor="#ffffff"
+                    android:textSize="30sp"/>
 
                 <TextView
                     android:id="@+id/shr_text"
@@ -40,7 +41,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="7dp"
                     android:text="shr"
-                    android:textSize="@dimen/user_shr_text"/>
+                    android:textColor="#ffffff"
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/gratitude_number"
@@ -49,7 +51,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:text="36"
-                    android:textSize="@dimen/user_gratitude_number"/>
+                    android:textColor="#ffffff"
+                    android:textSize="30sp"/>
 
                 <TextView
                     android:id="@+id/gratitude_text"
@@ -58,7 +61,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="7dp"
                     android:text="gratitude"
-                    android:textSize="@dimen/user_gratitude_text"/>
+                    android:textColor="#ffffff"
+                    android:textSize="15sp"/>
 
 
             </LinearLayout>
@@ -74,14 +78,6 @@
                 android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-                <TextView
-                    android:id="@+id/activity_user_toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#ffffff"
-                    android:text="老罗"/>
             </android.support.v7.widget.Toolbar>
 
         </RelativeLayout>
@@ -89,8 +85,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginTop="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="148dp"
             android:background="@color/pure_white">
 
 
@@ -99,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="134dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
@@ -110,7 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="gratitude"
-                    android:textSize="15dp"/>
+                    android:textColor="#212121"
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/user_add_time"
@@ -119,7 +116,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:text="gratitude"
-                    android:textSize="15dp"/>
+                    android:textColor="#212121"
+                    android:textSize="13dp"/>
 
 
             </LinearLayout>
@@ -141,7 +139,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="gratitude"
-                    android:textSize="15dp"/>
+                    android:textColor="#c2c2c2"
+                    android:textSize="13dp"/>
 
             </LinearLayout>
 
@@ -151,45 +150,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_information_introduce_layout"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                >
 
-
-                <unique.fancysherry.shr.ui.widget.TagView
-                    android:id="@+id/tagview1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:background="@color/gray_99"
-                    android:gravity="center"
-                    android:paddingLeft="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/user_group_unique_studio"
-                    />
-
-                <unique.fancysherry.shr.ui.widget.TagView
-                    android:id="@+id/tagview2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@color/gray_99"
-                    android:gravity="center"
-                    android:paddingLeft="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/user_group_design"
-                    />
-
-                <unique.fancysherry.shr.ui.widget.TagView
-                    android:id="@+id/tagview3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@color/gray_99"
-                    android:gravity="center"
-                    android:paddingLeft="7dp"
-                    android:paddingRight="7dp"
-                    android:text="+"
-                    />
+                <unique.fancysherry.shr.ui.widget.TagGroup
+                    android:id="@+id/activity_user_taggroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:atg_horizontalSpacing="15dp"
+                    app:atg_verticalSpacing="8dp"/>
 
 
             </LinearLayout>
@@ -198,15 +171,16 @@
         </RelativeLayout>
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/user_portrait"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="85dp"
-            android:src="@drawable/mine"
-            tools:border_color="@color/pure_white"
-            tools:border_width="2dp"/>
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="105dp"
+            app:placeholderImage="@drawable/mine"
+            app:border_color="@color/pure_white"
+            app:border_width="2dp"
+            app:roundAsCircle="true"/>
 
 
     </FrameLayout>
@@ -218,7 +192,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/user_header_layout"
         android:layout_marginTop="2dp"
-        android:padding="6dp">
+        android:padding="5dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_shr_history"
