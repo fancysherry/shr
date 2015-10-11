@@ -3,7 +3,7 @@ package unique.fancysherry.shr.io.cache.generator;
 import java.io.InputStream;
 
 import unique.fancysherry.shr.io.cache.AbstractMMBean;
-import unique.fancysherry.shr.io.image.PhotoLoader;
+import unique.fancysherry.shr.io.Util.PhotoLoader;
 
 
 /**

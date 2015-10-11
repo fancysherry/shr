@@ -4,7 +4,6 @@ import java.util.List;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.User;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 // implements
 // View.OnClickListener
 {
-
   private List<User> items = null;
 
   private Context context;
@@ -31,9 +29,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   {
     this.context = pContext;
     setHasStableIds(true);
-
   }
-
 
   public void setData(List<User> items)
   {
@@ -44,11 +40,9 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView =
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item_group_activity, parent, false);
-
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list_item_group_activity,
+            parent, false);
     // itemView.setOnClickListener(this);
-
-
     return new ViewHolder(itemView, this, context);
   }
 
@@ -59,8 +53,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     // holder.member_item_gratitude_num.setText(items.get(position).gratitude_shares_sum);
     // holder.member_item_level.setText(items.get(position).level);
     // holder.view.setTag(items.get(position));
-
-
   }
 
   @Override
@@ -71,10 +63,10 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
       return items.size();
   }
 
-  // @Override
-  // public long getItemId(int position) {
-  // return items.get(position).hashCode();
-  // }
+  @Override
+  public long getItemId(int position) {
+    return items.get(position).hashCode();
+  }
 
   // @Override
   // public void onClick(View v) {
@@ -100,17 +92,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   {
     CircleImageView group_member_item_portrait;
     TextView group_member_item_name;
-
     TextView group_member_item_level;
-
     Button group_member_item_delete_button;
-
-
 
     Context context;
     View view;
-
-
 
     public ViewHolder(View itemView, MemberAdapter pDeleteMemberAdapter, Context pContext) {
       super(itemView);

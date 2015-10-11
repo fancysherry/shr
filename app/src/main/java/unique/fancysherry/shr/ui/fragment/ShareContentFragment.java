@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.ShareList;
+import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
@@ -42,6 +44,7 @@ import unique.fancysherry.shr.ui.widget.Dialog.Holder;
 import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
 import unique.fancysherry.shr.ui.widget.Dialog.OnDismissListener;
 import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
+import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
@@ -60,6 +63,7 @@ public class ShareContentFragment extends Fragment {
   private static String group_name;
   private String group_id;
 
+  private List<Share> shares_data = null;
   private RecyclerView share_list;
   private LinearLayout linearLayout;
   private Button first_shr_bt;
@@ -78,6 +82,8 @@ public class ShareContentFragment extends Fragment {
   public interface OnGetGroupIdListener
   {
     void OnGetGroupId(String id);
+
+    void OnGetGroupName(String name);
   }
 
 
@@ -200,7 +206,7 @@ public class ShareContentFragment extends Fragment {
   public void initAdapter() {
     groupShareAdapter = new GroupShareAdapter(getActivity());
     share_list.setAdapter(groupShareAdapter);
-    share_list.addItemDecoration(new DividerItemDecoration(30));
+    share_list.addItemDecoration(new DividerItemDecoration());
     groupShareAdapter
         .setOnItemClickListener(new GroupShareAdapter.OnRecyclerViewItemClickListener() {
           @Override
@@ -234,6 +240,27 @@ public class ShareContentFragment extends Fragment {
     executeRequest(group_share_url_request);
   }
 
+  public void getShareUserId(String uid) {
+    GsonRequest<User> group_share_user_id_request =
+            new GsonRequest<>(Request.Method.GET,
+                    APIConstants.BASE_URL + "/homepage?uid=" + uid,
+                    getHeader(), null,
+                    User.class,
+                    new Response.Listener<User>() {
+                      @Override
+                      public void onResponse(User pUser) {
+                        handler.post(runnable);
+                      }
+                    }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_user_id_request);
+  }
+
+
   public void getGroupId() {
     GsonRequest<Group> group_share_id_request =
         new GsonRequest<>(Request.Method.GET,
@@ -247,6 +274,7 @@ public class ShareContentFragment extends Fragment {
                 group_id = pGroup.group_id;
                 handler.post(runnable);
                 onGetGroupIdListener.OnGetGroupId(group_id);
+                onGetGroupIdListener.OnGetGroupName(group_name);
               }
             }, new Response.ErrorListener() {
               @Override
@@ -267,7 +295,15 @@ public class ShareContentFragment extends Fragment {
               @Override
               public void onResponse(ShareList shares) {
                 LogUtil.e("share" + shares.shares.toString());
-                groupShareAdapter.setData(shares.shares);
+                shares_data = shares.shares;
+
+                try {
+                  // groupShareAdapter.setTimeViewSize(DateUtil.calDaySize(shares_data));
+                  groupShareAdapter.setData(shares.shares);
+                  // groupShareAdapter.setViewTypeArray();
+                } catch (ParseException e) {
+                  e.printStackTrace();
+                }
                 mShares = shares.shares;
                 handler.post(runnable_changle_layout);
               }

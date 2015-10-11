@@ -1,6 +1,7 @@
 package unique.fancysherry.shr.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +62,7 @@ public class DrawerFragment extends Fragment {
   @InjectView(R.id.drawer_header_gratitude)
   TextView gratitude_num;
   @InjectView(R.id.drawer_header_portrait)
-  CircleImageView portrait;
+  SimpleDraweeView portrait;
   @InjectView(R.id.drawer_add_group)
   TextView add_group_button;
   @InjectView(R.id.drawer_list)
@@ -92,6 +94,7 @@ public class DrawerFragment extends Fragment {
       public void run() {
         nickname.setText(user.nickname);
         gratitude_num.setText("感谢数  " + user.gratitude_shares_sum);
+        portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + user.avatar));
         refreshData(user.groups);
       }
     };
@@ -125,7 +128,6 @@ public class DrawerFragment extends Fragment {
               public void onResponse(User pUser) {
                 user = pUser;
                 handler.post(runnable);
-
               }
             }, new Response.ErrorListener() {
               @Override
@@ -143,7 +145,6 @@ public class DrawerFragment extends Fragment {
       currentUser.getCookieHolder().generateCookieString();
       headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
     }
-
     headers
         .put(
             "User-Agent",
@@ -165,7 +166,6 @@ public class DrawerFragment extends Fragment {
         selectItem("notification");
       }
     });
-
     drawer_at_title.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -184,7 +184,6 @@ public class DrawerFragment extends Fragment {
     mBadgeView_at.setBadgeMargin(0, 0, 8, 0);
     mBadgeView_at.setBadgeGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT | Gravity.END);
     mBadgeView_at.setBadgeCount(23);
-
 
     portrait.setOnClickListener(new View.OnClickListener() {
       @Override

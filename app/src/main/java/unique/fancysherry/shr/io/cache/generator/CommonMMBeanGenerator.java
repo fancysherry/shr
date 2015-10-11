@@ -13,7 +13,7 @@ import unique.fancysherry.shr.io.cache.BaseMMBean;
 import unique.fancysherry.shr.io.cache.BigBitmap;
 import unique.fancysherry.shr.io.cache.BigBitmapBean;
 import unique.fancysherry.shr.io.cache.CacheManager;
-import unique.fancysherry.shr.io.image.PhotoLoader;
+import unique.fancysherry.shr.io.Util.PhotoLoader;
 import unique.fancysherry.shr.util.config.SApplication;
 import unique.fancysherry.shr.util.system.ScreenUtils;
 

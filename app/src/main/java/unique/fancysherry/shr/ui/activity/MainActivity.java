@@ -39,6 +39,8 @@ public class MainActivity extends BaseActivity
 
   private String now_group_id;
 
+  private String now_group_name;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class MainActivity extends BaseActivity
     setContentView(R.layout.activity_main);
     initView();
     initializeToolbar();
+    getSupportActionBar().setTitle("消息");
     mToolbar.setOnMenuItemClickListener(onMenuItemClick);
 
     // if (savedInstanceState != null) {
@@ -163,5 +166,12 @@ public class MainActivity extends BaseActivity
   @Override
   public void OnGetGroupId(String id) {
     now_group_id = id;
+  }
+
+
+  @Override
+  public void OnGetGroupName(String name) {
+    now_group_name = name;
+    getSupportActionBar().setTitle(name);
   }
 }

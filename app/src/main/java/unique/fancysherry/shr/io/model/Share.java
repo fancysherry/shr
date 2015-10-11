@@ -18,8 +18,16 @@ public class Share implements Parcelable {
   public String share_time;
   public ShareOrigin shareOrigin;
   public String gratitude_sum;
+  public String type;
 
   public List<ShareOrigin> others;
+
+  public Share()
+  {}
+
+  public Share(String type) {
+    this.type = type;
+  }
 
   // 1.必须实现Parcelable.Creator接口,否则在获取Person数据的时候，会报错，如下：
   // android.os.BadParcelableException:
@@ -55,6 +63,7 @@ public class Share implements Parcelable {
     share_time = in.readString();
     shareOrigin = in.readParcelable(getClass().getClassLoader());
     gratitude_sum = in.readString();
+    type = in.readString();
     in.readList(others, getClass().getClassLoader());
 
 
@@ -77,5 +86,11 @@ public class Share implements Parcelable {
     dest.writeParcelable(shareOrigin, flags);
     dest.writeString(gratitude_sum);
     dest.writeList(others);
+    dest.writeString(type);
+  }
+
+  public String getType()
+  {
+    return type;
   }
 }

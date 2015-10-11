@@ -5,7 +5,7 @@ import com.android.volley.Response;
 
 import unique.fancysherry.shr.io.IVolleyActionDelivery;
 import unique.fancysherry.shr.io.delivery.PhotoActionDelivery;
-import unique.fancysherry.shr.io.image.PhotoLoader;
+import unique.fancysherry.shr.io.Util.PhotoLoader;
 
 /**
  * Created by fancysherry on 15-7-13.

@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import unique.fancysherry.shr.io.model.Share;
 
 
 public class DateUtil {
@@ -124,7 +127,34 @@ public class DateUtil {
     String minTime = getTime(date_min);
     Date maxTime_val = format.parse(maxTime);
     Date minTime_val = format.parse(minTime);
-    return (int) (maxTime_val.getTime() - minTime_val.getTime()) / 86400000;
+    return Math.abs((int) (maxTime_val.getTime() - minTime_val.getTime()) / 86400000);
+  }
+
+  public static int calDaySize(List<Share> pShares) throws ParseException {
+    int result = 0;
+    if (pShares != null)
+      result = 1;
+    String flag = pShares.get(0).share_time;
+    for (int i = 0; i < pShares.size(); i++) {
+      if (!isDateEquals(flag, pShares.get(i).share_time)) {
+        result++;
+        flag = pShares.get(i).share_time;
+      }
+    }
+    return result;
+  }
+
+  // 判断日期是否相同
+  public static boolean isDateEquals(String date_max, String date_min) throws ParseException {
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    String maxTime = getTime(date_max);
+    String minTime = getTime(date_min);
+    Date maxTime_val = format.parse(maxTime);
+    Date minTime_val = format.parse(minTime);
+    if ((int) (maxTime_val.getTime() - minTime_val.getTime()) / 86400000 == 0)
+      return true;
+    else
+      return false;
   }
 
 
@@ -145,15 +175,14 @@ public class DateUtil {
     else if (nowTime_val.getTime() - oldTime_val.getTime() == 0)
       return "今天";
 
-    else
-    {
-      String date_month_day = date.substring(5, 10);
-      return date_month_day;
+    else {
+      String date_month = date.substring(5, 7);
+      String date_day = date.substring(8, 10);
+      return date_month + "月" + date_day + "日";
     }
   }
 
-  private static String getTime(String time)
-  {
+  private static String getTime(String time) {
     Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
     Matcher matcher = pattern.matcher(time);
     if (matcher.find()) {
@@ -163,8 +192,7 @@ public class DateUtil {
       return null;
   }
 
-  private static String getNowTime()
-  {
+  private static String getNowTime() {
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
     return df.format(new Date());// new Date()为获取当前系统时间
   }

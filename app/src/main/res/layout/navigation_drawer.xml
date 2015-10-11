@@ -33,15 +33,16 @@
         android:background="#83b6b8">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/drawer_header_portrait"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="54dp"
-            android:src="@drawable/mine"
-            custom:border_color="#FF000000"
-            custom:border_width="0dp"/>
+            custom:border_color="#FFFFFF"
+            custom:border_width="2dp"
+            custom:placeholderImage="@drawable/mine"
+            custom:roundAsCircle="true"/>
 
         <TextView
             android:id="@+id/drawer_header_name"
@@ -112,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text=" @me"
+            android:text="@string/at_me"
             android:textColor="@color/drawer_item_tint_color"
             android:textSize="15sp"/>
 
@@ -125,9 +126,9 @@
         android:layout_height="match_parent"
         android:layout_below="@id/drawer_at"
         android:layout_marginLeft="15dp"
+        android:clipToPadding="false"
         android:dividerHeight="0dp"
         android:drawSelectorOnTop="true"
-        android:clipToPadding="false"
         android:listSelector="?android:selectableItemBackground"/>
 
 
@@ -135,9 +136,9 @@
         android:id="@+id/drawer_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/drawer_list"
         android:minHeight="@dimen/drawer_item_height"
         android:orientation="horizontal"
-        android:layout_below="@id/drawer_list"
         android:paddingLeft="25dp"
         >
 
@@ -147,8 +148,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/add_group"
-            android:textSize="16sp"
-            android:textColor="#c2c2c2"/>
+            android:textColor="#c2c2c2"
+            android:textSize="16sp"/>
 
 
     </LinearLayout>

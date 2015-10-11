@@ -1,4 +1,4 @@
-package unique.fancysherry.shr.io.image;
+package unique.fancysherry.shr.io.Util;
 
 import java.io.IOException;
 

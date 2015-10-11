@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import java.util.Map;
 
 import unique.fancysherry.shr.io.IVolleyActionDelivery;
-import unique.fancysherry.shr.io.image.PhotoLoader;
+import unique.fancysherry.shr.io.Util.PhotoLoader;
 
 /**
  * Created by fancysherry on 15-7-11.

@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="7dp"
-                    android:text="shr"
+                    android:text="Shr"
                     android:textColor="#ffffff"
                     android:textSize="15sp"/>
 
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="7dp"
-                    android:text="gratitude"
+                    android:text="感谢"
                     android:textColor="#ffffff"
                     android:textSize="15sp"/>
 

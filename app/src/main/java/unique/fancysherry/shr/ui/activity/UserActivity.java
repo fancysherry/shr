@@ -1,13 +1,16 @@
 package unique.fancysherry.shr.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,10 +26,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.UserItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserShareAdapter;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 
@@ -49,7 +54,7 @@ public class UserActivity extends AppCompatActivity {
   TagGroup tagGroup;
 
   private UserShareAdapter userShareAdapter;
-  private Context context;
+  private Activity context;
   private User mUser;
   private Toolbar mToolbar;
   private String[] test_taggroup = {"UniqueStudio", "ios", "android", "pm", "design", "lab"};
@@ -63,7 +68,6 @@ public class UserActivity extends AppCompatActivity {
     initializeToolbar();
     initData();
   }
-
 
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -84,6 +88,10 @@ public class UserActivity extends AppCompatActivity {
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
       switch (menuItem.getItemId()) {
+        case android.R.id.home:
+          Log.e("home_button", "onclick");
+          context.finish();
+          break;
         case R.id.action_edit:
           Intent mIntent = new Intent(context, UserInformationResetActivity.class);
           mIntent.putExtra("user_id", mUser.id);
@@ -113,7 +121,9 @@ public class UserActivity extends AppCompatActivity {
     group_name.setText(mUser.groups.get(0).name);
     user_attend_time.setText(getTime(mUser.register_time));
     introduce.setText(mUser.brief);
-    mToolbar.setTitle(mUser.nickname);
+    getSupportActionBar().setTitle(mUser.nickname);
+    // Log.e("niclname", mUser.nickname);
+    imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
 
 
     shr_list.setLayoutManager(new LinearLayoutManager(this,
@@ -121,7 +131,7 @@ public class UserActivity extends AppCompatActivity {
     userShareAdapter = new UserShareAdapter(this);
     userShareAdapter.setData(mUser.shares);
     shr_list.setAdapter(userShareAdapter);
-    shr_list.addItemDecoration(new DividerItemDecoration());
+    shr_list.addItemDecoration(new UserItemDecoration());
     userShareAdapter.setOnItemClickListener(new UserShareAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Share data) {
@@ -154,7 +164,6 @@ public class UserActivity extends AppCompatActivity {
     else
       return null;
   }
-
 
   @Override
   protected void onDestroy() {

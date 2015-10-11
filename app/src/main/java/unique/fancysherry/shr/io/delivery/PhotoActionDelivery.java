@@ -3,7 +3,7 @@ package unique.fancysherry.shr.io.delivery;
 
 import unique.fancysherry.shr.io.cache.AbstractMMBean;
 import unique.fancysherry.shr.io.cache.BaseMMBean;
-import unique.fancysherry.shr.io.image.PhotoLoader;
+import unique.fancysherry.shr.io.Util.PhotoLoader;
 
 import android.text.TextUtils;
 

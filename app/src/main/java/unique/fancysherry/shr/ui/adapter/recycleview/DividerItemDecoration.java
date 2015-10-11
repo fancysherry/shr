@@ -9,29 +9,56 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.util.List;
+
+import unique.fancysherry.shr.io.model.Share;
+
 /**
  * Created by fancysherry on 15-7-30.
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
   private int space = 20;// default
 
+  private List<Share> view_type_array = null;
+
   public DividerItemDecoration(int space) {
     this.space = space;
   }
 
-  public DividerItemDecoration() {
-  }
+  public DividerItemDecoration() {}
 
+  //
+  // public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+  // if (itemPosition == 0)
+  // outRect.set(0, space, 0, space);
+  // else
+  // outRect.set(0, 0, 0, space);
+  // }
 
   @Override
-  public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-    outRect.left = space;
-    outRect.right = space;
-    outRect.bottom = space;
+  public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
+      state) {
+    GroupShareAdapter mAdapter = (GroupShareAdapter) parent.getAdapter();
+    view_type_array = mAdapter.getViewTypeArray();
+    int size = view_type_array.size();
+    if (view_type_array.get(mAdapter.getPosition()).getType() != null)
+      outRect.set(0, 0, 0, 0);
+    else
+    {
+      outRect.left = 0;
+      outRect.right = 0;
 
-    // Add top margin only for the first item to avoid double space between items
-    if (parent.getChildPosition(view) == 0)
-      outRect.top = space;
+      if (view_type_array.get(mAdapter.getPosition() - 1).getType() == null)
+        outRect.top = space;
+
+      if (mAdapter.getPosition() + 1 < size) {
+        if (view_type_array.get(mAdapter.getPosition() + 1).getType() == null)
+          outRect.bottom = space;
+      }
+      else
+        outRect.bottom = space;
+    }
   }
+
 
 }
