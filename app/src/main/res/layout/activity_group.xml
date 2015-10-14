@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,336 +6,338 @@
     android:orientation="vertical">
 
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/group_activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="0dp"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/activity_group_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="UniqueStudio"
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/group_activity_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:background="?attr/colorPrimary"
-            android:elevation="0dp"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <TextView
-                android:id="@+id/activity_group_toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="UniqueStudio"
-                android:textColor="#ffffff"
-                android:textSize="20sp"/>
-        </android.support.v7.widget.Toolbar>
-
-
-        <RelativeLayout
-            android:id="@+id/group_header"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:background="#569597"
-            tools:layout_scrollFlags="scroll|enterAlways">
-
-
-            <LinearLayout
-                android:id="@+id/group_header_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="35dp"
-                android:orientation="vertical"
-                android:paddingRight="40dp">
-
-
-                <TextView
-                    android:id="@+id/group_create_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:text="创建于xxxxxx"
-                    android:textColor="@color/pure_white"/>
-
-
-                <TextView
-                    android:id="@+id/group_header_share_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/group_header_up"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="5dp"
-                    android:text="共x条share"
-                    android:textColor="@color/pure_white"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-
-    </android.support.design.widget.AppBarLayout>
-
-
-    <ScrollView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_below="@id/group_activity_toolbar"
         tools:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            >
 
 
-            <LinearLayout
-                android:id="@+id/manage_group_layout"
+            <RelativeLayout
+                android:id="@+id/group_header"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-
+                android:layout_height="90dp"
+                android:background="#569597"
                 >
 
-                <ImageView
-                    android:id="@+id/group_invite_button"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ic_launcher"/>
 
-                <TextView
-                    android:id="@+id/group_invite_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="7dp"
-                    android:gravity="center_vertical"
-                    android:text="邀请新成员"/>
-
-                <ImageView
-                    android:id="@+id/group_manage_button"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="40dp"
-                    android:background="@drawable/ic_launcher"/>
-
-                <TextView
-                    android:id="@+id/group_manage_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="7dp"
-                    android:gravity="center_vertical"
-                    android:text="群组管理"/>
-
-
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/line_chart"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_below="@id/manage_group_layout"
-                android:layout_margin="@dimen/group_dimen"
-                android:background="@color/gray_d8"
-                />
-
-
-            <LinearLayout
-                android:id="@+id/active_member"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line_chart"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/group_dimen">
-
-
-                <ImageView
-                    android:id="@+id/active_members_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_launcher"
-                    />
-
-                <TextView
-                    android:id="@+id/active_member_text"
+                <LinearLayout
+                    android:id="@+id/group_header_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/active_member"
-                    />
-            </LinearLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="35dp"
+                    android:orientation="vertical"
+                    android:paddingRight="40dp">
 
-            <LinearLayout
-                android:id="@+id/active_member_layout"
+
+                    <TextView
+                        android:id="@+id/group_create_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:text="创建于xxxxxx"
+                        android:textColor="@color/pure_white"/>
+
+
+                    <TextView
+                        android:id="@+id/group_header_share_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/group_header_up"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="5dp"
+                        android:text="共x条share"
+                        android:textColor="@color/pure_white"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_below="@id/active_member"
-                android:orientation="horizontal"
-                android:paddingBottom="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="30dp"
-                android:paddingTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/group_header"
                 >
 
-                <LinearLayout
-                    android:id="@+id/active_member_layout1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/active_member_layout1_portrait"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/mine"
-                        tools:border_color="#FF000000"
-                        tools:border_width="0dp"/>
-
-                    <TextView
-                        android:id="@+id/active_member_layout1_name"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="name"/>
-
-
-                </LinearLayout>
-
 
                 <LinearLayout
-                    android:id="@+id/active_member_layout2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/active_member_layout2_portrait"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/mine"
-                        tools:border_color="#FF000000"
-                        tools:border_width="0dp"/>
-
-                    <TextView
-                        android:id="@+id/active_member_layout2_name"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="name"/>
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/active_member_layout3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/active_member_layout3_portrait"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/mine"
-                        tools:border_color="#FF000000"
-                        tools:border_width="0dp"/>
-
-                    <TextView
-                        android:id="@+id/active_member_layout3_name"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="name"/>
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/active_member_layout4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/active_member_layout4_portrait"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/mine"
-                        tools:border_color="#FF000000"
-                        tools:border_width="0dp"/>
-
-                    <TextView
-                        android:id="@+id/active_member_layout4_name"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="name"/>
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/group_member"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/active_member_layout"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/group_dimen">
-
-
-                <ImageView
-                    android:id="@+id/group_members_icon"
-                    android:layout_width="30dp"
+                    android:id="@+id/manage_group_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@drawable/ic_launcher"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <ImageView
+                        android:id="@+id/group_invite_button"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_launcher"/>
+
+                    <TextView
+                        android:id="@+id/group_invite_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="7dp"
+                        android:gravity="center_vertical"
+                        android:text="邀请新成员"/>
+
+                    <ImageView
+                        android:id="@+id/group_manage_button"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:background="@drawable/ic_launcher"/>
+
+                    <TextView
+                        android:id="@+id/group_manage_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="7dp"
+                        android:gravity="center_vertical"
+                        android:text="群组管理"/>
+
+
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_below="@id/manage_group_layout"
+                    android:layout_margin="@dimen/group_dimen"
+                    android:background="@color/gray_d8"
                     />
 
-                <TextView
-                    android:id="@+id/group_member_text"
+
+                <LinearLayout
+                    android:id="@+id/active_member"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/group_member"
-                    />
-            </LinearLayout>
+                    android:layout_below="@id/line_chart"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/group_dimen">
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/group_activity_group_members_list"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_below="@id/group_member"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="30dp"/>
+                    <ImageView
+                        android:id="@+id/active_members_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_launcher"
+                        />
+
+                    <TextView
+                        android:id="@+id/active_member_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/active_member"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/active_member_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_below="@id/active_member"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="15dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/active_member_layout1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/active_member_layout1_portrait"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/mine"
+                            tools:border_color="#FF000000"
+                            tools:border_width="0dp"/>
+
+                        <TextView
+                            android:id="@+id/active_member_layout1_name"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="name"/>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/active_member_layout2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/active_member_layout2_portrait"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/mine"
+                            tools:border_color="#FF000000"
+                            tools:border_width="0dp"/>
+
+                        <TextView
+                            android:id="@+id/active_member_layout2_name"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="name"/>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/active_member_layout3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/active_member_layout3_portrait"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/mine"
+                            tools:border_color="#FF000000"
+                            tools:border_width="0dp"/>
+
+                        <TextView
+                            android:id="@+id/active_member_layout3_name"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="name"/>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/active_member_layout4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/active_member_layout4_portrait"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/mine"
+                            tools:border_color="#FF000000"
+                            tools:border_width="0dp"/>
+
+                        <TextView
+                            android:id="@+id/active_member_layout4_name"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="name"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/group_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/active_member_layout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/group_dimen">
+
+
+                    <ImageView
+                        android:id="@+id/group_members_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_launcher"
+                        />
+
+                    <TextView
+                        android:id="@+id/group_member_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/group_member"
+                        />
+                </LinearLayout>
+
+                <!--todo-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/group_activity_group_members_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_below="@id/group_member"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="30dp"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

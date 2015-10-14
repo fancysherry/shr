@@ -13,6 +13,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.net.MalformedURLException;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.Util.PhotoLoader;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.util.IconFinder;
@@ -22,7 +23,7 @@ import unique.fancysherry.shr.util.IconFinder;
  */
 public class GroupShareViewHolder extends RecyclerView.ViewHolder
 {
-  SimpleDraweeView share_icon;
+  ImageView share_icon;
   TextView share_title;
   SimpleDraweeView user_portrait;
   TextView user_introduce;
@@ -34,7 +35,7 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
   public GroupShareViewHolder(View itemView, GroupShareAdapter pGroupShareAdapter, Context pContext) {
     super(itemView);
     this.context = pContext;
-    this.share_icon = (SimpleDraweeView) itemView.findViewById(R.id.share_list_item_share_icon);
+    this.share_icon = (ImageView) itemView.findViewById(R.id.share_list_item_share_icon);
     this.share_title = (TextView) itemView.findViewById(R.id.share_list_item_share_title);
     this.user_portrait =
         (SimpleDraweeView) itemView.findViewById(R.id.share_list_item_user_portrait);
@@ -45,17 +46,16 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
   }
 
   public void onBindViewHolder(Share share) {
-
-
     share_title.setText(share.title);
     if (!share.intro.equals(""))
       user_introduce.setText(share.intro);
-    try {
-      share_icon.setImageURI(getIconUri(share.url));
-      Log.e("share_url", share.url);
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
+//       share_icon.setImageURI(getIconUri(share.url));
+//      Log.e("share_url", share.url);w
+//    } catch (MalformedURLException e) {
+//      e.printStackTrace();
+//    }
     view.setTag(share);
   }
 

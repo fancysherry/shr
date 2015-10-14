@@ -62,7 +62,7 @@ public class IconFinder {
   // 获取Icon地址
   public static String getIconUrlString(String urlString) throws MalformedURLException {
 
-    urlString = getFinalUrl(urlString);
+//    urlString = getFinalUrl(urlString);
     URL url = new URL(urlString);
     String iconUrl = url.getProtocol() + "://" + url.getHost() + "/favicon.ico";// 保证从域名根路径搜索
     return iconUrl;

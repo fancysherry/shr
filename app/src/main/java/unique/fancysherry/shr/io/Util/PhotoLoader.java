@@ -199,18 +199,18 @@ public class PhotoLoader {
     }
   }
 
-  public static void loadImg(final ImageView imageView, String url, int defaultResourceID) {
-    loadImg(imageView, url, defaultResourceID, null);
+  public static void loadImg(final ImageView imageView, String url) {
+    loadImg(imageView, url, null);
   }
 
-  public static void loadImg(final ImageView imageView, String url, int defaultResourceID,
+  public static void loadImg(final ImageView imageView, String url,
       Option option) {
     final PhotoLoader mPhotoLoader = PhotoLoader.getObject(imageView, url, option);
     if (mPhotoLoader != null) {
       if (mPhotoLoader.getLoadingState() != ContentState.DONE) {
         mPhotoLoader.loadFromRamCache(mRequestManager, imageView);
         if (mPhotoLoader.getLoadingState() != ContentState.DONE) {
-          imageView.setImageResource(defaultResourceID);
+//          imageView.setImageResource(defaultResourceID);
           mPhotoLoader.setContentState(ContentState.LOADING);
           if (saveTraffic) {
             mPhotoLoader.getLoadOption().loadSource = LoadSource.ONLY_FROM_CACHE;

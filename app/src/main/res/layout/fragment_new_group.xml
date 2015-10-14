@@ -6,7 +6,6 @@
               android:orientation="vertical"
               tools:context="unique.fancysherry.shr.ui.fragment.NewGroupFragment">
 
-
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
@@ -29,27 +28,31 @@
         android:id="@+id/new_group_name"
         android:layout_width="250dp"
         android:layout_height="35dp"
-        android:layout_marginTop="50dp"
-        android:background="@color/gray_d8"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical"/>
+        android:layout_marginTop="50dp"
+        android:background="@drawable/edittext_normal"
+        android:gravity="center_vertical"
+        android:hint="组名"
+        android:textSize="14sp"/>
 
 
     <EditText
         android:id="@+id/new_group_introduce"
         android:layout_width="250dp"
         android:layout_height="35dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/gray_d8"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical"/>
+        android:layout_marginTop="30dp"
+        android:background="@drawable/edittext_normal"
+        android:gravity="center_vertical"
+        android:hint="组介绍"
+        android:textSize="14sp"/>
 
     <ImageView
-        android:layout_marginTop="30dp"
         android:id="@+id/new_group_button"
-        android:background="@color/gray_d8"
-        android:gravity="center_horizontal"
         android:layout_width="100dp"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/gray_d8"
+        android:gravity="center_horizontal"/>
 
 </LinearLayout>

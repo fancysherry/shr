@@ -18,8 +18,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by fancysherry on 15-7-14.
  */
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>
-// implements
-// View.OnClickListener
+    implements
+    View.OnClickListener
 {
   private List<User> items = null;
 
@@ -68,23 +68,23 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     return items.get(position).hashCode();
   }
 
-  // @Override
-  // public void onClick(View v) {
-  // if (mOnItemClickListener != null) {
-  // // 注意这里使用getTag方法获取数据
-  // mOnItemClickListener.onItemClick(v, (Share) v.getTag());
-  // }
-  // }
-  //
-  // private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-  //
-  // public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-  // this.mOnItemClickListener = listener;
-  // }
-  //
-  // public interface OnRecyclerViewItemClickListener {
-  // void onItemClick(View view, Share data);
-  // }
+  @Override
+  public void onClick(View v) {
+    if (mOnItemClickListener != null) {
+      // 注意这里使用getTag方法获取数据
+      mOnItemClickListener.onItemClick(v, (User) v.getTag());
+    }
+  }
+
+  private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+  public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+    this.mOnItemClickListener = listener;
+  }
+
+  public interface OnRecyclerViewItemClickListener {
+    void onItemClick(View view, User data);
+  }
 
 
 

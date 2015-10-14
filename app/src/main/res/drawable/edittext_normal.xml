@@ -9,9 +9,9 @@
 
     <!-- 设置padding -->
     <padding
-        android:bottom="10dp"
+        android:bottom="7dp"
         android:left="10dp"
         android:right="10dp"
-        android:top="10dp" />
+        android:top="7dp" />
 
 </shape>  

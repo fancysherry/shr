@@ -63,8 +63,6 @@ public class DrawerFragment extends Fragment {
   TextView gratitude_num;
   @InjectView(R.id.drawer_header_portrait)
   SimpleDraweeView portrait;
-  @InjectView(R.id.drawer_add_group)
-  TextView add_group_button;
   @InjectView(R.id.drawer_list)
   RecyclerView mDrawerRecyclerView;
   @InjectView(R.id.drawer_message_title)
@@ -99,7 +97,6 @@ public class DrawerFragment extends Fragment {
       }
     };
 
-
     // // Read in the flag indicating whether or not the user has demonstrated awareness of the
     // // drawer. See PREF_USER_LEARNED_DRAWER for details.
     // SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -111,8 +108,6 @@ public class DrawerFragment extends Fragment {
     // group_name_list = savedInstanceState.getStringArrayList(ITEM_LIST);
     // mFromSavedInstanceState = true;
     // }
-
-
   }
 
 
@@ -196,18 +191,6 @@ public class DrawerFragment extends Fragment {
         mDrawerLayout.closeDrawers();
       }
     });
-
-    add_group_button.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (mDrawerLayout != null) {
-          mDrawerLayout.closeDrawer(mFragmentContainerView);
-        }
-        if (mCallbacks != null) {
-          mCallbacks.onAddGroupListener();
-        }
-      }
-    });
     initAdapter();
     return view;
   }
@@ -221,7 +204,17 @@ public class DrawerFragment extends Fragment {
     drawItemAdapter.setOnItemClickListener(new DrawItemAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Group group) {
-        selectItem(group.name);
+        if (group.name != null)
+          selectItem(group.name);
+        else
+        {
+          if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+          }
+          if (mCallbacks != null) {
+            mCallbacks.onAddGroupListener();
+          }
+        }
       }
     });
 

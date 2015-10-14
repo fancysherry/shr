@@ -38,10 +38,10 @@ public class GroupShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
   public GroupShareAdapter(Context pContext)
   {
     this.context = pContext;
-    setHasStableIds(true);//必须该方法，不然可能bindviewtype不执行
+    setHasStableIds(true);// 必须该方法，不然可能bindviewtype不执行
   }
 
-  public enum CommonFrature {
+  public enum CommonFeature {
     COMMON, FOOTER, DATE
   }
 
@@ -63,7 +63,8 @@ public class GroupShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
   public void setData(List<Share> items) throws ParseException {
     this.items = items;
     Collections.reverse(this.items);
-    setViewTypeArray();
+    if (items.size() != 0)
+      setViewTypeArray();
     notifyDataSetChanged();
   }
 
@@ -116,14 +117,14 @@ public class GroupShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         view_type_array.add(items.get(i));
       }
     }
-//    Log.e("view_type_array_size", String.valueOf(view_type_array.size()));
-//    for (int j = 0; j < view_type_array.size(); j++)
-//    {
-//      if (view_type_array.get(j) != null)
-//        Log.e("view_type_array", j + " " + view_type_array.get(j).share_time);
-//      else
-//        Log.e("view_type_array", j + " null");
-//    }
+    // Log.e("view_type_array_size", String.valueOf(view_type_array.size()));
+    // for (int j = 0; j < view_type_array.size(); j++)
+    // {
+    // if (view_type_array.get(j) != null)
+    // Log.e("view_type_array", j + " " + view_type_array.get(j).share_time);
+    // else
+    // Log.e("view_type_array", j + " null");
+    // }
 
     // Log.e("view_type_array_size", String.valueOf(view_type_array.size()));
 
@@ -132,7 +133,7 @@ public class GroupShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView = null;
-    if (CommonFrature.COMMON.ordinal() == viewType) {
+    if (CommonFeature.COMMON.ordinal() == viewType) {
       itemView =
           LayoutInflater.from(parent.getContext()).inflate(R.layout.group_share_list_item,
               parent,
@@ -159,11 +160,11 @@ public class GroupShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // Implement your logic here
     if (view_type_array.get(position).getType() == null) {
       Log.e("position_viewtype:", position + "    common");
-      return CommonFrature.COMMON.ordinal();
+      return CommonFeature.COMMON.ordinal();
     }
     else {
       Log.e("position_viewtype:", position + "    date");
-      return CommonFrature.DATE.ordinal();
+      return CommonFeature.DATE.ordinal();
     }
   }
 

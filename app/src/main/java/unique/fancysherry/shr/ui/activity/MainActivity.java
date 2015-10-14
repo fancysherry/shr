@@ -26,8 +26,6 @@ public class MainActivity extends BaseActivity
     implements DrawerFragment.NavigationDrawerCallbacks,
     NewGroupFragment.OnNewGroupListener, ShareContentFragment.OnGetGroupIdListener {
 
-  private List<String> group_name_list = new ArrayList<String>();
-  private static final String ITEM_LIST = "ITEM_LIST";
   public FragmentManager fragmentManager;
 
   /**
@@ -44,22 +42,13 @@ public class MainActivity extends BaseActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-    // DrawerLayout child = (DrawerLayout) inflater.inflate(R.layout.activity_main, null);
-    // ((ViewGroup) child.getParent()).removeView(child);
     context = this;
     setContentView(R.layout.activity_main);
     initView();
     initializeToolbar();
     getSupportActionBar().setTitle("消息");
     mToolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-    // if (savedInstanceState != null) {
-    // group_name_list = savedInstanceState.getStringArrayList(ITEM_LIST);
-    // }
-
   }
-
 
   private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
     @Override
@@ -81,7 +70,6 @@ public class MainActivity extends BaseActivity
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
   }
@@ -93,7 +81,6 @@ public class MainActivity extends BaseActivity
     mDrawerFragment = (DrawerFragment)
         getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-    // Set up the drawer.
     mDrawerFragment.setUp(
         R.id.navigation_drawer,
         (DrawerLayout) findViewById(R.id.drawerLayout));
@@ -105,7 +92,6 @@ public class MainActivity extends BaseActivity
   public void onNavigationDrawerItemSelected(String group_name) {
     // update the main content by replacing fragments
     fragmentManager = getSupportFragmentManager();
-
 
     if (group_name.equals("notification")) {
       fragmentManager.beginTransaction()
@@ -131,6 +117,8 @@ public class MainActivity extends BaseActivity
 
   @Override
   public void onAddGroupListener() {
+    if (fragmentManager == null)
+      fragmentManager = getSupportFragmentManager();
     fragmentManager
         .beginTransaction()
         .replace(R.id.container,
@@ -148,7 +136,6 @@ public class MainActivity extends BaseActivity
   @Override
   public void OnNewGroupFinish(String group_name) {
     mDrawerFragment.refresh();
-
     fragmentManager
         .beginTransaction()
         .replace(R.id.container,
@@ -156,12 +143,6 @@ public class MainActivity extends BaseActivity
         .commit();
 
   }
-
-  // @Override
-  // public void onSaveInstanceState(Bundle outState) {
-  // super.onSaveInstanceState(outState);
-  // outState.putStringArrayList(ITEM_LIST, group_name_list);
-  // }
 
   @Override
   public void OnGetGroupId(String id) {

@@ -23,13 +23,14 @@
             android:paddingRight="20dp">
 
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/share_list_item_share_icon"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
                 android:background="@color/gray_87"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                />
 
             <TextView
                 android:id="@+id/share_list_item_share_title"
@@ -72,7 +73,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="1dp"
                 android:scaleType="fitXY"
-                app:placeholderImage="@drawable/mine"
+                app:placeholderImage="@drawable/portrait"
                 app:roundAsCircle="true"/>
 
 

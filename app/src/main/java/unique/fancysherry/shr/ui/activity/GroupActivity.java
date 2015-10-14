@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.adapter.recycleview.DeleteMemberAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.MemberAdapter;
+import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
@@ -98,8 +100,12 @@ public class GroupActivity extends AppCompatActivity {
     runnable = new Runnable() {
       @Override
       public void run() {
-        group_create_time.setText(group.create_time);
-        // group_shr_num.setText(String.valueOf(group.shares.size()));
+        try {
+          group_create_time.setText("创建于" + DateUtil.toDate(group.create_time));
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
+        group_shr_num.setText("共" + String.valueOf(group.shares.size()) + "条Shr");
         manageAdapter.setData(group.users);
       }
     };
@@ -119,8 +125,8 @@ public class GroupActivity extends AppCompatActivity {
       getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
     mToolbar = (Toolbar) findViewById(R.id.group_activity_toolbar);
-    mToolbar.setTitle("");
     setSupportActionBar(mToolbar);
+    getSupportActionBar().setTitle("");
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);

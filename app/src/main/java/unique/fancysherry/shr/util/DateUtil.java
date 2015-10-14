@@ -182,6 +182,14 @@ public class DateUtil {
     }
   }
 
+  public static String toDate(String date) throws ParseException {
+    String time = getTime(date);
+    String date_year = time.substring(0, 4);
+    String date_month = time.substring(5, 7);
+    String date_day = time.substring(8, 10);
+    return date_year + "年" + date_month + "月" + date_day + "日";
+  }
+
   private static String getTime(String time) {
     Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
     Matcher matcher = pattern.matcher(time);

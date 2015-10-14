@@ -131,28 +131,4 @@
         android:drawSelectorOnTop="true"
         android:listSelector="?android:selectableItemBackground"/>
 
-
-    <LinearLayout
-        android:id="@+id/drawer_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/drawer_list"
-        android:minHeight="@dimen/drawer_item_height"
-        android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        >
-
-        <TextView
-            android:id="@+id/drawer_add_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/add_group"
-            android:textColor="#c2c2c2"
-            android:textSize="16sp"/>
-
-
-    </LinearLayout>
-
-
 </unique.fancysherry.shr.ui.widget.ScrimInsetsRelativeLayout>

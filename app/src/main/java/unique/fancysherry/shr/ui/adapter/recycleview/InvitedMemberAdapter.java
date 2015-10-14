@@ -72,10 +72,10 @@ public class InvitedMemberAdapter extends RecyclerView.Adapter<InvitedMemberAdap
       return items.size();
   }
 
-  // @Override
-  // public long getItemId(int position) {
-  // return items.get(position).hashCode();
-  // }
+   @Override
+   public long getItemId(int position) {
+   return items.get(position).hashCode();
+   }
 
   // @Override
   // public void onClick(View v) {

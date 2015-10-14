@@ -25,6 +25,9 @@ public class Group implements Parcelable {
   public String name;
   public String id;
 
+  public Group()
+  {}
+
   // 1.必须实现Parcelable.Creator接口,否则在获取Person数据的时候，会报错，如下：
   // android.os.BadParcelableException:
   // Parcelable protocol requires a Parcelable.Creator object called CREATOR on class

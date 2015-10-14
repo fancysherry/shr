@@ -34,9 +34,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:gravity="center_vertical|right"
-android:layout_marginRight="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
+        android:gravity="center_vertical|right"
         android:orientation="horizontal"
         >
 
@@ -54,8 +54,8 @@ android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
             android:layout_marginLeft="2dp"
+            android:gravity="center_vertical"
             android:text="Sh"
             />
 
@@ -73,8 +73,8 @@ android:layout_marginRight="10dp"
             android:id="@+id/member_item_gratitude_num_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
             android:gravity="center_vertical"
             android:text="感谢"
             />

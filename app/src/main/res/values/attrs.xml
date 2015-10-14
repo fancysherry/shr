@@ -15,7 +15,26 @@
   limitations under the License.
   -->
 <resources>
-    <attr name="tagViewStyle" format="reference" />
+
+    <declare-styleable name="ProgressWheel">
+        <attr name="pwText" format="string"/>
+        <attr name="pwTextColor" format="color"/>
+        <attr name="pwTextSize" format="dimension"/>
+        <attr name="pwBarColor" format="color"/>
+        <attr name="pwRimColor" format="color"/>
+        <attr name="pwRimWidth" format="dimension"/>
+        <attr name="pwSpinSpeed" format="dimension"/>
+        <attr name="pwDelayMillis" format="integer"/>
+        <attr name="pwCircleColor" format="color"/>
+        <attr name="pwRadius" format="dimension"/>
+        <attr name="pwBarWidth" format="dimension"/>
+        <attr name="pwBarLength" format="dimension"/>
+        <attr name="pwContourColor" format="color"/>
+        <attr name="pwContourSize" format="dimension"/>
+    </declare-styleable>
+
+
+    <attr name="tagViewStyle" format="reference"/>
     <declare-styleable name="TagView">
         <attr name="tagCornerRadius" format="dimension"/>
         <attr name="tagPadding" format="dimension"/>
@@ -23,14 +42,9 @@
     </declare-styleable>
 
 
-
-
-
     <declare-styleable name="ScrimInsetsView">
         <attr name="inset_fore_ground" format="reference|color"/>
     </declare-styleable>
-
-
 
 
     <declare-styleable name="STextView">
@@ -54,49 +68,49 @@
 
     <declare-styleable name="TagGroup">
         <!-- Whether the tag group is in append mode. -->
-        <attr name="atg_isAppendMode" format="boolean" />
+        <attr name="atg_isAppendMode" format="boolean"/>
         <!-- If the tag group is in append mode, what the hint of input tag. -->
-        <attr name="atg_inputHint" format="string" />
+        <attr name="atg_inputHint" format="string"/>
 
         <!-- The tag view outline border color. -->
-        <attr name="atg_borderColor" format="color" />
+        <attr name="atg_borderColor" format="color"/>
         <!-- The tag view text color. -->
-        <attr name="atg_textColor" format="color" />
+        <attr name="atg_textColor" format="color"/>
         <!-- The tag view background color. -->
-        <attr name="atg_backgroundColor" format="color" />
+        <attr name="atg_backgroundColor" format="color"/>
 
         <!-- The dash outline border color, when in append mode. -->
-        <attr name="atg_dashBorderColor" format="color" />
+        <attr name="atg_dashBorderColor" format="color"/>
         <!-- The input tag hint text color, when in append mode. -->
-        <attr name="atg_inputHintColor" format="color" />
+        <attr name="atg_inputHintColor" format="color"/>
         <!-- The input tag type text color, when in append mode. -->
-        <attr name="atg_inputTextColor" format="color" />
+        <attr name="atg_inputTextColor" format="color"/>
 
         <!-- The checked tag view outline border color. -->
-        <attr name="atg_checkedBorderColor" format="color" />
+        <attr name="atg_checkedBorderColor" format="color"/>
         <!-- The checked text color. -->
-        <attr name="atg_checkedTextColor" format="color" />
+        <attr name="atg_checkedTextColor" format="color"/>
         <!-- The checked marker color. -->
-        <attr name="atg_checkedMarkerColor" format="color" />
+        <attr name="atg_checkedMarkerColor" format="color"/>
         <!-- The checked tag view background color. -->
-        <attr name="atg_checkedBackgroundColor" format="color" />
+        <attr name="atg_checkedBackgroundColor" format="color"/>
 
         <!-- The tag view background color, when the tag view is being pressed. -->
-        <attr name="atg_pressedBackgroundColor" format="color" />
+        <attr name="atg_pressedBackgroundColor" format="color"/>
 
         <!-- The tag view outline border stroke width. -->
-        <attr name="atg_borderStrokeWidth" format="dimension" />
+        <attr name="atg_borderStrokeWidth" format="dimension"/>
         <!-- The tag view text size. -->
-        <attr name="atg_textSize" format="dimension" />
+        <attr name="atg_textSize" format="dimension"/>
 
-        <attr name="atg_horizontalSpacing" format="dimension" />
-        <attr name="atg_verticalSpacing" format="dimension" />
-        <attr name="atg_horizontalPadding" format="dimension" />
-        <attr name="atg_verticalPadding" format="dimension" />
+        <attr name="atg_horizontalSpacing" format="dimension"/>
+        <attr name="atg_verticalSpacing" format="dimension"/>
+        <attr name="atg_horizontalPadding" format="dimension"/>
+        <attr name="atg_verticalPadding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="Themes">
-        <attr name="tagGroupStyle" format="reference" />
+        <attr name="tagGroupStyle" format="reference"/>
     </declare-styleable>
 
 </resources>
