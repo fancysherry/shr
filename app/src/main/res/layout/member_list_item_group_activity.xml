@@ -27,7 +27,7 @@
         android:id="@+id/member_item_level"
         style="@style/text_item_message_content"
         android:layout_below="@id/member_item_nickname"
-        android:text="lv6"
+        android:text="Lvl 6"
         />
 
     <LinearLayout
@@ -56,7 +56,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="2dp"
             android:gravity="center_vertical"
-            android:text="Sh"
+            android:text="Shr"
             />
 
         <TextView
@@ -82,9 +82,5 @@
 
     </LinearLayout>
 
-
-    <View
-        style="@style/view_item_message_divider"
-        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

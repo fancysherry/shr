@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:background="#eeeeee"
-                tools:context="unique.fancysherry.shr.ui.activity.GroupManageActivity">
+                tools:context="unique.fancysherry.shr.ui.activity.GroupEditActivity">
 
     <FrameLayout
         android:id="@+id/activity_group_manage_header"

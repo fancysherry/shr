@@ -16,11 +16,11 @@ public class Share implements Parcelable {
   public String intro;
   public String group; // share 所在组
   public String share_time;
-  public ShareOrigin shareOrigin;
+  public User origin;
   public String gratitude_sum;
   public String type;
 
-  public List<ShareOrigin> others;
+  public List<User> others;
 
   public Share()
   {}
@@ -61,7 +61,7 @@ public class Share implements Parcelable {
     intro = in.readString();
     group = in.readString();
     share_time = in.readString();
-    shareOrigin = in.readParcelable(getClass().getClassLoader());
+    origin = in.readParcelable(getClass().getClassLoader());
     gratitude_sum = in.readString();
     type = in.readString();
     in.readList(others, getClass().getClassLoader());
@@ -83,7 +83,7 @@ public class Share implements Parcelable {
     dest.writeString(intro);
     dest.writeString(group);
     dest.writeString(share_time);
-    dest.writeParcelable(shareOrigin, flags);
+    dest.writeParcelable(origin, flags);
     dest.writeString(gratitude_sum);
     dest.writeList(others);
     dest.writeString(type);

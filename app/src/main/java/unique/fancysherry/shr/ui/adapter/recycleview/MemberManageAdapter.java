@@ -17,7 +17,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by fancysherry on 15-7-14.
  */
-public class GroupManageAdapter extends RecyclerView.Adapter<GroupManageAdapter.ViewHolder>
+public class MemberManageAdapter extends RecyclerView.Adapter<MemberManageAdapter.ViewHolder>
 // implements
 // View.OnClickListener
 {
@@ -26,7 +26,7 @@ public class GroupManageAdapter extends RecyclerView.Adapter<GroupManageAdapter.
 
   private Context context;
 
-  public GroupManageAdapter(Context pContext)
+  public MemberManageAdapter(Context pContext)
   {
     this.context = pContext;
     setHasStableIds(true);
@@ -70,10 +70,10 @@ public class GroupManageAdapter extends RecyclerView.Adapter<GroupManageAdapter.
       return items.size();
   }
 
-  // @Override
-  // public long getItemId(int position) {
-  // return items.get(position).hashCode();
-  // }
+   @Override
+   public long getItemId(int position) {
+   return items.get(position).hashCode();
+   }
 
   // @Override
   // public void onClick(View v) {
@@ -108,7 +108,7 @@ public class GroupManageAdapter extends RecyclerView.Adapter<GroupManageAdapter.
 
 
 
-    public ViewHolder(View itemView, GroupManageAdapter manageAdapter, Context pContext) {
+    public ViewHolder(View itemView, MemberManageAdapter manageAdapter, Context pContext) {
       super(itemView);
       this.context = pContext;
       this.group_manage_item_portrait =

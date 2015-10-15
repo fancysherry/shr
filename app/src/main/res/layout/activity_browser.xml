@@ -23,16 +23,16 @@
             android:layout_below="@id/browser_activity_toolbar"/>
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/webview_content_back_button"
-            android:layout_width="31dp"
-            android:layout_height="31dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="25dp"
-            android:src="@drawable/ic_launcher"
-            tools:border_color="#FF000000"
-            tools:border_width="0dp"/>
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--android:id="@+id/webview_content_back_button"-->
+            <!--android:layout_width="31dp"-->
+            <!--android:layout_height="31dp"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:layout_marginLeft="25dp"-->
+            <!--android:src="@drawable/ic_launcher"-->
+            <!--tools:border_color="#FF000000"-->
+            <!--tools:border_width="0dp"/>-->
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -46,16 +46,16 @@
             tools:border_color="#FF000000"
             tools:border_width="0dp"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/webview_content_gratitude_button"
-            android:layout_width="31dp"
-            android:layout_height="31dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="25dp"
-            android:layout_marginRight="65dp"
-            android:src="@drawable/ic_launcher"
-            tools:border_color="#FF000000"
-            tools:border_width="0dp"/>
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--android:id="@+id/webview_content_gratitude_button"-->
+            <!--android:layout_width="31dp"-->
+            <!--android:layout_height="31dp"-->
+            <!--android:layout_gravity="bottom|right"-->
+            <!--android:layout_marginBottom="25dp"-->
+            <!--android:layout_marginRight="65dp"-->
+            <!--android:src="@drawable/ic_launcher"-->
+            <!--tools:border_color="#FF000000"-->
+            <!--tools:border_width="0dp"/>-->
 
 
     </FrameLayout>

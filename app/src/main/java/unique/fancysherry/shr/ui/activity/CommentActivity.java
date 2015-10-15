@@ -54,6 +54,7 @@ public class CommentActivity extends AppCompatActivity {
   private Handler mHandler;
   private Runnable mRunnable;
   private Runnable mRunable_failure;
+  private Runnable mRunable_toolbar;
 
   private String comment_content_input;
 
@@ -73,6 +74,7 @@ public class CommentActivity extends AppCompatActivity {
         Toast.makeText(context, "评论发送成功", Toast.LENGTH_LONG).show();
         comment_sending_progress.setVisibility(View.INVISIBLE);
         comment_send.setVisibility(View.VISIBLE);
+        getSupportActionBar().setTitle("评论" + comment_data.size());
       }
     };
 
@@ -82,14 +84,21 @@ public class CommentActivity extends AppCompatActivity {
         Toast.makeText(context, "评论发送失败", Toast.LENGTH_LONG).show();
         comment_sending_progress.setVisibility(View.INVISIBLE);
         comment_send.setVisibility(View.VISIBLE);
+        getSupportActionBar().setTitle("评论" + comment_data.size());
       }
     };
 
+    mRunable_toolbar = new Runnable() {
+      @Override
+      public void run() {
+        getSupportActionBar().setTitle("评论" + comment_data.size());
+      }
+    };
 
     Bundle mBundle = getIntent().getExtras();
     share_id = mBundle.getString("share_id");
 
-    comment_sending_progress_text=(TextView)findViewById(R.id.comment_sending_progress_text1);
+    comment_sending_progress_text = (TextView) findViewById(R.id.comment_sending_progress_text1);
     comment_send_content = (EditText) findViewById(R.id.comment_send_content);
     comment_send = (LinearLayout) findViewById(R.id.comment_send_layout);
     comment_sending_progress = (LinearLayout) findViewById(R.id.comment_sending_progress_layout);
@@ -120,23 +129,25 @@ public class CommentActivity extends AppCompatActivity {
     Toolbar mToolbar = (Toolbar) findViewById(R.id.comment_activity_toolbar);
 
     setSupportActionBar(mToolbar);
+    getSupportActionBar().setTitle("");
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    mToolbar.setOnMenuItemClickListener(onMenuItemClick);
+//    mToolbar.setOnMenuItemClickListener(onMenuItemClick);
 
   }
 
-  private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-      switch (menuItem.getItemId()) {
-        case android.R.id.home:
-          finish();
-      }
-      return true;
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+    if (id == android.R.id.home) {
+      finish();
     }
-  };
+    return super.onOptionsItemSelected(item);
+  }
 
   public void getCommentList()
   {
@@ -150,6 +161,7 @@ public class CommentActivity extends AppCompatActivity {
               public void onResponse(CommentList comments) {
                 commentAdapter.setData(comments.comments);
                 comment_data = comments.comments;
+                mHandler.post(mRunable_toolbar);
               }
             }, new Response.ErrorListener() {
               @Override
@@ -171,7 +183,7 @@ public class CommentActivity extends AppCompatActivity {
 
     GsonRequest<GsonRequest.FormResult> comment_request =
         new GsonRequest<>(Request.Method.POST,
-                APIConstants.BASE_URL+"/comment", getHeader(),
+            APIConstants.BASE_URL + "/comment", getHeader(),
             getParams_send_comment(),
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
@@ -206,25 +218,25 @@ public class CommentActivity extends AppCompatActivity {
 
 
     GsonRequest<GsonRequest.FormResult> comment_request =
-            new GsonRequest<>(Request.Method.POST,
-                    APIConstants.BASE_URL+"/comment", getHeader(),
-                    getParams_send_comment(),
-                    GsonRequest.FormResult.class,
-                    new Response.Listener<GsonRequest.FormResult>() {
-                      @Override
-                      public void onResponse(GsonRequest.FormResult result) {
+        new GsonRequest<>(Request.Method.POST,
+            APIConstants.BASE_URL + "/comment", getHeader(),
+            getParams_send_comment(),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
 
-                        if (result.message.equals("success")) {
-                          mHandler.post(mRunnable);
-                          getCommentList();
-                          comment_send_content.setText("");
-                        }
-                        else
-                          mHandler.post(mRunable_failure);
+                if (result.message.equals("success")) {
+                  mHandler.post(mRunnable);
+                  getCommentList();
+                  comment_send_content.setText("");
+                }
+                else
+                  mHandler.post(mRunable_failure);
 
 
-                      }
-                    }, new Response.ErrorListener() {
+              }
+            }, new Response.ErrorListener() {
               @Override
               public void onErrorResponse(VolleyError pVolleyError) {
                 LogUtil.e("response error " + pVolleyError);

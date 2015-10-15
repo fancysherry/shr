@@ -53,8 +53,8 @@ public class BrowserActivity extends AppCompatActivity {
     id = extras.getString("id");
     context = this;
 
-    content_back_bt = (ImageView) findViewById(R.id.webview_content_back_button);
-    gratitude_bt = (ImageView) findViewById(R.id.webview_content_gratitude_button);
+//    content_back_bt = (ImageView) findViewById(R.id.webview_content_back_button);
+//    gratitude_bt = (ImageView) findViewById(R.id.webview_content_gratitude_button);
     comment_bt = (ImageView) findViewById(R.id.webview_content_commment_button);
 
     comment_bt.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +95,18 @@ public class BrowserActivity extends AppCompatActivity {
 
   }
 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+    if (id == android.R.id.home) {
+      finish();
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -103,6 +115,7 @@ public class BrowserActivity extends AppCompatActivity {
     Toolbar mToolbar = (Toolbar) findViewById(R.id.browser_activity_toolbar);
 
     setSupportActionBar(mToolbar);
+    getSupportActionBar().setTitle("");
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);

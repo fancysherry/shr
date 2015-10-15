@@ -6,6 +6,7 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.User;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   public void setData(List<User> items)
   {
     this.items = items;
+    Log.e("memberAdapter", "size   " + items.size());
     notifyDataSetChanged();
   }
 
@@ -48,7 +50,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
-    holder.group_member_item_name.setText(items.get(position).name);
+    Log.e("memberAdapter", items.get(position).name + "   " + position);
+    holder.member_item_name.setText(items.get(position).name);
     // holder.member_item_shr_num.setText(String.valueOf(items.get(position).shares.size()));
     // holder.member_item_gratitude_num.setText(items.get(position).gratitude_shares_sum);
     // holder.member_item_level.setText(items.get(position).level);
@@ -90,24 +93,24 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
-    CircleImageView group_member_item_portrait;
-    TextView group_member_item_name;
-    TextView group_member_item_level;
-    Button group_member_item_delete_button;
-
+    CircleImageView member_item_portrait;
+    TextView member_item_name;
+    TextView member_item_level;
+    TextView member_item_shr_num;
+    TextView member_item_gratitude_num;
     Context context;
     View view;
 
-    public ViewHolder(View itemView, MemberAdapter pDeleteMemberAdapter, Context pContext) {
+    public ViewHolder(View itemView, MemberAdapter memberAdapter, Context pContext) {
       super(itemView);
       this.context = pContext;
-      this.group_member_item_portrait =
-          (CircleImageView) itemView.findViewById(R.id.group_member_item_portrait);
-      this.group_member_item_level = (TextView) itemView.findViewById(R.id.group_member_item_level);
-      this.group_member_item_name = (TextView) itemView.findViewById(R.id.group_member_item_name);
-      this.group_member_item_delete_button =
-          (Button) itemView.findViewById(R.id.group_member_item_delete_button);
-
+      this.member_item_portrait =
+          (CircleImageView) itemView.findViewById(R.id.member_item_profile);
+      this.member_item_level = (TextView) itemView.findViewById(R.id.member_item_level);
+      this.member_item_name = (TextView) itemView.findViewById(R.id.member_item_nickname);
+      this.member_item_shr_num = (TextView) itemView.findViewById(R.id.member_item_shr_num);
+      this.member_item_gratitude_num =
+          (TextView) itemView.findViewById(R.id.member_item_gratitude_num);
       this.view = itemView;
     }
 

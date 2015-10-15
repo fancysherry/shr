@@ -20,7 +20,8 @@ public class Group implements Parcelable {
   public String group_user_sum;
   public List<User> users;
   public List<Share> shares;
-  public List<User> admin;
+  // public List<User> admin;
+  public User admin;
   public String group_intro;
   public String name;
   public String id;
@@ -66,12 +67,10 @@ public class Group implements Parcelable {
     in.readList(users, getClass().getClassLoader());
     shares = new ArrayList<>();
     in.readList(shares, getClass().getClassLoader());
-    admin=new ArrayList<>();
-    in.readList(admin,getClass().getClassLoader());
-
-    group_intro=in.readString();
-    name=in.readString();
-    id=in.readString();
+    admin = in.readParcelable(getClass().getClassLoader());
+    group_intro = in.readString();
+    name = in.readString();
+    id = in.readString();
   }
 
   @Override
@@ -91,7 +90,7 @@ public class Group implements Parcelable {
     dest.writeString(group_user_sum);
     dest.writeList(users);
     dest.writeList(shares);
-    dest.writeList(admin);
+    dest.writeParcelable(admin, flags);
     dest.writeString(group_intro);
     dest.writeString(name);
     dest.writeString(id);

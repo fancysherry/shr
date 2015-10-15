@@ -2,9 +2,9 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
                 android:background="#eeeeee"
-                tools:context="unique.fancysherry.shr.ui.activity.GroupManageActivity">
+                android:fitsSystemWindows="true"
+                tools:context="unique.fancysherry.shr.ui.activity.GroupEditActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -24,12 +24,13 @@
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:background="@drawable/edittext_normal"
-            android:gravity="center_vertical"
-            android:hint="发送一封邮件给你想邀请的人"/>
+            android:gravity="center"
+            android:hint="发送一封邮件给你想邀请的人"
+            android:textSize="17sp"/>
 
         <Button
-            android:layout_width="43dp"
-            android:layout_height="43dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="#569597"
             android:text="发送"
             />
@@ -56,20 +57,20 @@
             />
 
         <Button
-            android:gravity="center"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
             android:background="@color/gray_d8_20"
+            android:gravity="center"
             android:text="第二方"
             />
 
         <Button
-            android:gravity="center"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
             android:background="@color/gray_d8_20"
+            android:gravity="center"
             android:text="第三方"
             />
 
@@ -82,8 +83,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/invite_method_layout"
         android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:background="@color/gray_d8_20">
+        android:background="@color/gray_d8_20"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/invited_list_title"
@@ -98,9 +99,9 @@
             android:id="@+id/group_invited_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             />
     </LinearLayout>
 

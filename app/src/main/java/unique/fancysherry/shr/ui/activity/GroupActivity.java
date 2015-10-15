@@ -1,11 +1,9 @@
 package unique.fancysherry.shr.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +31,6 @@ import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.adapter.recycleview.DeleteMemberAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.MemberAdapter;
 import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
@@ -46,22 +43,28 @@ public class GroupActivity extends AppCompatActivity {
   TextView group_shr_num;
   @InjectView(R.id.group_invite_button)
   ImageView group_invite_bt;
+  @InjectView(R.id.group_invite_text)
+  TextView group_invite_text;
+  @InjectView(R.id.group_manage_text)
+  TextView group_manage_text;
   @InjectView(R.id.group_manage_button)
   ImageView group_manage_bt;
   @InjectView(R.id.group_activity_group_members_list)
   RecyclerView group_member_list;
-
   @InjectView(R.id.activity_group_toolbar_title)
   TextView activity_group_toolbar_title;
 
   private Group group;
   private String group_id;
+  private String group_name;
   private Handler handler;
   private Runnable runnable;
 
   private MemberAdapter manageAdapter;
   private Activity context;
   private Toolbar mToolbar;
+
+  private Bundle complete_bundle;
 
 
   @Override
@@ -70,11 +73,38 @@ public class GroupActivity extends AppCompatActivity {
     setContentView(R.layout.activity_group);
     ButterKnife.inject(this);
     context = this;
+    complete_bundle = getIntent().getExtras();
+    group_id = complete_bundle.getString("group_id");
+    group_name = complete_bundle.getString("group_name");
+
+
+    group_invite_text.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(context, InviteMemberActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("group_id", group_id);
+        mIntent.putExtras(mBundle);
+        startActivity(mIntent);
+      }
+    });
+
+    group_manage_text.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(context, GroupEditActivity.class);
+        mIntent.putExtras(complete_bundle);
+        startActivity(mIntent);
+      }
+    });
+
     group_invite_bt.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent mIntent = new Intent(context, InviteMemberActivity.class);
-        mIntent.putExtra(group_id, "group_id");
+        Bundle mBundle = new Bundle();
+        mBundle.putString("group_id", group_id);
+        mIntent.putExtras(mBundle);
         startActivity(mIntent);
 
       }
@@ -83,18 +113,16 @@ public class GroupActivity extends AppCompatActivity {
     group_manage_bt.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent mIntent = new Intent(context, GroupManageActivity.class);
-        mIntent.putExtra(group_id, "group_id");
+        Intent mIntent = new Intent(context, GroupEditActivity.class);
+        mIntent.putExtras(complete_bundle);
         startActivity(mIntent);
       }
     });
 
-    Bundle mBundle = getIntent().getExtras();
-    group_id = mBundle.getString("group_id");
     getGroupData();
     initializeToolbar();
     initAdapter();
-
+    initData();
 
     handler = new Handler();
     runnable = new Runnable() {
@@ -105,7 +133,7 @@ public class GroupActivity extends AppCompatActivity {
         } catch (ParseException e) {
           e.printStackTrace();
         }
-        group_shr_num.setText("共" + String.valueOf(group.shares.size()) + "条Shr");
+        // group_shr_num.setText("共" + String.valueOf(group.shares.size()) + "条Shr");
         manageAdapter.setData(group.users);
       }
     };
@@ -115,7 +143,7 @@ public class GroupActivity extends AppCompatActivity {
 
   public void initData()
   {
-
+    activity_group_toolbar_title.setText(group_name);
   }
 
 
@@ -133,16 +161,29 @@ public class GroupActivity extends AppCompatActivity {
 
   }
 
-  private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-      switch (menuItem.getItemId()) {
-        case android.R.id.home:
-          finish();
-      }
-      return true;
+  // private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener()
+  // {
+  // @Override
+  // public boolean onMenuItemClick(MenuItem menuItem) {
+  // switch (menuItem.getItemId()) {
+  // case android.R.id.home:
+  // finish();
+  // }
+  // return true;
+  // }
+  // };
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+    if (id == android.R.id.home) {
+      finish();
     }
-  };
+    return super.onOptionsItemSelected(item);
+  }
 
   private void initAdapter() {
     manageAdapter = new MemberAdapter(this);

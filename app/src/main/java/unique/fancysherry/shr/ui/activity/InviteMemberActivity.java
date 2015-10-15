@@ -1,7 +1,6 @@
 package unique.fancysherry.shr.ui.activity;
 
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.adapter.recycleview.InvitedMemberAdapter;
@@ -24,6 +24,7 @@ public class InviteMemberActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_invite_member);
+    ButterKnife.inject(this);
     initAdapter();
     initializeToolbar();
   }
@@ -32,7 +33,7 @@ public class InviteMemberActivity extends AppCompatActivity {
   {
     invitedMemberAdapter = new InvitedMemberAdapter(this);
     group_invited_list.setLayoutManager(new LinearLayoutManager(this,
-        LinearLayoutManager.VERTICAL, false));
+            LinearLayoutManager.VERTICAL, false));
     group_invited_list.setAdapter(invitedMemberAdapter);
   }
 
@@ -43,7 +44,7 @@ public class InviteMemberActivity extends AppCompatActivity {
     }
     Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(mToolbar);
-    getSupportActionBar().setTitle("");
+    getSupportActionBar().setTitle("邀请成员");
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
@@ -51,15 +52,16 @@ public class InviteMemberActivity extends AppCompatActivity {
   }
 
 
-  private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-      switch (menuItem.getItemId()) {
-        case android.R.id.home:
-          finish();
-      }
-      return true;
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+    if (id == android.R.id.home) {
+      finish();
     }
-  };
+    return super.onOptionsItemSelected(item);
+  }
 
 }

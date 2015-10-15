@@ -1,8 +1,8 @@
 package unique.fancysherry.shr.ui.activity;
 
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,39 +25,38 @@ import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.adapter.recycleview.MemberManageAdapter;
-import unique.fancysherry.shr.util.DateUtil;
+import unique.fancysherry.shr.ui.adapter.recycleview.DeleteMemberAdapter;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class GroupChangeManagerActivity extends AppCompatActivity {
+public class GroupMemberDeleteActivity extends AppCompatActivity {
+  @InjectView(R.id.group_member_list)
+  RecyclerView group_member_list;
 
-  @InjectView(R.id.group_manage_list)
-  RecyclerView group_manage_list;
   private String group_id;
   private Group group;
-  private MemberManageAdapter memberManageAdapter;
+
+  private DeleteMemberAdapter deleteMemberAdapter;
 
   private Handler handler;
   private Runnable runnable;
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_group_change_manager);
+    setContentView(R.layout.activity_group_member_delete);
     ButterKnife.inject(this);
-    initAdapter();
     Bundle mBundle = getIntent().getExtras();
     group_id = mBundle.getString("group_id");
-    initializeToolbar();
+    initAdapter();
     getGroupData();
+    initializeToolbar();
 
     handler = new Handler();
     runnable = new Runnable() {
       @Override
       public void run() {
-        memberManageAdapter.setData(group.users);
+        deleteMemberAdapter.setData(group.users);
       }
     };
 
@@ -66,10 +64,10 @@ public class GroupChangeManagerActivity extends AppCompatActivity {
 
   private void initAdapter()
   {
-    memberManageAdapter = new MemberManageAdapter(this);
-    group_manage_list.setLayoutManager(new LinearLayoutManager(this,
+    deleteMemberAdapter = new DeleteMemberAdapter(this);
+    group_member_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
-    group_manage_list.setAdapter(memberManageAdapter);
+    group_member_list.setAdapter(deleteMemberAdapter);
   }
 
   protected void initializeToolbar() {
@@ -77,7 +75,7 @@ public class GroupChangeManagerActivity extends AppCompatActivity {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.group_manage_activity_toolbar);
+    Toolbar mToolbar = (Toolbar) findViewById(R.id.group_member_activity_toolbar);
     setSupportActionBar(mToolbar);
     getSupportActionBar().setTitle("");
     getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -85,7 +83,6 @@ public class GroupChangeManagerActivity extends AppCompatActivity {
     getSupportActionBar().setHomeButtonEnabled(true);
 
   }
-
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,8 +105,10 @@ public class GroupChangeManagerActivity extends AppCompatActivity {
             new Response.Listener<Group>() {
               @Override
               public void onResponse(Group pGroup) {
-                group = pGroup;
-                handler.post(runnable);
+                // shareAdapter.setData(shares.shares);
+                // mShares = shares.shares;
+                 group = pGroup;
+                 handler.post(runnable);
               }
             }, new Response.ErrorListener() {
               @Override
@@ -147,5 +146,7 @@ public class GroupChangeManagerActivity extends AppCompatActivity {
   public void executeRequest(Request request) {
     SApplication.getRequestManager().executeRequest(request, this);
   }
+
+
 
 }

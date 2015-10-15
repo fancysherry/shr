@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.Util.PhotoLoader;
 import unique.fancysherry.shr.io.model.Share;
+import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.util.IconFinder;
 
@@ -47,15 +48,17 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
 
   public void onBindViewHolder(Share share) {
     share_title.setText(share.title);
+    share_user.setText(shareUserText(share));
     if (!share.intro.equals(""))
       user_introduce.setText(share.intro);
-//    try {
-//      PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
-//       share_icon.setImageURI(getIconUri(share.url));
-//      Log.e("share_url", share.url);w
-//    } catch (MalformedURLException e) {
-//      e.printStackTrace();
-//    }
+
+    // try {
+    // PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
+    // share_icon.setImageURI(getIconUri(share.url));
+    // Log.e("share_url", share.url);w
+    // } catch (MalformedURLException e) {
+    // e.printStackTrace();
+    // }
     view.setTag(share);
   }
 
@@ -70,4 +73,28 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
       return null;
   }
 
+  private String shareUserText(Share share)
+  {
+    String result = null;
+    int size = share.others.size() + 1;
+    if (size > 3)
+      result = share.origin.nickname + "," +
+          share.others.get(0).name + "," +
+          share.others.get(1).name +
+          "等" + size + "人分享过";
+
+    else if (size == 1)
+      result = share.origin.nickname + "分享过";
+    else
+    {
+      int count = 0;
+      result = share.origin.nickname;
+      for (User user : share.others)
+      {
+        result = result + "," + share.others.get(count).name;
+      }
+      result = result + "分享过";
+    }
+    return result;
+  }
 }

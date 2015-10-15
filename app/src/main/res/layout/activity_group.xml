@@ -54,16 +54,15 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="35dp"
                     android:orientation="vertical"
-                    android:paddingRight="40dp">
+                    >
 
 
                     <TextView
                         android:id="@+id/group_create_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp"
-                        android:text="创建于xxxxxx"
+                        android:layout_gravity="center_horizontal"
+                        android:text="创建于xxxxxxxxxxxxx"
                         android:textColor="@color/pure_white"/>
 
 
@@ -72,10 +71,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/group_header_up"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="30dp"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:text="共x条share"
+                        android:text="共5条share"
                         android:textColor="@color/pure_white"/>
 
                 </LinearLayout>
@@ -331,7 +329,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_below="@id/group_member"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"/>
 
             </RelativeLayout>

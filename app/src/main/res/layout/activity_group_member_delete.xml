@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:background="#eeeeee"
-                tools:context="unique.fancysherry.shr.ui.activity.GroupMemberActivity">
+                tools:context="unique.fancysherry.shr.ui.activity.GroupMemberDeleteActivity">
 
 
     <RelativeLayout

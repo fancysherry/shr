@@ -23,7 +23,7 @@ public class User implements Parcelable {
   public List<Share> shares;
   public List<Group> manager_groups;
   public String gratitude_shares_sum;
-  public String commment_sum;
+  public String comment_sum;
   public String black_users_sum;
   public String followers_sum;
   public String followings_sum;
@@ -72,7 +72,7 @@ public class User implements Parcelable {
     in.readList(shares, getClass().getClassLoader());
     in.readList(manager_groups, getClass().getClassLoader());
     gratitude_shares_sum = in.readString();
-    commment_sum = in.readString();
+    comment_sum = in.readString();
     black_users_sum = in.readString();
     followers_sum = in.readString();
     followings_sum = in.readString();
@@ -102,7 +102,7 @@ public class User implements Parcelable {
     dest.writeList(shares);
     dest.writeList(manager_groups);
     dest.writeString(gratitude_shares_sum);
-    dest.writeString(commment_sum);
+    dest.writeString(comment_sum);
     dest.writeString(black_users_sum);
     dest.writeString(followers_sum);
     dest.writeString(followings_sum);
