@@ -187,9 +187,6 @@ public class PhotoLoader {
             } else {
               mPhotoLoader.getLoadOption().loadSource = LoadSource.BOTH;
             }
-
-
-
             PhotoRequest request = mPhotoLoader.createVolleyRequest(mPhotoLoader, imageView);
             executeVolleyRequest(request, imageView);
           }
@@ -207,21 +204,21 @@ public class PhotoLoader {
       Option option) {
     final PhotoLoader mPhotoLoader = PhotoLoader.getObject(imageView, url, option);
     if (mPhotoLoader != null) {
-      if (mPhotoLoader.getLoadingState() != ContentState.DONE) {
-        mPhotoLoader.loadFromRamCache(mRequestManager, imageView);
-        if (mPhotoLoader.getLoadingState() != ContentState.DONE) {
-//          imageView.setImageResource(defaultResourceID);
-          mPhotoLoader.setContentState(ContentState.LOADING);
-          if (saveTraffic) {
-            mPhotoLoader.getLoadOption().loadSource = LoadSource.ONLY_FROM_CACHE;
-          } else {
-            mPhotoLoader.getLoadOption().loadSource = LoadSource.BOTH;
-          }
+      // if (mPhotoLoader.getLoadingState() != ContentState.DONE) {
+      // mPhotoLoader.loadFromRamCache(mRequestManager, imageView);
+      // if (mPhotoLoader.getLoadingState() != ContentState.DONE) {
+      // // imageView.setImageResource(defaultResourceID);
+      // mPhotoLoader.setContentState(ContentState.LOADING);
+      // if (saveTraffic) {
+      // mPhotoLoader.getLoadOption().loadSource = LoadSource.ONLY_FROM_CACHE;
+      // } else {
+      // mPhotoLoader.getLoadOption().loadSource = LoadSource.BOTH;
+      // }
 
-          PhotoRequest request = mPhotoLoader.createVolleyRequest(mPhotoLoader, imageView);
-          executeVolleyRequest(request, imageView);
-        }
-      }
+      PhotoRequest request = mPhotoLoader.createVolleyRequest(mPhotoLoader, imageView);
+      executeVolleyRequest(request, imageView);
+      // }
+      // }
       imageView.setTag(mPhotoLoader);
     }
   }

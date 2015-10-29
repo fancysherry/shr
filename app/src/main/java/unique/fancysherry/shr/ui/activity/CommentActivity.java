@@ -153,7 +153,7 @@ public class CommentActivity extends AppCompatActivity {
   {
     GsonRequest<CommentList> comment_request =
         new GsonRequest<>(Request.Method.GET,
-            "http://104.236.46.64:8888/comment", getHeader(),
+                APIConstants.BASE_URL+"/comment", getHeader(),
             getParams_list_comment(),
             CommentList.class,
             new Response.Listener<CommentList>() {

@@ -17,7 +17,7 @@
     <application
         android:name=".util.config.SApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/share_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         >

@@ -13,11 +13,13 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.net.MalformedURLException;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.Util.PhotoLoader;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.util.IconFinder;
+import unique.fancysherry.shr.util.IconLoad;
 
 /**
  * Created by fancysherry on 15-10-9.
@@ -25,6 +27,7 @@ import unique.fancysherry.shr.util.IconFinder;
 public class GroupShareViewHolder extends RecyclerView.ViewHolder
 {
   ImageView share_icon;
+  // SimpleDraweeView share_icon;
   TextView share_title;
   SimpleDraweeView user_portrait;
   TextView user_introduce;
@@ -49,16 +52,18 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
   public void onBindViewHolder(Share share) {
     share_title.setText(share.title);
     share_user.setText(shareUserText(share));
+    user_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + share.origin.avatar));
     if (!share.intro.equals(""))
       user_introduce.setText(share.intro);
 
-    // try {
-    // PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
-    // share_icon.setImageURI(getIconUri(share.url));
-    // Log.e("share_url", share.url);w
-    // } catch (MalformedURLException e) {
-    // e.printStackTrace();
-    // }
+    try {
+//      IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
+       PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
+      // share_icon.setImageURI(getIconUri(share.url));
+      Log.e("share_url", share.url);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
     view.setTag(share);
   }
 

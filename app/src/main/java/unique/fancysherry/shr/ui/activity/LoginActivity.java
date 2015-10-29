@@ -106,11 +106,11 @@ public class LoginActivity extends AppCompatActivity {
 
   public Map<String, String> getParams_login()
   {
-    username = "123@123.com";
-    password = "123";
+    username = "longchen@hustunique.com";
+    password = "hustunique";
     Map<String, String> params = new HashMap<String, String>();
-    params.put("email", "123@123.com");
-    params.put("password", "123");
+    params.put("email", username);
+    params.put("password", password);
     return params;
   }
 
