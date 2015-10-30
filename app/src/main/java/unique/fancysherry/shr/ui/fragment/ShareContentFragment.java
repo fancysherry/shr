@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONArray;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +46,7 @@ import unique.fancysherry.shr.ui.widget.Dialog.Holder;
 import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
 import unique.fancysherry.shr.ui.widget.Dialog.OnDismissListener;
 import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
+import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
@@ -73,8 +76,12 @@ public class ShareContentFragment extends Fragment {
   private Handler handler;
   private Runnable runnable;
   private Runnable runnable_changle_layout;
+  private Runnable runnable_tagGroup;
+  private User mUser;
 
   private EditText dialog_intro_input;
+  private TagGroup tagGroup;
+  private ArrayList<String> test_taggroup = new ArrayList<>();
 
   OnGetGroupIdListener onGetGroupIdListener;
 
@@ -86,7 +93,28 @@ public class ShareContentFragment extends Fragment {
     void OnGetGroupName(String name);
   }
 
-
+  public void initData()
+  {
+    if (mUser.groups.size() <= 20) {
+      for (int i = 0; i < mUser.groups.size(); i++) {
+        test_taggroup.add(mUser.groups.get(i).name);
+      }
+      tagGroup.setTagsDailog(test_taggroup);
+      // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+      // @Override
+      // public void onTagClick(String tag) {
+      // if (tag.equals("..."))
+      // tagGroup.setAllTags(test_taggroup);
+      // else if (tag.equals("<-"))
+      // tagGroup.setTags(test_taggroup);
+      // }
+      // });
+    }
+    else
+    {
+      Toast.makeText(getActivity(), "你创建的组超过了20个", Toast.LENGTH_LONG).show();
+    }
+  }
 
   /**
    * Use this factory method to create a new instance of
@@ -117,6 +145,13 @@ public class ShareContentFragment extends Fragment {
       }
     };
 
+    runnable_tagGroup = new Runnable() {
+      @Override
+      public void run() {
+        initData();
+      }
+    };
+
     runnable_changle_layout = new Runnable() {
       @Override
       public void run() {
@@ -137,29 +172,37 @@ public class ShareContentFragment extends Fragment {
     LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
     View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
     dialog_intro_input = (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-
+    tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+    getUserData();
 
     OnClickListener clickListener = new OnClickListener() {
       @Override
       public void onClick(DialogPlus dialog, View view) {
         switch (view.getId()) {
 
-          case R.id.dialog_shr_content_tagview1:
-            Toast.makeText(getActivity(), "We're glad that you love it", Toast.LENGTH_LONG).show();
-            post_share_url();
+          case R.id.user_groups_tagGroup:
 
+            // post_share_url();
+            tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+              @Override
+              public void onTagClick(String tag) {
+                if (tag.equals("..."))
+                  tagGroup.setAllTags(test_taggroup);
+                else if (tag.equals("<-"))
+                  tagGroup.setTags(test_taggroup);
+                else
+                {
+                  Toast.makeText(getActivity(), "We're glad that you love it" + tag,
+                      Toast.LENGTH_LONG).show();
+                }
+              }
+            });
             break;
-          case R.id.dialog_shr_content_tagview2:
-            Toast.makeText(getActivity(), "Confirm button clicked", Toast.LENGTH_LONG).show();
-            break;
-          case R.id.dialog_shr_content_tagview3:
-            Toast.makeText(getActivity(), "Close button clicked", Toast.LENGTH_LONG).show();
-            break;
+
         }
         dialog.dismiss();
       }
     };
-
     OnDismissListener dismissListener = new OnDismissListener() {
       @Override
       public void onDismiss(DialogPlus dialog) {}
@@ -242,16 +285,16 @@ public class ShareContentFragment extends Fragment {
 
   public void getShareUserId(String uid) {
     GsonRequest<User> group_share_user_id_request =
-            new GsonRequest<>(Request.Method.GET,
-                    APIConstants.BASE_URL + "/homepage?uid=" + uid,
-                    getHeader(), null,
-                    User.class,
-                    new Response.Listener<User>() {
-                      @Override
-                      public void onResponse(User pUser) {
-                        handler.post(runnable);
-                      }
-                    }, new Response.ErrorListener() {
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/homepage?uid=" + uid,
+            getHeader(), null,
+            User.class,
+            new Response.Listener<User>() {
+              @Override
+              public void onResponse(User pUser) {
+                handler.post(runnable);
+              }
+            }, new Response.ErrorListener() {
               @Override
               public void onErrorResponse(VolleyError pVolleyError) {
                 LogUtil.e("response error " + pVolleyError);
@@ -329,6 +372,27 @@ public class ShareContentFragment extends Fragment {
             "User-Agent",
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
     return headers;
+  }
+
+  public void getUserData() {
+    GsonRequest<User> group_share_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/homepage",
+            getHeader(), null,
+            User.class,
+            new Response.Listener<User>() {
+              @Override
+              public void onResponse(User pUser) {
+                mUser = pUser;
+                handler.post(runnable_tagGroup);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
   }
 
   public Map<String, String> getParams_share() {

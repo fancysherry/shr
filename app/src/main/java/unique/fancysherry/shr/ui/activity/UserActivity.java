@@ -16,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +59,7 @@ public class UserActivity extends AppCompatActivity {
   private Activity context;
   private User mUser;
   private Toolbar mToolbar;
-  private String[] test_taggroup = {"UniqueStudio", "ios", "android", "pm", "design", "lab"};
+  private ArrayList<String> test_taggroup = new ArrayList<>();// todo 目前最大组的数量是20个
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class UserActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-//    mToolbar.setOnMenuItemClickListener(onMenuItemClick);
+    // mToolbar.setOnMenuItemClickListener(onMenuItemClick);
 
   }
 
@@ -97,33 +99,34 @@ public class UserActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
-//  private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-//    @Override
-//    public boolean onMenuItemClick(MenuItem menuItem) {
-//      switch (menuItem.getItemId()) {
-//        case android.R.id.home:
-//          Log.e("home_button", "onclick");
-//          context.finish();
-//          break;
-//        case R.id.action_edit:
-//          Intent mIntent = new Intent(context, UserInformationResetActivity.class);
-//          mIntent.putExtra("user_id", mUser.id);
-//          startActivity(mIntent);
-//          break;
-//
-//        case R.id.action_settings:
-//          break;
-//      }
-//      return true;
-//    }
-//  };
-//
-//  @Override
-//  public boolean onCreateOptionsMenu(Menu menu) {
-//    // Inflate the menu; this adds items to the action bar if it is present.
-//    getMenuInflater().inflate(R.menu.menu_user, menu);
-//    return true;
-//  }
+  // private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener()
+  // {
+  // @Override
+  // public boolean onMenuItemClick(MenuItem menuItem) {
+  // switch (menuItem.getItemId()) {
+  // case android.R.id.home:
+  // Log.e("home_button", "onclick");
+  // context.finish();
+  // break;
+  // case R.id.action_edit:
+  // Intent mIntent = new Intent(context, UserInformationResetActivity.class);
+  // mIntent.putExtra("user_id", mUser.id);
+  // startActivity(mIntent);
+  // break;
+  //
+  // case R.id.action_settings:
+  // break;
+  // }
+  // return true;
+  // }
+  // };
+  //
+  // @Override
+  // public boolean onCreateOptionsMenu(Menu menu) {
+  // // Inflate the menu; this adds items to the action bar if it is present.
+  // getMenuInflater().inflate(R.menu.menu_user, menu);
+  // return true;
+  // }
 
 
   private void initData()
@@ -154,16 +157,25 @@ public class UserActivity extends AppCompatActivity {
       }
     });
 
-    tagGroup.setTags(test_taggroup);
-    tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-      @Override
-      public void onTagClick(String tag) {
-        if (tag.equals("..."))
-          tagGroup.setAllTags(test_taggroup);
-        else if (tag.equals("<-"))
-          tagGroup.setTags(test_taggroup);
+
+    if (mUser.groups.size() <= 20) {
+      for (int i = 0; i < mUser.groups.size(); i++) {
+        test_taggroup.add(mUser.groups.get(i).name);
       }
-    });
+      tagGroup.setTags(test_taggroup);
+      tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+        @Override
+        public void onTagClick(String tag) {
+          if (tag.equals("..."))
+            tagGroup.setAllTags(test_taggroup);
+          else if (tag.equals("<-"))
+            tagGroup.setTags(test_taggroup);
+        }
+      });
+    }
+    else {
+      Toast.makeText(this, "你创建的组超过了20个", Toast.LENGTH_LONG).show();
+    }
 
   }
 

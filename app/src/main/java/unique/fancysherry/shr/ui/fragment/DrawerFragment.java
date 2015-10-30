@@ -112,43 +112,6 @@ public class DrawerFragment extends Fragment {
 
 
 
-  public void getUserData() {
-    GsonRequest<User> group_share_request =
-        new GsonRequest<>(Request.Method.GET,
-            APIConstants.BASE_URL + "/homepage",
-            getHeader(), null,
-            User.class,
-            new Response.Listener<User>() {
-              @Override
-              public void onResponse(User pUser) {
-                user = pUser;
-                handler.post(runnable);
-              }
-            }, new Response.ErrorListener() {
-              @Override
-              public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
-              }
-            });
-    executeRequest(group_share_request);
-  }
-
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -195,6 +158,8 @@ public class DrawerFragment extends Fragment {
     return view;
   }
 
+
+
   public void initAdapter()
   {
     mDrawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
@@ -232,7 +197,6 @@ public class DrawerFragment extends Fragment {
     drawItemAdapter.setData(groups, null);
   }
 
-
   private String getListTitle(int position)
   {
     // if (position == 0)
@@ -263,6 +227,7 @@ public class DrawerFragment extends Fragment {
 
   }
 
+
   private void selectItem(String group_name) {
     if (mDrawerLayout != null) {
       mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -289,16 +254,56 @@ public class DrawerFragment extends Fragment {
   }
 
   // @Override
-  // public void onSaveInstanceState(Bundle outState) {
+
   // super.onSaveInstanceState(outState);
   // outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
   // outState.putInt(ITEM_MAX_SIZE_VALUE, item_max_size);
   // outState.putStringArrayList(ITEM_LIST, group_name_list);
   // }
 
+  public void executeRequest(Request request) {
+    SApplication.getRequestManager().executeRequest(request, this);
+  }
+
+
   /**
    * Callbacks interface that all activities using this fragment must implement.
    */
+  public void getUserData() {
+    GsonRequest<User> group_share_request =
+            new GsonRequest<>(Request.Method.GET,
+                    APIConstants.BASE_URL + "/homepage",
+                    getHeader(), null,
+                    User.class,
+                    new Response.Listener<User>() {
+                      @Override
+                      public void onResponse(User pUser) {
+                        user = pUser;
+                        handler.post(runnable);
+                      }
+                    }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
+
+  public Map<String, String> getHeader() {
+    Map<String, String> headers = new HashMap<String, String>();
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
+    }
+    headers
+            .put(
+                    "User-Agent",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+    return headers;
+  }
+  // public void onSaveInstanceState(Bundle outState) {
   public static interface NavigationDrawerCallbacks {
     /**
      * Called when an item in the navigation drawer is selected.
@@ -308,10 +313,5 @@ public class DrawerFragment extends Fragment {
     void onAddGroupListener();
 
     void onGetAllGroup(List<String> group_name_list);
-  }
-
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
   }
 }

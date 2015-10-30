@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="unique.fancysherry.shr" >
+<manifest package="unique.fancysherry.shr"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
         android:name=".util.config.SApplication"
@@ -26,26 +26,22 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.ShareUrlActivity" >
+        <activity android:name=".ui.activity.ShareUrlActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.ShrContentActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_shr_content" >
+            android:label="@string/title_activity_shr_content"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.UserActivity"
@@ -55,70 +51,72 @@
         </activity>
         <activity
             android:name=".ui.activity.GroupActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_group" >
+            android:label="@string/title_activity_group"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.ArticleActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_article" >
+            android:label="@string/title_activity_article"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.BrowserActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_browser" >
+            android:label="@string/title_activity_browser"
+            android:theme="@style/UserActivityTheme">
         </activity>
 
         <service
             android:name=".sync.SyncService"
             android:exported="true"
-            android:process=":sync" >
+            android:process=":sync">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
+                <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
+                android:resource="@xml/syncadapter"/>
         </service>
 
-        <activity android:name=".ui.activity.MainActivity"
-                  android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.activity.CommentActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_comment" >
+            android:label="@string/title_activity_comment"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.UserInformationResetActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_user_information_reset" >
+            android:label="@string/title_activity_user_information_reset"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.GroupMemberDeleteActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_group_member" >
+            android:label="@string/title_activity_group_member"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.InviteMemberActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_invite_member" >
+            android:label="@string/title_activity_invite_member"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.GroupEditActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_group_manage" >
+            android:label="@string/title_activity_group_manage"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.DeleteGroupActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_delete_group" >
+            android:label="@string/title_activity_delete_group"
+            android:theme="@style/UserActivityTheme">
         </activity>
         <activity
             android:name=".ui.activity.GroupChangeManagerActivity"
-            android:theme="@style/UserActivityTheme"
-            android:label="@string/title_activity_group_change_manager" >
+            android:label="@string/title_activity_group_change_manager"
+            android:theme="@style/UserActivityTheme">
         </activity>
     </application>
 

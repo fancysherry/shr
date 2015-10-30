@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,6 +147,55 @@ public class TagGroup extends ViewGroup {
 
   /***
    * 显示部分的tag
+   *
+   * @param tagList
+   */
+  public void setTagsDailog(List<String> tagList) {
+    setTagsDailog(tagList.toArray(new String[tagList.size()]));
+  }
+
+  public void setTagsDailog(String... tags) {
+    removeAllViews();
+    if (tags.length <= 2) {
+      appendTag(tags[0]);
+      Log.e("tag", "   " + tags[0]);
+      Log.e("tag", "   " + tags[1]);
+      appendTag(tags[1]);
+      appendTag("@me");
+    }
+    else {
+      appendTag(tags[0]);
+      appendTag(tags[1]);
+      appendTag("@me");
+      appendTag("...");
+    }
+  }
+
+
+  /**
+   * @see #setAllTags(String...)
+   */
+  public void setAllTagsDailog(List<String> tagList) {
+    setAllTagsDailog(tagList.toArray(new String[tagList.size()]));
+  }
+
+  /**
+   * Set the tags. It will remove all previous tags first.
+   *
+   * @param tags the tag list to set.
+   */
+  public void setAllTagsDailog(String... tags) {
+    removeAllViews();
+    for (final String tag : tags) {
+      appendTag(tag);
+      Log.e("tag", "   " + tag);
+    }
+    appendTag("<-");
+  }
+
+
+  /***
+   * 显示部分的tag
    * 
    * @param tagList
    */
@@ -155,8 +205,13 @@ public class TagGroup extends ViewGroup {
 
   public void setTags(String... tags) {
     removeAllViews();
-    if (tags.length <= 2)
-      setAllTags(tags);
+    if (tags.length <= 2) {
+      appendTag(tags[0]);
+      Log.e("tag", "   " + tags[0]);
+      Log.e("tag", "   " + tags[1]);
+      appendTag(tags[1]);
+      appendTag("+");
+    }
     else {
       appendTag(tags[0]);
       appendTag(tags[1]);
@@ -169,7 +224,7 @@ public class TagGroup extends ViewGroup {
   /**
    * @see #setAllTags(String...)
    */
-  public void setALlTags(List<String> tagList) {
+  public void setAllTags(List<String> tagList) {
     setAllTags(tagList.toArray(new String[tagList.size()]));
   }
 
@@ -182,6 +237,7 @@ public class TagGroup extends ViewGroup {
     removeAllViews();
     for (final String tag : tags) {
       appendTag(tag);
+      Log.e("tag", "   " + tag);
     }
     appendTag("<-");
     appendTag("+");
