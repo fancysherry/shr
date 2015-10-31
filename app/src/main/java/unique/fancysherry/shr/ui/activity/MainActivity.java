@@ -2,7 +2,6 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +22,9 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.fragment.DrawerFragment;
-import unique.fancysherry.shr.ui.fragment.GroupFragment;
 import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
 import unique.fancysherry.shr.ui.fragment.NotificationFragment;
 import unique.fancysherry.shr.ui.fragment.ShareContentFragment;
@@ -81,6 +77,12 @@ public class MainActivity extends BaseActivity
       }
     };
   }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        getUserData();
+    }
 
   private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
     @Override

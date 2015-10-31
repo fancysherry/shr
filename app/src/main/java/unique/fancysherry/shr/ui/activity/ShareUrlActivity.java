@@ -20,6 +20,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +51,7 @@ public class ShareUrlActivity extends AppCompatActivity {
   private Handler handler;
   private Runnable runnable;
 
+  private EditText dialog_intro_input;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -217,6 +220,42 @@ public class ShareUrlActivity extends AppCompatActivity {
                     "User-Agent",
                     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
     return headers;
+  }
+
+  public void post_share_url() {
+    GsonRequest<GsonRequest.FormResult> group_share_url_request =
+            new GsonRequest<>(Request.Method.POST,
+                    APIConstants.BASE_URL + "/share",
+                    getHeader(), getParams_share(),
+                    GsonRequest.FormResult.class,
+                    new Response.Listener<GsonRequest.FormResult>() {
+                      @Override
+                      public void onResponse(GsonRequest.FormResult pGroup) {
+                        if (pGroup.message.equals("success"))
+                          Toast.makeText(activity, "share a page successful", Toast.LENGTH_LONG)
+                                  .show();
+                      }
+                    }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_url_request);
+  }
+
+  public Map<String, String> getParams_share() {
+    JSONArray mJSONArray=new JSONArray();
+    ArrayList<String> gourps = new ArrayList<>();
+
+    String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
+    String intro = dialog_intro_input.getText().toString();
+    Map<String, String> params = new HashMap<>();
+    params.put("title", "aaaaaaaaaaaa");
+    params.put("url", url);
+    params.put("comment", intro);
+    params.put("groups", mJSONArray.toString());
+    return params;
   }
 
   public void executeRequest(Request request) {

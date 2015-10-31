@@ -21,9 +21,25 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -33,6 +49,7 @@ import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.io.request.DeleteRequest;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.widget.ProgressWheel;
 import unique.fancysherry.shr.util.LogUtil;
@@ -128,25 +145,109 @@ public class DeleteGroupActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
+  {
+    StringBuilder result = new StringBuilder();
+    boolean first = true;
 
-  public void deleteGroup() {
-    GsonRequest<GsonRequest.FormResult> group_delete_request =
-        new GsonRequest<>(Request.Method.DELETE,
-            APIConstants.BASE_URL + "/group?group_id="+group_id,
-            getHeader(), null,
-            GsonRequest.FormResult.class,
-            new Response.Listener<GsonRequest.FormResult>() {
-              @Override
-              public void onResponse(GsonRequest.FormResult result) {
-                handler.postDelayed(runnable, 2000);
-              }
-            }, new Response.ErrorListener() {
-              @Override
-              public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
-              }
-            });
-    executeRequest(group_delete_request);
+    for (NameValuePair pair : params)
+    {
+      if (first)
+        first = false;
+      else
+        result.append("&");
+
+      result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
+      result.append("=");
+      result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+    }
+
+    return result.toString();
+  }
+
+
+  public void deleteGroup()  {
+//    DeleteRequest<GsonRequest.FormResult> group_delete_request =
+//        new DeleteRequest<>(Request.Method.DELETE,
+//            APIConstants.BASE_URL + "/group",
+//            getHeader(), null,
+//            GsonRequest.FormResult.class,
+//            new Response.Listener<GsonRequest.FormResult>() {
+//              @Override
+//              public void onResponse(GsonRequest.FormResult result) {
+//                handler.postDelayed(runnable, 2000);
+//              }
+//            }, new Response.ErrorListener() {
+//              @Override
+//              public void onErrorResponse(VolleyError pVolleyError) {
+//                LogUtil.e("response error " + pVolleyError);
+//              }
+//            });
+//    executeRequest(group_delete_request);
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        URL url = null;
+        try {
+          url = new URL(APIConstants.BASE_URL + "/group");
+        } catch (MalformedURLException exception) {
+          exception.printStackTrace();
+        }
+        HttpURLConnection httpURLConnection = null;
+        try {
+          httpURLConnection = (HttpURLConnection) url.openConnection();
+          httpURLConnection.setRequestProperty("Content-Type",
+                  "application/x-www-form-urlencoded");
+          httpURLConnection.setRequestProperty("Cookie", getCookie());
+          httpURLConnection.setRequestProperty("User-Agent",
+                  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+          httpURLConnection.setRequestMethod("DELETE");
+          httpURLConnection.setDoInput(true);
+          httpURLConnection.setDoOutput(true);
+
+          List<NameValuePair> params = new ArrayList<NameValuePair>();
+          params.add(new BasicNameValuePair("group_id", group_id));
+
+          OutputStream os = httpURLConnection.getOutputStream();
+          BufferedWriter writer = new BufferedWriter(
+                  new OutputStreamWriter(os, "UTF-8"));
+          writer.write(getQuery(params));
+          writer.flush();
+          writer.close();
+          os.close();
+
+
+          LogUtil.e(String.valueOf(httpURLConnection.getResponseCode()));
+          InputStream in = httpURLConnection.getInputStream();
+          BufferedReader br = new BufferedReader(new InputStreamReader(in));
+          String str = null;
+          StringBuffer buffer = new StringBuffer();
+          while((str = br.readLine())!=null){//BufferedReader特有功能，一次读取一行数据
+            buffer.append(str);
+          }
+          in.close();
+          br.close();
+          LogUtil.e("message   "+buffer.toString());
+          if(httpURLConnection.getResponseCode()==200)
+            handler.postDelayed(runnable,2000);
+        } catch (IOException exception) {
+          exception.printStackTrace();
+        } finally {
+          if (httpURLConnection != null) {
+            httpURLConnection.disconnect();
+          }
+        }
+      }
+    }).start();
+  }
+
+  public String getCookie() {
+
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+    }
+    return currentUser.getCookieHolder().generateCookieString();
   }
 
   public Map<String, String> getHeader() {
@@ -166,12 +267,12 @@ public class DeleteGroupActivity extends AppCompatActivity {
   public void executeRequest(Request request) {
     SApplication.getRequestManager().executeRequest(request, this);
   }
-//  public Map<String, String> getParams() {
-//    Map<String, String> params = new HashMap<>();
-//    Log.e("delete request",group_id);
-//    params.put("group_id", group_id);
-//    return params;
-//  }
+  public Map<String, String> getParams() {
+    Map<String, String> params = new HashMap<>();
+    Log.e("delete request",group_id);
+    params.put("group_id", group_id);
+    return params;
+  }
 //do as get http,put params after url
 
 }

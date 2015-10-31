@@ -261,28 +261,6 @@ public class ShareContentFragment extends Fragment {
         });
   }
 
-  public void post_share_url() {
-    GsonRequest<GsonRequest.FormResult> group_share_url_request =
-        new GsonRequest<>(Request.Method.POST,
-            APIConstants.BASE_URL + "/share",
-            getHeader(), getParams_share(),
-            GsonRequest.FormResult.class,
-            new Response.Listener<GsonRequest.FormResult>() {
-              @Override
-              public void onResponse(GsonRequest.FormResult pGroup) {
-                if (pGroup.message.equals("success"))
-                  Toast.makeText(getActivity(), "share a page successful", Toast.LENGTH_LONG)
-                      .show();
-              }
-            }, new Response.ErrorListener() {
-              @Override
-              public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
-              }
-            });
-    executeRequest(group_share_url_request);
-  }
-
   public void getShareUserId(String uid) {
     GsonRequest<User> group_share_user_id_request =
         new GsonRequest<>(Request.Method.GET,
@@ -302,7 +280,6 @@ public class ShareContentFragment extends Fragment {
             });
     executeRequest(group_share_user_id_request);
   }
-
 
   public void getGroupId() {
     GsonRequest<Group> group_share_id_request =
@@ -327,6 +304,7 @@ public class ShareContentFragment extends Fragment {
             });
     executeRequest(group_share_id_request);
   }
+
 
   public void getShareList() {
     GsonRequest<ShareList> group_share_request =
@@ -393,6 +371,28 @@ public class ShareContentFragment extends Fragment {
               }
             });
     executeRequest(group_share_request);
+  }
+
+  public void post_share_url() {
+    GsonRequest<GsonRequest.FormResult> group_share_url_request =
+            new GsonRequest<>(Request.Method.POST,
+                    APIConstants.BASE_URL + "/share",
+                    getHeader(), getParams_share(),
+                    GsonRequest.FormResult.class,
+                    new Response.Listener<GsonRequest.FormResult>() {
+                      @Override
+                      public void onResponse(GsonRequest.FormResult pGroup) {
+                        if (pGroup.message.equals("success"))
+                          Toast.makeText(getActivity(), "share a page successful", Toast.LENGTH_LONG)
+                                  .show();
+                      }
+                    }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_url_request);
   }
 
   public Map<String, String> getParams_share() {
