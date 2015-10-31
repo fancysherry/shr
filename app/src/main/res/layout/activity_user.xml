@@ -78,6 +78,19 @@
                 android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/user_edit_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/icon_input_four"
+                        />
+
+                </RelativeLayout>
+
             </android.support.v7.widget.Toolbar>
 
         </RelativeLayout>

@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,8 @@ public class UserActivity extends AppCompatActivity {
   RecyclerView shr_list;
   @InjectView(R.id.activity_user_taggroup)
   TagGroup tagGroup;
+  @InjectView(R.id.user_edit_icon)
+  ImageView user_edit;
 
   private UserShareAdapter userShareAdapter;
   private Activity context;
@@ -131,6 +134,14 @@ public class UserActivity extends AppCompatActivity {
 
   private void initData()
   {
+    user_edit.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+         Intent mIntent = new Intent(context, UserInformationResetActivity.class);
+         mIntent.putExtra("user_id", mUser.id);
+         startActivity(mIntent);
+      }
+    });
     mUser = getIntent().getParcelableExtra("user");
     shr_number.setText(String.valueOf(mUser.shares.size()));
     gratitude_number.setText(mUser.gratitude_shares_sum);

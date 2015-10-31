@@ -60,50 +60,50 @@
             android:orientation="horizontal">
 
 
-            <unique.fancysherry.shr.ui.widget.TagGroup
-                android:id="@+id/user_groups_tagGroup"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:atg_horizontalSpacing="15dp"
+            <!--<unique.fancysherry.shr.ui.widget.TagGroup-->
+                <!--android:id="@+id/user_groups_tagGroup"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--app:atg_horizontalSpacing="15dp"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingLeft="7dp"-->
+                <!--android:paddingRight="7dp"-->
+                <!--app:atg_verticalSpacing="8dp"/>-->
+
+            <unique.fancysherry.shr.ui.widget.TagView
+                android:id="@+id/dialog_shr_content_tagview1"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:background="@color/gray_d8"
                 android:gravity="center"
                 android:paddingLeft="7dp"
                 android:paddingRight="7dp"
-                app:atg_verticalSpacing="8dp"/>
+                android:text="诶哟"
+                />
 
-            <!--<unique.fancysherry.shr.ui.widget.TagView-->
-                <!--android:id="@+id/dialog_shr_content_tagview1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="23dp"-->
-                <!--android:background="@color/gray_d8"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingLeft="7dp"-->
-                <!--android:paddingRight="7dp"-->
-                <!--android:text="@string/user_group_unique_studio"-->
-                <!--/>-->
+            <unique.fancysherry.shr.ui.widget.TagView
+                android:id="@+id/dialog_shr_content_tagview2"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/gray_d8"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="测试"
+                />
 
-            <!--<unique.fancysherry.shr.ui.widget.TagView-->
-                <!--android:id="@+id/dialog_shr_content_tagview2"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="23dp"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:background="@color/gray_d8"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingLeft="7dp"-->
-                <!--android:paddingRight="7dp"-->
-                <!--android:text="@string/user_group_design"-->
-                <!--/>-->
-
-            <!--<unique.fancysherry.shr.ui.widget.TagView-->
-                <!--android:id="@+id/dialog_shr_content_tagview3"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="23dp"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:background="@color/gray_d8"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingLeft="7dp"-->
-                <!--android:paddingRight="7dp"-->
-                <!--android:text="+"-->
-                <!--/>-->
+            <unique.fancysherry.shr.ui.widget.TagView
+                android:id="@+id/dialog_shr_content_tagview3"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/gray_d8"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="@string/at_me"
+                />
 
         </LinearLayout>
 

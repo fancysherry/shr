@@ -2,16 +2,12 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,8 +15,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +34,7 @@ import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
-import unique.fancysherry.shr.util.system.UrlFromString;
+import unique.fancysherry.shr.util.UrlFromString;
 
 public class ShareUrlActivity extends AppCompatActivity {
   private Activity activity;
@@ -52,6 +46,7 @@ public class ShareUrlActivity extends AppCompatActivity {
   private Runnable runnable;
 
   private EditText dialog_intro_input;
+  private String extract_url;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -61,7 +56,7 @@ public class ShareUrlActivity extends AppCompatActivity {
     runnable = new Runnable() {
       @Override
       public void run() {
-        initData();
+//        initData();
       }
     };
 
@@ -89,25 +84,25 @@ public class ShareUrlActivity extends AppCompatActivity {
 
   public void initData()
   {
-    if (mUser.groups.size() <= 20) {
-      for (int i = 0; i < mUser.groups.size(); i++) {
-        test_taggroup.add(mUser.groups.get(i).name);
-      }
-      tagGroup.setTagsDailog(test_taggroup);
-      // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-      // @Override
-      // public void onTagClick(String tag) {
-      // if (tag.equals("..."))
-      // tagGroup.setAllTags(test_taggroup);
-      // else if (tag.equals("<-"))
-      // tagGroup.setTags(test_taggroup);
-      // }
-      // });
-    }
-    else
-    {
-      Toast.makeText(this, "你创建的组超过了20个", Toast.LENGTH_LONG).show();
-    }
+//    if (mUser.groups.size() <= 20) {
+//      for (int i = 0; i < mUser.groups.size(); i++) {
+//        test_taggroup.add(mUser.groups.get(i).name);
+//      }
+//      tagGroup.setTagsDailog(test_taggroup);
+//      // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+//      // @Override
+//      // public void onTagClick(String tag) {
+//      // if (tag.equals("..."))
+//      // tagGroup.setAllTags(test_taggroup);
+//      // else if (tag.equals("<-"))
+//      // tagGroup.setTags(test_taggroup);
+//      // }
+//      // });
+//    }
+//    else
+//    {
+//      Toast.makeText(this, "你创建的组超过了20个", Toast.LENGTH_LONG).show();
+//    }
   }
 
   public void handleSendText(Intent intent) {
@@ -117,7 +112,7 @@ public class ShareUrlActivity extends AppCompatActivity {
       // Update UI to reflect text being shared
       Log.e("shareText", sharedText);
       // Log.e("shareTitle", sharedTitle);
-      String extract_url = UrlFromString.pullLinks(sharedText);
+      extract_url = UrlFromString.pullLinks(sharedText);
       if (extract_url == null)
       {
         Toast.makeText(this, "您分享的网页不包含有效网址，请重新分享", Toast.LENGTH_LONG).show();
@@ -134,38 +129,59 @@ public class ShareUrlActivity extends AppCompatActivity {
     Holder holder = new ViewHolder(R.layout.dialog_shr_content);
     LayoutInflater mLayoutInflater = this.getLayoutInflater();
     View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
-    EditText dialog_intro_input =
+    dialog_intro_input =
         (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-    tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-    getUserData();
+//    tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+//    getUserData();
+
     OnClickListener clickListener = new OnClickListener() {
       @Override
       public void onClick(DialogPlus dialog, View view) {
         switch (view.getId()) {
-
-          case R.id.user_groups_tagGroup:
-
-            // post_share_url();
-            tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-              @Override
-              public void onTagClick(String tag) {
-                if (tag.equals("..."))
-                  tagGroup.setAllTags(test_taggroup);
-                else if (tag.equals("<-"))
-                  tagGroup.setTags(test_taggroup);
-                else
-                {
-                  Toast.makeText(activity, "We're glad that you love it" + tag, Toast.LENGTH_LONG)
-                          .show();
-                }
-              }
-            });
+          case R.id.dialog_shr_content_tagview1:
+            post_share_url("诶哟");
+            break;
+          case R.id.dialog_shr_content_tagview2:
+            post_share_url("测试");
+            break;
+          case R.id.dialog_shr_content_tagview3:
+            post_share_url("inbox_share");
             break;
 
         }
         dialog.dismiss();
       }
     };
+
+
+//    OnClickListener clickListener = new OnClickListener() {
+//      @Override
+//      public void onClick(DialogPlus dialog, View view) {
+//        switch (view.getId()) {
+//
+//          case R.id.user_groups_tagGroup:
+//
+//            // post_share_url();
+//            tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+//              @Override
+//              public void onTagClick(String tag) {
+//                if (tag.equals("..."))
+//                  tagGroup.setAllTags(test_taggroup);
+//                else if (tag.equals("<-"))
+//                  tagGroup.setTags(test_taggroup);
+//                else
+//                {
+//                  Toast.makeText(activity, "We're glad that you love it" + tag, Toast.LENGTH_LONG)
+//                          .show();
+//                }
+//              }
+//            });
+//            break;
+//
+//        }
+//        dialog.dismiss();
+//      }
+//    };
 
     OnDismissListener dismissListener = new OnDismissListener() {
       @Override
@@ -215,6 +231,8 @@ public class ShareUrlActivity extends AppCompatActivity {
       currentUser.getCookieHolder().generateCookieString();
       headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
     }
+//    headers.put("Content-Type","multipart/form-data; boundary=----WebKitFormBoundaryB7M2bdU0wHyT6UkF");
+    headers.put("Accept-Encoding","gzip, deflate");
     headers
             .put(
                     "User-Agent",
@@ -222,11 +240,11 @@ public class ShareUrlActivity extends AppCompatActivity {
     return headers;
   }
 
-  public void post_share_url() {
+  public void post_share_url(String group_name) {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =
             new GsonRequest<>(Request.Method.POST,
                     APIConstants.BASE_URL + "/share",
-                    getHeader(), getParams_share(),
+                    getHeader(), getParams_share(group_name),
                     GsonRequest.FormResult.class,
                     new Response.Listener<GsonRequest.FormResult>() {
                       @Override
@@ -234,6 +252,9 @@ public class ShareUrlActivity extends AppCompatActivity {
                         if (pGroup.message.equals("success"))
                           Toast.makeText(activity, "share a page successful", Toast.LENGTH_LONG)
                                   .show();
+                        Log.e("message",pGroup.message);
+                        Intent mIntent=new Intent(activity,MainActivity.class);
+                        startActivity(mIntent);
                       }
                     }, new Response.ErrorListener() {
               @Override
@@ -244,17 +265,13 @@ public class ShareUrlActivity extends AppCompatActivity {
     executeRequest(group_share_url_request);
   }
 
-  public Map<String, String> getParams_share() {
-    JSONArray mJSONArray=new JSONArray();
-    ArrayList<String> gourps = new ArrayList<>();
-
-    String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
+  public Map<String, String> getParams_share(String group_name) {
+//    String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
     String intro = dialog_intro_input.getText().toString();
     Map<String, String> params = new HashMap<>();
-    params.put("title", "aaaaaaaaaaaa");
-    params.put("url", url);
+    params.put("url", extract_url);
     params.put("comment", intro);
-    params.put("groups", mJSONArray.toString());
+    params.put("groups", group_name);
     return params;
   }
 

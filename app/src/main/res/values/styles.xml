@@ -39,6 +39,22 @@
         <item name="colorAccent">#569597</item>
     </style>
 
+    <!-- 选择照片底部弹出层 -->
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+
+    <!--<style name="TitleBarBackground">-->
+        <!--<item name="android:background">@drawable/bg_title_bar</item>-->
+    <!--</style>-->
+
+    <!--<style name="MyCustomTheme" parent="android:Theme">-->
+        <!--<item name="android:windowTitleBackgroundStyle">@style/TitleBarBackground</item>-->
+        <!--<item name="android:windowTitleSize">47dp</item>-->
+    <!--</style>-->
+
 
     <!--TagView-->
 
