@@ -15,9 +15,11 @@ import java.net.MalformedURLException;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.Util.PhotoLoader;
+import unique.fancysherry.shr.io.model.InboxShare;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.InboxShareAdapter;
 import unique.fancysherry.shr.util.IconFinder;
 import unique.fancysherry.shr.util.IconLoad;
 
@@ -49,6 +51,19 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
     this.view = itemView;
   }
 
+  public GroupShareViewHolder(View itemView, InboxShareAdapter pGroupShareAdapter, Context pContext) {
+    super(itemView);
+    this.context = pContext;
+    this.share_icon = (ImageView) itemView.findViewById(R.id.share_list_item_share_icon);
+    this.share_title = (TextView) itemView.findViewById(R.id.share_list_item_share_title);
+    this.user_portrait =
+        (SimpleDraweeView) itemView.findViewById(R.id.share_list_item_user_portrait);
+    this.user_introduce = (TextView) itemView.findViewById(R.id.share_list_item_user_introduce);
+    this.share_button = (ImageView) itemView.findViewById(R.id.share_list_item_share_button);
+    this.share_user = (TextView) itemView.findViewById(R.id.share_list_item_share_user);
+    this.view = itemView;
+  }
+
   public void onBindViewHolder(Share share) {
     share_title.setText(share.title);
     share_user.setText(shareUserText(share));
@@ -57,14 +72,32 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
       user_introduce.setText(share.intro);
 
     try {
-//      IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-       PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
+      // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
+      PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
       // share_icon.setImageURI(getIconUri(share.url));
       Log.e("share_url", share.url);
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
     view.setTag(share);
+  }
+
+  public void onBindViewHolder(InboxShare inboxshare) {
+    share_title.setText(inboxshare.title);
+    share_user.setText(inboxshare.nickname);
+    user_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + inboxshare.avatar));
+    // if (!inboxshare.intro.equals(""))
+    // user_introduce.setText(share.intro);
+
+    try {
+      // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
+      PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(inboxshare.url));
+      // share_icon.setImageURI(getIconUri(share.url));
+      Log.e("share_url", inboxshare.url);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
+    view.setTag(inboxshare);
   }
 
   private Uri getIconUri(String url) throws MalformedURLException {

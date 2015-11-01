@@ -1,16 +1,12 @@
 package unique.fancysherry.shr.ui.adapter.recycleview;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.List;
 
+import unique.fancysherry.shr.io.model.InboxShare;
 import unique.fancysherry.shr.io.model.Share;
 
 /**
@@ -19,10 +15,11 @@ import unique.fancysherry.shr.io.model.Share;
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
   private int space = 20;// default
 
-  private List<Share> view_type_array = null;
+  private String type;
 
-  public DividerItemDecoration(int space) {
+  public DividerItemDecoration(int space, String type) {
     this.space = space;
+    this.type = type;
   }
 
   public DividerItemDecoration() {}
@@ -38,27 +35,50 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
   @Override
   public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State
       state) {
-    GroupShareAdapter mAdapter = (GroupShareAdapter) parent.getAdapter();
-    view_type_array = mAdapter.getViewTypeArray();
-    int size = view_type_array.size();
-    if (view_type_array.get(mAdapter.getPosition()).getType() != null)
-      outRect.set(0, 0, 0, 0);
-    else
-    {
-      outRect.left = 0;
-      outRect.right = 0;
 
-      if (view_type_array.get(mAdapter.getPosition() - 1).getType() == null)
-        outRect.top = space;
+    if (type.equals("share")) {
+      GroupShareAdapter mAdapter = (GroupShareAdapter) parent.getAdapter();
+      List<Share> view_type_array = mAdapter.getViewTypeArray();
+      int size = view_type_array.size();
+      if (view_type_array.get(mAdapter.getPosition()).getType() != null)
+        outRect.set(0, 0, 0, 0);
+      else
+      {
+        outRect.left = 0;
+        outRect.right = 0;
 
-      if (mAdapter.getPosition() + 1 < size) {
-        if (view_type_array.get(mAdapter.getPosition() + 1).getType() == null)
+        if (view_type_array.get(mAdapter.getPosition() - 1).getType() == null)
+          outRect.top = space;
+
+        if (mAdapter.getPosition() + 1 < size) {
+          if (view_type_array.get(mAdapter.getPosition() + 1).getType() == null)
+            outRect.bottom = space;
+        }
+        else
           outRect.bottom = space;
       }
+    } else {
+      InboxShareAdapter mAdapter = (InboxShareAdapter) parent.getAdapter();
+      List<InboxShare> view_type_array = mAdapter.getViewTypeArray();
+      int size = view_type_array.size();
+      if (view_type_array.get(mAdapter.getPosition()).getType() != null)
+        outRect.set(0, 0, 0, 0);
       else
-        outRect.bottom = space;
+      {
+        outRect.left = 0;
+        outRect.right = 0;
+
+        if (view_type_array.get(mAdapter.getPosition() - 1).getType() == null)
+          outRect.top = space;
+
+        if (mAdapter.getPosition() + 1 < size) {
+          if (view_type_array.get(mAdapter.getPosition() + 1).getType() == null)
+            outRect.bottom = space;
+        }
+        else
+          outRect.bottom = space;
+      }
     }
+
   }
-
-
 }

@@ -95,25 +95,25 @@ public class ShareContentFragment extends Fragment {
 
   public void initData()
   {
-//    if (mUser.groups.size() <= 20) {
-//      for (int i = 0; i < mUser.groups.size(); i++) {
-//        test_taggroup.add(mUser.groups.get(i).name);
-//      }
-//      tagGroup.setTagsDailog(test_taggroup);
-      // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-      // @Override
-      // public void onTagClick(String tag) {
-      // if (tag.equals("..."))
-      // tagGroup.setAllTags(test_taggroup);
-      // else if (tag.equals("<-"))
-      // tagGroup.setTags(test_taggroup);
-      // }
-      // });
-//    }
-//    else
-//    {
-//      Toast.makeText(getActivity(), "你创建的组超过了20个", Toast.LENGTH_LONG).show();
-//    }
+    // if (mUser.groups.size() <= 20) {
+    // for (int i = 0; i < mUser.groups.size(); i++) {
+    // test_taggroup.add(mUser.groups.get(i).name);
+    // }
+    // tagGroup.setTagsDailog(test_taggroup);
+    // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+    // @Override
+    // public void onTagClick(String tag) {
+    // if (tag.equals("..."))
+    // tagGroup.setAllTags(test_taggroup);
+    // else if (tag.equals("<-"))
+    // tagGroup.setTags(test_taggroup);
+    // }
+    // });
+    // }
+    // else
+    // {
+    // Toast.makeText(getActivity(), "你创建的组超过了20个", Toast.LENGTH_LONG).show();
+    // }
   }
 
   /**
@@ -172,9 +172,9 @@ public class ShareContentFragment extends Fragment {
     LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
     View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
     dialog_intro_input = (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-//    tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-//    Log.e("taggroup",tagGroup.toString());
-//    getUserData();
+    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+    // Log.e("taggroup",tagGroup.toString());
+    // getUserData();
 
     OnClickListener clickListener = new OnClickListener() {
       @Override
@@ -186,24 +186,24 @@ public class ShareContentFragment extends Fragment {
           case R.id.dialog_shr_content_tagview2:
             break;
           case R.id.dialog_shr_content_tagview3:
-//          case R.id.user_groups_tagGroup:
-//            LogUtil.e("################# click");
-//
-//            // post_share_url();
-//            tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-//              @Override
-//              public void onTagClick(String tag) {
-//                if (tag.equals("..."))
-//                  tagGroup.setAllTags(test_taggroup);
-//                else if (tag.equals("<-"))
-//                  tagGroup.setTags(test_taggroup);
-//                else
-//                {
-//                  Toast.makeText(getActivity(), "We're glad that you love it" + tag,
-//                      Toast.LENGTH_LONG).show();
-//                }
-//              }
-//            });
+            // case R.id.user_groups_tagGroup:
+            // LogUtil.e("################# click");
+            //
+            // // post_share_url();
+            // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+            // @Override
+            // public void onTagClick(String tag) {
+            // if (tag.equals("..."))
+            // tagGroup.setAllTags(test_taggroup);
+            // else if (tag.equals("<-"))
+            // tagGroup.setTags(test_taggroup);
+            // else
+            // {
+            // Toast.makeText(getActivity(), "We're glad that you love it" + tag,
+            // Toast.LENGTH_LONG).show();
+            // }
+            // }
+            // });
             break;
 
         }
@@ -256,7 +256,7 @@ public class ShareContentFragment extends Fragment {
   public void initAdapter() {
     groupShareAdapter = new GroupShareAdapter(getActivity());
     share_list.setAdapter(groupShareAdapter);
-    share_list.addItemDecoration(new DividerItemDecoration());
+    share_list.addItemDecoration(new DividerItemDecoration(20, "share"));
     groupShareAdapter
         .setOnItemClickListener(new GroupShareAdapter.OnRecyclerViewItemClickListener() {
           @Override
@@ -354,8 +354,8 @@ public class ShareContentFragment extends Fragment {
 
     headers
         .put(
-                "User-Agent",
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
     return headers;
   }
 
@@ -382,18 +382,18 @@ public class ShareContentFragment extends Fragment {
 
   public void post_share_url(String group_name) {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =
-            new GsonRequest<>(Request.Method.POST,
-                    APIConstants.BASE_URL + "/share",
-                    getHeader(), getParams_share(group_name),
-                    GsonRequest.FormResult.class,
-                    new Response.Listener<GsonRequest.FormResult>() {
-                      @Override
-                      public void onResponse(GsonRequest.FormResult pGroup) {
-                        if (pGroup.message.equals("success"))
-                          Toast.makeText(getActivity(), "share a page successful", Toast.LENGTH_LONG)
-                                  .show();
-                      }
-                    }, new Response.ErrorListener() {
+        new GsonRequest<>(Request.Method.POST,
+            APIConstants.BASE_URL + "/share",
+            getHeader(), getParams_share(group_name),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult pGroup) {
+                if (pGroup.message.equals("success"))
+                  Toast.makeText(getActivity(), "share a page successful", Toast.LENGTH_LONG)
+                      .show();
+              }
+            }, new Response.ErrorListener() {
               @Override
               public void onErrorResponse(VolleyError pVolleyError) {
                 LogUtil.e("response error " + pVolleyError);
@@ -416,7 +416,7 @@ public class ShareContentFragment extends Fragment {
     params.put("title", "aaaaaaaaaaaa");
     params.put("url", url);
     params.put("comment", intro);
-    params.put("groups", mJSONArray.toString());
+    params.put("groups", null);
     return params;
   }
 

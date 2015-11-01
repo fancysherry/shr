@@ -51,7 +51,6 @@ import butterknife.InjectView;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class DrawerFragment extends Fragment {
-
   /**
    * A pointer to the current callbacks instance (the Activity).
    */
@@ -271,17 +270,17 @@ public class DrawerFragment extends Fragment {
    */
   public void getUserData() {
     GsonRequest<User> group_share_request =
-            new GsonRequest<>(Request.Method.GET,
-                    APIConstants.BASE_URL + "/homepage",
-                    getHeader(), null,
-                    User.class,
-                    new Response.Listener<User>() {
-                      @Override
-                      public void onResponse(User pUser) {
-                        user = pUser;
-                        handler.post(runnable);
-                      }
-                    }, new Response.ErrorListener() {
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/homepage",
+            getHeader(), null,
+            User.class,
+            new Response.Listener<User>() {
+              @Override
+              public void onResponse(User pUser) {
+                user = pUser;
+                handler.post(runnable);
+              }
+            }, new Response.ErrorListener() {
               @Override
               public void onErrorResponse(VolleyError pVolleyError) {
                 LogUtil.e("response error " + pVolleyError);
@@ -298,11 +297,12 @@ public class DrawerFragment extends Fragment {
       headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
     }
     headers
-            .put(
-                    "User-Agent",
-                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+        .put(
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
     return headers;
   }
+
   // public void onSaveInstanceState(Bundle outState) {
   public static interface NavigationDrawerCallbacks {
     /**

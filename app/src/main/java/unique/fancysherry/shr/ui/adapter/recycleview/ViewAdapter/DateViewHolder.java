@@ -15,6 +15,7 @@ import java.text.ParseException;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.InboxShareAdapter;
 import unique.fancysherry.shr.util.DateUtil;
 
 /**
@@ -27,6 +28,13 @@ public class DateViewHolder extends RecyclerView.ViewHolder
   View view;
 
   public DateViewHolder(View itemView, GroupShareAdapter pGroupShareAdapter, Context pContext) {
+    super(itemView);
+    this.context = pContext;
+    this.share_time = (TextView) itemView.findViewById(R.id.share_list_datetime_item_time);
+    this.view = itemView;
+  }
+
+  public DateViewHolder(View itemView, InboxShareAdapter pGroupShareAdapter, Context pContext) {
     super(itemView);
     this.context = pContext;
     this.share_time = (TextView) itemView.findViewById(R.id.share_list_datetime_item_time);

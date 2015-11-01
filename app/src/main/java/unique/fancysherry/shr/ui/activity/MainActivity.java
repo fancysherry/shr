@@ -21,12 +21,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +42,7 @@ import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.fragment.DrawerFragment;
+import unique.fancysherry.shr.ui.fragment.InboxShareFragment;
 import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
 import unique.fancysherry.shr.ui.fragment.NotificationFragment;
 import unique.fancysherry.shr.ui.fragment.ShareContentFragment;
@@ -76,6 +81,7 @@ public class MainActivity extends BaseActivity
   private ClipboardManager clipboard = null;
 
   private EditText dialog_intro_input;
+  private ImageView group_intro;
 
   private String extract_url;
 
@@ -88,6 +94,18 @@ public class MainActivity extends BaseActivity
     initializeToolbar();
     getSupportActionBar().setTitle("消息");
     mToolbar.setOnMenuItemClickListener(onMenuItemClick);
+    group_intro = (ImageView) findViewById(R.id.group_intro);
+    group_intro.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(activity, GroupActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("group_id", now_group_id);
+        mBundle.putString("group_name", now_group_name);
+        mIntent.putExtras(mBundle);
+        startActivity(mIntent);
+      }
+    });
 
 
     // 默认加载第一个组的信息
@@ -120,14 +138,14 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
       switch (menuItem.getItemId()) {
-        case R.id.action_edit:
-          Intent mIntent = new Intent(activity, GroupActivity.class);
-          Bundle mBundle = new Bundle();
-          mBundle.putString("group_id", now_group_id);
-          mBundle.putString("group_name", now_group_name);
-          mIntent.putExtras(mBundle);
-          startActivity(mIntent);
-          break;
+      // case R.id.action_edit:
+      // Intent mIntent = new Intent(activity, GroupActivity.class);
+      // Bundle mBundle = new Bundle();
+      // mBundle.putString("group_id", now_group_id);
+      // mBundle.putString("group_name", now_group_name);
+      // mIntent.putExtras(mBundle);
+      // startActivity(mIntent);
+      // break;
 
         case R.id.action_settings:
           break;
@@ -170,13 +188,15 @@ public class MainActivity extends BaseActivity
       fragmentManager.beginTransaction()
           .replace(R.id.container, new NotificationFragment())
           .commit();
+      group_intro.setVisibility(View.INVISIBLE);
     }
     else if (group_name.equals("at_me")) {
       fragmentManager
           .beginTransaction()
           .replace(R.id.container,
-              ShareContentFragment.newInstance("at_me"))
+              InboxShareFragment.newInstance())
           .commit();
+      group_intro.setVisibility(View.INVISIBLE);
     }
     else {
       fragmentManager
@@ -184,6 +204,7 @@ public class MainActivity extends BaseActivity
           .replace(R.id.container,
               ShareContentFragment.newInstance(group_name))
           .commit();
+      group_intro.setVisibility(View.VISIBLE);
     }
 
   }
@@ -472,12 +493,15 @@ public class MainActivity extends BaseActivity
   }
 
   public Map<String, String> getParams_share(String group_name) {
+
+    JSONArray mJSONArray = new JSONArray();
     // String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
     String intro = dialog_intro_input.getText().toString();
     Map<String, String> params = new HashMap<>();
     params.put("url", extract_url);
     params.put("comment", intro);
-    params.put("groups", group_name);
+    if (!group_name.equals("inbox_share"))
+      params.put("groups", group_name);
     return params;
   }
 
