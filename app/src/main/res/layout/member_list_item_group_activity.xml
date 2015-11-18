@@ -7,80 +7,84 @@
     android:orientation="vertical"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/member_item_profile"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/mine"
-        app:border_color="#FF000000"
-        app:border_width="0dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/member_item_nickname"
-        style="@style/text_item_message_nickname"
-        android:text="laoluo"
-        />
-
-    <TextView
-        android:id="@+id/member_item_level"
-        style="@style/text_item_message_content"
-        android:layout_below="@id/member_item_nickname"
-        android:text="Lvl 6"
-        />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical|right"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:id="@+id/member_item_shr_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:text="45"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/member_item_profile"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            app:placeholderImage="@drawable/mine"
+            app:roundAsCircle="true"
             />
 
         <TextView
-            android:id="@+id/member_item_shr_num_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="2dp"
-            android:gravity="center_vertical"
-            android:text="Shr"
+            android:id="@+id/member_item_nickname"
+            style="@style/text_item_message_nickname"
+            android:text="laoluo"
             />
 
         <TextView
-            android:id="@+id/member_item_gratitude_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:gravity="center_vertical"
-            android:text="21"
+            android:id="@+id/member_item_level"
+            style="@style/text_item_message_content"
+            android:layout_below="@id/member_item_nickname"
+            android:text="Lvl 6"
             />
 
-        <TextView
-            android:id="@+id/member_item_gratitude_num_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="1dp"
-            android:gravity="center_vertical"
-            android:text="感谢"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/member_item_shr_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="45"
+                />
+
+            <TextView
+                android:id="@+id/member_item_shr_num_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:gravity="center_vertical"
+                android:text="Shr"
+                />
+
+            <TextView
+                android:id="@+id/member_item_gratitude_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
+                android:text="21"
+                />
+
+            <TextView
+                android:id="@+id/member_item_gratitude_num_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="1dp"
+                android:gravity="center_vertical"
+                android:text="感谢"
+                />
 
 
-    </LinearLayout>
-
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ package unique.fancysherry.shr.io.UploadImage;
  */
 
 import android.util.Base64;
+import android.util.Base64OutputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -82,9 +83,17 @@ public class NetUtil {
   }
 
   public static String getBase64Param(File f) throws Exception {
-    byte[] bytes=getBytes(f);
-    String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
-    return encoded;
+    FileInputStream in = new FileInputStream(f.getAbsoluteFile());
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    Base64OutputStream output64 = new Base64OutputStream(out, Base64.DEFAULT);
+    byte[] b = new byte[8192];
+    int n;
+    while ((n = in.read(b)) != -1) {
+      output64.write(b, 0, n);
+    }
+    output64.close();
+    in.close();
+    return out.toString();
   }
 
   /**

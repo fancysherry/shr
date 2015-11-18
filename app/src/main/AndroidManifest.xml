@@ -41,29 +41,82 @@
         <activity
             android:name=".ui.activity.ShrContentActivity"
             android:label="@string/title_activity_shr_content"
-            android:theme="@style/UserActivityTheme">
+            android:theme="@style/AppTheme"
+            >
         </activity>
         <activity
             android:name=".ui.activity.UserActivity"
             android:label="@string/title_activity_user"
-            android:theme="@style/UserActivityTheme"
+            android:theme="@style/TransparentToolbarTheme"
             >
         </activity>
         <activity
             android:name=".ui.activity.GroupActivity"
             android:label="@string/title_activity_group"
-            android:theme="@style/UserActivityTheme">
+            android:theme="@style/TransparentToolbarTheme">
         </activity>
         <activity
             android:name=".ui.activity.ArticleActivity"
             android:label="@string/title_activity_article"
-            android:theme="@style/UserActivityTheme">
+            android:theme="@style/AppTheme"
+            >
         </activity>
         <activity
             android:name=".ui.activity.BrowserActivity"
             android:label="@string/title_activity_browser"
-            android:theme="@style/UserActivityTheme">
+            android:theme="@style/AppTheme"
+            >
         </activity>
+
+
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".ui.activity.CommentActivity"
+            android:label="@string/title_activity_comment"
+            android:theme="@style/AppTheme"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.UserInformationResetActivity"
+            android:label="@string/title_activity_user_information_reset"
+            android:theme="@style/AppTheme"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.GroupMemberDeleteActivity"
+            android:label="@string/title_activity_group_member"
+            android:theme="@style/AppTheme"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.InviteMemberActivity"
+            android:label="@string/title_activity_invite_member"
+            android:theme="@style/AppTheme"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.GroupEditActivity"
+            android:label="@string/title_activity_group_manage"
+            android:theme="@style/TransparentToolbarTheme"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.DeleteGroupActivity"
+            android:label="@string/title_activity_delete_group"
+            android:theme="@style/AppTheme"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.GroupChangeManagerActivity"
+            android:label="@string/title_activity_group_change_manager"
+            android:theme="@style/AppTheme"
+            >
+        </activity>
+
 
         <service
             android:name=".sync.SyncService"
@@ -77,47 +130,6 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter"/>
         </service>
-
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.CommentActivity"
-            android:label="@string/title_activity_comment"
-            android:theme="@style/UserActivityTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.UserInformationResetActivity"
-            android:label="@string/title_activity_user_information_reset"
-            android:theme="@style/UserActivityTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.GroupMemberDeleteActivity"
-            android:label="@string/title_activity_group_member"
-            android:theme="@style/UserActivityTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.InviteMemberActivity"
-            android:label="@string/title_activity_invite_member"
-            android:theme="@style/UserActivityTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.GroupEditActivity"
-            android:label="@string/title_activity_group_manage"
-            android:theme="@style/UserActivityTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.DeleteGroupActivity"
-            android:label="@string/title_activity_delete_group"
-            android:theme="@style/UserActivityTheme">
-        </activity>
-        <activity
-            android:name=".ui.activity.GroupChangeManagerActivity"
-            android:label="@string/title_activity_group_change_manager"
-            android:theme="@style/UserActivityTheme">
-        </activity>
     </application>
 
 </manifest>

@@ -23,20 +23,32 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +61,10 @@ import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.UploadImage.NetUtil;
 import unique.fancysherry.shr.io.UploadImage.SelectPicPopupWindow;
+import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.config.SApplication;
 
 public class UserInformationResetActivity extends ActionBarActivity {
   private String user_id;
@@ -68,13 +83,14 @@ public class UserInformationResetActivity extends ActionBarActivity {
   /** 获取到的图片路径 */
   private String picPath = "";
   private String resultStr = ""; // 服务端返回结果集
-  private String imgUrl = APIConstants.BASE_URL + "upload_image";
+  private String imgUrl = APIConstants.BASE_URL + "/upload_image";
   private Handler handler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_user_information_reset);
+    ButterKnife.inject(this);
 
     handler = new Handler(new Handler.Callback() {
 
@@ -83,25 +99,25 @@ public class UserInformationResetActivity extends ActionBarActivity {
         switch (msg.what) {
           case 0:
             // pd.dismiss();
-//
-//            try {
-//              JSONObject jsonObject = new JSONObject(resultStr);
-//              // 服务端以字符串“1”作为操作成功标记
-//              if (jsonObject.optString("status").equals("1")) {
-//
-//                // 用于拼接发布说说时用到的图片路径
-//                // 服务端返回的JsonObject对象中提取到图片的网络URL路径
-//                String imageUrl = jsonObject.optString("imageUrl");
-//                // 获取缓存中的图片路径
-//                Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
-//              } else {
-//                Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT)
-//                    .show();
-//              }
-//
-//            } catch (JSONException e) {
-//              e.printStackTrace();
-//            }
+            //
+            // try {
+            // JSONObject jsonObject = new JSONObject(resultStr);
+            // // 服务端以字符串“1”作为操作成功标记
+            // if (jsonObject.optString("status").equals("1")) {
+            //
+            // // 用于拼接发布说说时用到的图片路径
+            // // 服务端返回的JsonObject对象中提取到图片的网络URL路径
+            // String imageUrl = jsonObject.optString("imageUrl");
+            // // 获取缓存中的图片路径
+            // Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
+            // } else {
+            // Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT)
+            // .show();
+            // }
+            //
+            // } catch (JSONException e) {
+            // e.printStackTrace();
+            // }
             break;
           default:
             break;
@@ -111,7 +127,6 @@ public class UserInformationResetActivity extends ActionBarActivity {
     });
 
     mContext = this;
-    ButterKnife.inject(this);
     Bundle mBundle = getIntent().getExtras();
     user_id = mBundle.getString("user_id");
     initializeToolbar();
@@ -285,14 +300,70 @@ public class UserInformationResetActivity extends ActionBarActivity {
       // 根据图片的SDCard路径读出Bitmap
       Bitmap bm = BitmapFactory.decodeFile(picPath, option);
       // 显示在图片控件上
-      user_information_portrait.setImageBitmap(bm);
-
+      user_information_portrait.setImageURI(photoUri);
+      LogUtil.e("before thread image address   " + picPath);
       // pd = ProgressDialog.show(mContext, null, "正在上传图片，请稍候...");
-      new Thread(uploadImageRunnable).start();
+      // new Thread(uploadImageRunnable).start();
+      UploadImage();
     } else {
       Toast.makeText(this, "选择图片文件不正确", Toast.LENGTH_LONG).show();
     }
 
+  }
+
+  public void UploadImage() {
+    File file = new File(picPath);
+    String base64_code = null;
+    try {
+       base64_code = NetUtil.getBase64Param(file);
+      LogUtil.e("base code :" + base64_code);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    GsonRequest<GsonRequest.FormResult> group_share_request =
+        new GsonRequest<>(Request.Method.PUT,
+            imgUrl,
+            getHeader(), getParams(base64_code),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                // handler.post(runnable);
+                LogUtil.e(result.message);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
+
+  public Map<String, String> getHeader() {
+    Map<String, String> headers = new HashMap<String, String>();
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
+    }
+    LogUtil.e(currentUser.getCookieHolder().generateCookieString());
+    headers.put("Accept-Encoding", "gzip, deflate");
+    headers
+        .put(
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+    return headers;
+  }
+
+  public Map<String, String> getParams(String base64_code) {
+    Map<String, String> params = new HashMap<>();
+    params.put("avatar", base64_code);
+    return params;
+  }
+
+  public void executeRequest(Request request) {
+    SApplication.getRequestManager().executeRequest(request, this);
   }
 
   /**
@@ -300,69 +371,113 @@ public class UserInformationResetActivity extends ActionBarActivity {
    * 上传平时很少使用，比较麻烦
    * 原理是： 分析文件上传的数据格式，然后根据格式构造相应的发送给服务器的字符串。
    */
-  Runnable uploadImageRunnable = new Runnable() {
-    @Override
-    public void run() {
-
-      if (TextUtils.isEmpty(imgUrl)) {
-        Toast.makeText(mContext, "还没有设置上传服务器的路径！", Toast.LENGTH_SHORT).show();
-        return;
-      }
-
-      Map<String, String> textParams = new HashMap<String, String>();
-      Map<String, String> fileparams = new HashMap<>();
-
-      try {
-        // 创建一个URL对象
-        URL url = new URL(imgUrl);
-        textParams = new HashMap<String, String>();
-        // 要上传的图片文件
-        File file = new File(picPath);
-        fileparams.put("avatar", NetUtil.getBase64Param(file));
-        // 利用HttpURLConnection对象从网络中获取网页数据
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        // 设置连接超时（记得设置连接超时,如果网络不好,Android系统在超过默认时间会收回资源中断操作）
-        conn.setConnectTimeout(5000);
-        // 设置允许输出（发送POST请求必须设置允许输出）
-        conn.setDoOutput(true);
-        // 设置使用POST的方式发送
-        conn.setRequestMethod("Put");
-        // 设置不使用缓存（容易出现问题）
-        conn.setUseCaches(false);
-        conn.setRequestProperty("Content-Type",
-            "application/x-www-form-urlencoded");
-        conn.setRequestProperty("Cookie", getCookie());
-        conn.setRequestProperty(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-        // 在开始用HttpURLConnection对象的setRequestProperty()设置,就是生成HTML文件头
-        // conn.setRequestProperty("ser-Agent", "Fiddler");
-        // // 设置contentType
-        // conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" +
-        // NetUtil.BOUNDARY);
-        OutputStream os = conn.getOutputStream();
-        DataOutputStream ds = new DataOutputStream(os);
-        NetUtil.writeStringParams(textParams, ds);
-        NetUtil.paramsEnd(ds);
-        // 对文件流操作完,要记得及时关闭
-        os.close();
-        // 服务器返回的响应吗
-        int code = conn.getResponseCode(); // 从Internet获取网页,发送请求,将网页以流的形式读回来
-        // 对响应码进行判断
-        if (code == 200) {// 返回的响应码200,是成功
-          // 得到网络返回的输入流
-          InputStream is = conn.getInputStream();
-          resultStr = NetUtil.readString(is);
-          LogUtil.e("put   " + resultStr);
-        } else {
-          Toast.makeText(mContext, "请求URL失败！", Toast.LENGTH_SHORT).show();
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      handler.sendEmptyMessage(0);// 执行耗时的方法之后发送消给handler
-    }
-  };
+  // Runnable uploadImageRunnable = new Runnable() {
+  // @Override
+  // public void run() {
+  // LogUtil.e("start 1");
+  // if (TextUtils.isEmpty(imgUrl)) {
+  // Toast.makeText(mContext, "还没有设置上传服务器的路径！", Toast.LENGTH_SHORT).show();
+  // return;
+  // }
+  // LogUtil.e("start a");
+  // File file = new File(picPath);
+  // LogUtil.e("start b");
+  // String base64_code = null;
+  // try {
+  // LogUtil.e("start c");
+  // // base64_code = NetUtil.getBase64Param(file);
+  // base64_code = "";
+  // LogUtil.e("base code :" + base64_code);
+  // } catch (Exception e) {
+  // e.printStackTrace();
+  // }
+  // URL url = null;
+  // try {
+  // url = new URL(imgUrl);
+  // } catch (MalformedURLException e) {
+  // e.printStackTrace();
+  // }
+  // LogUtil.e("imageurl " + imgUrl);
+  //
+  // // Map<String, String> textParams = new HashMap<String, String>();
+  // // Map<String, String> fileparams = new HashMap<>();
+  // LogUtil.e("start 2");
+  // HttpURLConnection conn = null;
+  // try {
+  // // 创建一个URL对象
+  // // textParams = new HashMap<String, String>();
+  // // fileparams.put("avatar", NetUtil.getBase64Param(file));
+  // // 要上传的图片文件
+  // // 利用HttpURLConnection对象从网络中获取网页数据
+  // conn = (HttpURLConnection) url.openConnection();
+  // // 设置连接超时（记得设置连接超时,如果网络不好,Android系统在超过默认时间会收回资源中断操作）
+  // conn.setConnectTimeout(5000);
+  // // 设置允许输出（发送POST请求必须设置允许输出）
+  // conn.setDoOutput(true);
+  // conn.setDoInput(true);
+  // // 设置使用POST的方式发送
+  // conn.setRequestMethod("Put");
+  // LogUtil.e("start 4");
+  // // 设置不使用缓存（容易出现问题）
+  // conn.setUseCaches(false);
+  // conn.setRequestProperty("Content-Type",
+  // "text/html; charset=UTF-8");
+  // conn.setRequestProperty("Cookie", getCookie());
+  // conn.setRequestProperty(
+  // "User-Agent",
+  // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+  // // 在开始用HttpURLConnection对象的setRequestProperty()设置,就是生成HTML文件头
+  // // conn.setRequestProperty("ser-Agent", "Fiddler");
+  // // // 设置contentType
+  // // conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" +
+  // // NetUtil.BOUNDARY);
+  // LogUtil.e("image address   " + picPath);
+  // List<NameValuePair> params = new ArrayList<NameValuePair>();
+  // params.add(new BasicNameValuePair("avatar", base64_code));
+  // OutputStream os = conn.getOutputStream();
+  // BufferedWriter writer = new BufferedWriter(
+  // new OutputStreamWriter(os, "UTF-8"));
+  // writer.write(getQuery(params));
+  // // 对文件流操作完,要记得及时关闭
+  // writer.flush();
+  // writer.close();
+  // os.close();
+  //
+  // LogUtil.e(String.valueOf(conn.getResponseCode()));
+  // InputStream in = conn.getInputStream();
+  // BufferedReader br = new BufferedReader(new InputStreamReader(in));
+  // String str = null;
+  // StringBuffer buffer = new StringBuffer();
+  // while ((str = br.readLine()) != null) {// BufferedReader特有功能，一次读取一行数据
+  // buffer.append(str);
+  // }
+  // in.close();
+  // br.close();
+  // LogUtil.e("message   " + buffer.toString());
+  // // 服务器返回的响应吗
+  // int code = conn.getResponseCode(); // 从Internet获取网页,发送请求,将网页以流的形式读回来
+  // // 对响应码进行判断
+  // if (code == 200) {// 返回的响应码200,是成功
+  // // 得到网络返回的输入流
+  // InputStream is = conn.getInputStream();
+  // resultStr = NetUtil.readString(is);
+  // LogUtil.e("put   " + resultStr);
+  // Toast.makeText(mContext, "头像已修改！", Toast.LENGTH_SHORT).show();
+  // } else {
+  // Toast.makeText(mContext, "请求URL失败！", Toast.LENGTH_SHORT).show();
+  // }
+  // }
+  // catch (IOException exception) {
+  // LogUtil.e("start error");
+  // exception.printStackTrace();
+  // } finally {
+  // if (conn != null) {
+  // conn.disconnect();
+  // }
+  // }
+  // handler.sendEmptyMessage(0);// 执行耗时的方法之后发送消给handler
+  // }
+  // };
 
   public String getCookie() {
 

@@ -80,6 +80,18 @@ public class UserActivity extends AppCompatActivity {
       getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
     mToolbar = (Toolbar) findViewById(R.id.user_activity_toolbar);
+//    // 设置菜单及其点击监听
+//    mToolbar.inflateMenu(R.menu.menu_user);
+//    mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//      @Override
+//      public boolean onMenuItemClick(MenuItem item) {
+//        switch (item.getItemId()) {
+//          case R.id.action_settings:
+//            break;
+//        }
+//        return true;
+//      }
+//    });
 
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -144,7 +156,7 @@ public class UserActivity extends AppCompatActivity {
     });
     mUser = getIntent().getParcelableExtra("user");
     shr_number.setText(String.valueOf(mUser.shares.size()));
-    gratitude_number.setText(mUser.gratitude_shares_sum);
+    gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum));
     group_name.setText(mUser.groups.get(0).name);
     user_attend_time.setText(getTime(mUser.register_time));
     introduce.setText(mUser.brief);

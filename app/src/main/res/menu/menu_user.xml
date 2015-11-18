@@ -3,11 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="unique.fancysherry.shr.ui.activity.UserActivity">
 
-      <item android:id="@+id/action_edit"
-            android:title=""
-            android:orderInCategory="80"
-            android:icon="@drawable/ic_group"
-            app:showAsAction="ifRoom" />
+
 
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"

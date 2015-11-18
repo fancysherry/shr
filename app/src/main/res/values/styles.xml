@@ -14,12 +14,12 @@
         <item name="android:windowContentTransitions">true</item>
 
         <item name="colorPrimary">#569597</item>
-        <item name="colorPrimaryDark">#569597</item>
-        <item name="colorAccent">#569597</item>
+        <item name="colorPrimaryDark">#20569597</item>
+        <item name="colorAccent">#20569597</item>
     </style>
 
 
-    <style name="UserActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="TransparentToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--<item name="android:windowSharedElementEnterTransition">@android:transition/move</item>-->
         <!--<item name="android:windowSharedElementExitTransition">@android:transition/move</item>-->
@@ -34,9 +34,9 @@
         <!--<item name="android:windowContentTransitions">true</item>-->
 
 
-        <item name="colorPrimary">#569597</item>
-        <item name="colorPrimaryDark">#569597</item>
-        <item name="colorAccent">#569597</item>
+        <item name="colorPrimary">#00000000</item>
+        <item name="colorPrimaryDark">#20569597</item>
+        <item name="colorAccent">#20569597</item>
     </style>
 
     <!-- 选择照片底部弹出层 -->

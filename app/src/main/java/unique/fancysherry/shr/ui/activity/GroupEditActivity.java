@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,9 +26,9 @@ public class GroupEditActivity extends AppCompatActivity {
   @InjectView(R.id.manage_group_member_layout)
   RelativeLayout manage_group_member_layout;
   @InjectView(R.id.change_group_manager_btn)
-  Button change_group_manager_btn;
+  TextView change_group_manager_btn;
   @InjectView(R.id.delete_group_btn)
-  Button delete_group_btn;
+  TextView delete_group_btn;
 
   private Context context;
   private String group_id;

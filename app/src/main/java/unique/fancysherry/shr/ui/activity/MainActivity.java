@@ -94,18 +94,6 @@ public class MainActivity extends BaseActivity
     initializeToolbar();
     getSupportActionBar().setTitle("消息");
     mToolbar.setOnMenuItemClickListener(onMenuItemClick);
-    group_intro = (ImageView) findViewById(R.id.group_intro);
-    group_intro.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent mIntent = new Intent(activity, GroupActivity.class);
-        Bundle mBundle = new Bundle();
-        mBundle.putString("group_id", now_group_id);
-        mBundle.putString("group_name", now_group_name);
-        mIntent.putExtras(mBundle);
-        startActivity(mIntent);
-      }
-    });
 
 
     // 默认加载第一个组的信息
@@ -113,11 +101,13 @@ public class MainActivity extends BaseActivity
     runnable = new Runnable() {
       @Override
       public void run() {
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.container,
-                ShareContentFragment.newInstance(user.groups.get(0).name))
-            .commit();
+//        LogUtil.e("first load ");
+//        LogUtil.e("first load "+user.groups.get(0).name);
+//        fragmentManager
+//                .beginTransaction()
+//            .replace(R.id.container,
+//                ShareContentFragment.newInstance(user.groups.get(0).name))
+//            .commit();
       }
     };
   }
@@ -125,7 +115,8 @@ public class MainActivity extends BaseActivity
   @Override
   public void onResume() {
     super.onResume();
-    checkShare();
+    // checkShare();
+    // getUserData();
   }
 
   @Override
@@ -165,6 +156,20 @@ public class MainActivity extends BaseActivity
 
   @Override
   protected void initView() {
+    group_intro = (ImageView) findViewById(R.id.group_intro);
+    group_intro.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(activity, GroupActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("group_id", now_group_id);
+        mBundle.putString("group_name", now_group_name);
+        mIntent.putExtras(mBundle);
+        startActivity(mIntent);
+      }
+    });
+
+
     mDrawerFragment = (DrawerFragment)
         getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -173,6 +178,14 @@ public class MainActivity extends BaseActivity
         (DrawerLayout) findViewById(R.id.drawerLayout));
 
     fragmentManager = getSupportFragmentManager();
+
+    //default load ar_me
+    fragmentManager
+            .beginTransaction()
+            .replace(R.id.container,
+                    InboxShareFragment.newInstance())
+            .commit();
+    group_intro.setVisibility(View.INVISIBLE);
     getUserData();
   }
 

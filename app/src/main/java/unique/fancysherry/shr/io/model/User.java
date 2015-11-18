@@ -22,7 +22,7 @@ public class User implements Parcelable {
   public List<Group> groups;
   public List<Share> shares;
   public List<Group> manager_groups;
-  public String gratitude_shares_sum;
+  public int gratitude_shares_sum;
   public String comment_sum;
   public String black_users_sum;
   public String followers_sum;
@@ -30,6 +30,7 @@ public class User implements Parcelable {
   public String email;
   public String education_information;
   public String phone_number;
+  public int share_sum;
 
   // 1.必须实现Parcelable.Creator接口,否则在获取Person数据的时候，会报错，如下：
   // android.os.BadParcelableException:
@@ -60,7 +61,7 @@ public class User implements Parcelable {
     uid = in.readString();
     id = in.readString();
     nickname = in.readString();
-    name=in.readString();
+    name = in.readString();
     avatar = in.readString();
     brief = in.readString();
     is_man = in.readString();
@@ -71,7 +72,7 @@ public class User implements Parcelable {
     in.readList(groups, getClass().getClassLoader());
     in.readList(shares, getClass().getClassLoader());
     in.readList(manager_groups, getClass().getClassLoader());
-    gratitude_shares_sum = in.readString();
+    gratitude_shares_sum = in.readInt();
     comment_sum = in.readString();
     black_users_sum = in.readString();
     followers_sum = in.readString();
@@ -79,6 +80,7 @@ public class User implements Parcelable {
     email = in.readString();
     education_information = in.readString();
     phone_number = in.readString();
+    share_sum = in.readInt();
   }
 
 
@@ -101,7 +103,7 @@ public class User implements Parcelable {
     dest.writeList(groups);
     dest.writeList(shares);
     dest.writeList(manager_groups);
-    dest.writeString(gratitude_shares_sum);
+    dest.writeInt(gratitude_shares_sum);
     dest.writeString(comment_sum);
     dest.writeString(black_users_sum);
     dest.writeString(followers_sum);
@@ -109,6 +111,7 @@ public class User implements Parcelable {
     dest.writeString(email);
     dest.writeString(education_information);
     dest.writeString(phone_number);
+    dest.writeInt(share_sum);
 
   }
 }

@@ -3,8 +3,10 @@ package unique.fancysherry.shr.ui.adapter.recycleview;
 import java.util.List;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,10 +56,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   public void onBindViewHolder(ViewHolder holder, int position) {
     Log.e("memberAdapter", items.get(position).name + "   " + position);
     holder.member_item_name.setText(items.get(position).name);
-    // holder.member_item_shr_num.setText(String.valueOf(items.get(position).shares.size()));
-    // holder.member_item_gratitude_num.setText(items.get(position).gratitude_shares_sum);
+    holder.member_item_shr_num.setText(String.valueOf(items.get(position).share_sum));
+    holder.member_item_gratitude_num.setText(String.valueOf(items.get(position).gratitude_shares_sum));
+    holder.member_item_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+        + items.get(position).avatar));
     // holder.member_item_level.setText(items.get(position).level);
-    // holder.view.setTag(items.get(position));
+    holder.view.setTag(items.get(position));
   }
 
   @Override
@@ -93,7 +99,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
-    CircleImageView member_item_portrait;
+    SimpleDraweeView member_item_portrait;
     TextView member_item_name;
     TextView member_item_level;
     TextView member_item_shr_num;
@@ -105,7 +111,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
       super(itemView);
       this.context = pContext;
       this.member_item_portrait =
-          (CircleImageView) itemView.findViewById(R.id.member_item_profile);
+          (SimpleDraweeView) itemView.findViewById(R.id.member_item_profile);
       this.member_item_level = (TextView) itemView.findViewById(R.id.member_item_level);
       this.member_item_name = (TextView) itemView.findViewById(R.id.member_item_nickname);
       this.member_item_shr_num = (TextView) itemView.findViewById(R.id.member_item_shr_num);
