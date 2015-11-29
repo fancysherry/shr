@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:padding="15dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/group_manage_item_portrait"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
-        android:src="@drawable/mine"
-        tools:border_color="#FF000000"
-        tools:border_width="0dp"/>
+        app:placeholderImage="@drawable/mine"
+        app:roundAsCircle="true"
+        />
 
 
     <TextView
         android:id="@+id/group_manage_item_name"
         android:layout_width="wrap_content"
-        android:text="老罗"
-        android:layout_toRightOf="@id/group_manage_item_portrait"
-        android:layout_marginLeft="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@id/group_manage_item_portrait"
+        android:text="老罗"
         android:textColor="@color/gray_97"
-        android:textSize="27px"
+        android:textSize="15sp"
 
         />
 
@@ -37,15 +37,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/group_manage_item_name"
         android:layout_marginLeft="22dp"
-        android:layout_toRightOf="@id/group_manage_item_portrait"
         android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/group_manage_item_portrait"
         android:text="Lvl 6"
         android:textColor="@color/gray_97"
-        android:textSize="20px"
+        android:textSize="13sp"
         />
-
-
-
 
 
 </RelativeLayout>

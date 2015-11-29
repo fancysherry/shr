@@ -6,17 +6,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.util.system.ResourceHelper;
 
 public class GroupEditActivity extends AppCompatActivity {
   @InjectView(R.id.change_group_name_layout_content)
@@ -25,8 +27,8 @@ public class GroupEditActivity extends AppCompatActivity {
   EditText change_group_introduce_edittext;
   @InjectView(R.id.manage_group_member_layout)
   RelativeLayout manage_group_member_layout;
-  @InjectView(R.id.change_group_manager_btn)
-  TextView change_group_manager_btn;
+  @InjectView(R.id.change_group_manager_layout)
+  RelativeLayout change_group_manager_layout;
   @InjectView(R.id.delete_group_btn)
   TextView delete_group_btn;
 
@@ -60,7 +62,7 @@ public class GroupEditActivity extends AppCompatActivity {
       }
     });
 
-    change_group_manager_btn.setOnClickListener(new View.OnClickListener() {
+    change_group_manager_layout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent mIntent = new Intent(context, GroupChangeManagerActivity.class);
@@ -84,10 +86,24 @@ public class GroupEditActivity extends AppCompatActivity {
     initializeToolbar();
   }
 
+  // Resolve the given attribute of the current theme
+  private int getAttributeColor(int resId) {
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(resId, typedValue, true);
+    int color = 0x000000;
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+      // resId is a color
+      color = typedValue.data;
+    } else {
+      // resId is not a color
+    }
+    return color;
+  }
+
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
     }
     Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
     mToolbar.setTitle("");

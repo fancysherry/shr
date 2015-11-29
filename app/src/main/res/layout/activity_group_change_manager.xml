@@ -10,13 +10,20 @@
     <TextView
         android:id="@+id/assure_change_manage_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:gravity="center"
         android:textColor="#ffbf360c"
-        android:textSize="43px"
+        android:textSize="17sp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:text="确认提交"/>
+
+    <!--<View-->
+        <!--android:layout_below="@id/group_manage_number"-->
+        <!--android:id="@+id/divide"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:background="#a3a3a3"/>-->
 
 
 

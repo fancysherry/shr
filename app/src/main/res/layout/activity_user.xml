@@ -1,6 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -16,7 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="148dp"
-            android:background="#569597">
+            android:background="?attr/colorPrimary">
 
             <LinearLayout
                 android:layout_width="wrap_content"

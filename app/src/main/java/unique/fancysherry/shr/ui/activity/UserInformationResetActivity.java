@@ -14,8 +14,10 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,10 +65,12 @@ import unique.fancysherry.shr.io.UploadImage.NetUtil;
 import unique.fancysherry.shr.io.UploadImage.SelectPicPopupWindow;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class UserInformationResetActivity extends ActionBarActivity {
+public class UserInformationResetActivity extends AppCompatActivity {
   private String user_id;
   @InjectView(R.id.change_portriat)
   TextView change_portrait;
@@ -84,57 +88,24 @@ public class UserInformationResetActivity extends ActionBarActivity {
   private String picPath = "";
   private String resultStr = ""; // 服务端返回结果集
   private String imgUrl = APIConstants.BASE_URL + "/upload_image";
-  private Handler handler;
+  private String user_avatar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_user_information_reset);
     ButterKnife.inject(this);
-
-    handler = new Handler(new Handler.Callback() {
-
-      @Override
-      public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-          case 0:
-            // pd.dismiss();
-            //
-            // try {
-            // JSONObject jsonObject = new JSONObject(resultStr);
-            // // 服务端以字符串“1”作为操作成功标记
-            // if (jsonObject.optString("status").equals("1")) {
-            //
-            // // 用于拼接发布说说时用到的图片路径
-            // // 服务端返回的JsonObject对象中提取到图片的网络URL路径
-            // String imageUrl = jsonObject.optString("imageUrl");
-            // // 获取缓存中的图片路径
-            // Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
-            // } else {
-            // Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT)
-            // .show();
-            // }
-            //
-            // } catch (JSONException e) {
-            // e.printStackTrace();
-            // }
-            break;
-          default:
-            break;
-        }
-        return false;
-      }
-    });
-
     mContext = this;
     Bundle mBundle = getIntent().getExtras();
     user_id = mBundle.getString("user_id");
+    user_avatar = mBundle.getString("user_avatar");
     initializeToolbar();
     initView();
   }
 
   private void initView()
   {
+    user_information_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + user_avatar));
     change_portrait.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -168,11 +139,25 @@ public class UserInformationResetActivity extends ActionBarActivity {
     }
   };
 
+  // Resolve the given attribute of the current theme
+  private int getAttributeColor(int resId) {
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(resId, typedValue, true);
+    int color = 0x000000;
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
+        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+      // resId is a color
+      color = typedValue.data;
+    } else {
+      // resId is not a color
+    }
+    return color;
+  }
 
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
     }
     Toolbar mToolbar = (Toolbar) findViewById(R.id.user_setting_activity_toolbar);
 
@@ -315,12 +300,12 @@ public class UserInformationResetActivity extends ActionBarActivity {
     File file = new File(picPath);
     String base64_code = null;
     try {
-       base64_code = NetUtil.getBase64Param(file);
+      base64_code = NetUtil.getBase64Param(file);
       LogUtil.e("base code :" + base64_code);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    GsonRequest<GsonRequest.FormResult> group_share_request =
+    GsonRequest<GsonRequest.FormResult> user_avatar_request =
         new GsonRequest<>(Request.Method.PUT,
             imgUrl,
             getHeader(), getParams(base64_code),
@@ -329,7 +314,11 @@ public class UserInformationResetActivity extends ActionBarActivity {
               @Override
               public void onResponse(GsonRequest.FormResult result) {
                 // handler.post(runnable);
+                // 通知相应的界面更新头像
                 LogUtil.e(result.message);
+                DataChangeAction mDataChangeAction = new DataChangeAction();
+                mDataChangeAction.setStr(DataChangeAction.CHANGE_AVATAR);
+                BusProvider.getInstance().post(mDataChangeAction);
               }
             }, new Response.ErrorListener() {
               @Override
@@ -337,7 +326,7 @@ public class UserInformationResetActivity extends ActionBarActivity {
                 LogUtil.e("response error " + pVolleyError);
               }
             });
-    executeRequest(group_share_request);
+    executeRequest(user_avatar_request);
   }
 
   public Map<String, String> getHeader() {

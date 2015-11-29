@@ -6,15 +6,14 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 
-/**
- * Created by suanmiao on 15/3/8.
- * hold all the profile data for a user
- */
+import unique.fancysherry.shr.io.model.User;
+
 public class UserBean {
-  private AccountBean mAccountBean;
+  public AccountBean mAccountBean;
 
   private CookieHolder mCookieHolder;
   private String token;
+  private User user_profile;
 
   public UserBean(AccountBean accountBean) {
     this.mAccountBean = accountBean;
@@ -47,5 +46,13 @@ public class UserBean {
 
   private void loginBackground(final String username, final String passwordEncrypted) {
 
+  }
+
+  public User getUser_profile() {
+    return user_profile;
+  }
+
+  public void setUser_profile(User pUser_profile) {
+    user_profile = pUser_profile;
   }
 }

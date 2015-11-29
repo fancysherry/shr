@@ -1,6 +1,7 @@
 package unique.fancysherry.shr.ui.adapter.recycleview.ViewAdapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,8 +29,8 @@ import unique.fancysherry.shr.util.IconLoad;
  */
 public class GroupShareViewHolder extends RecyclerView.ViewHolder
 {
-//  ImageView share_icon;
-   SimpleDraweeView share_icon;
+  // ImageView share_icon;
+  SimpleDraweeView share_icon;
   TextView share_title;
   SimpleDraweeView user_portrait;
   TextView user_introduce;
@@ -64,26 +65,30 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
     this.view = itemView;
   }
 
-  public void onBindViewHolder(Share share) {
+  public void onBindViewHolder(final Share share) {
     share_title.setText(share.title);
     share_user.setText(shareUserText(share));
     user_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + share.origin.avatar));
-    try {
-      share_icon.setImageURI(getIconUri(share.url));
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    }
-    if (!share.intro.equals(""))
-      user_introduce.setText(share.intro);
 
 //    try {
-//      // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-//      PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
 //      // share_icon.setImageURI(getIconUri(share.url));
-//      Log.e("share_url", share.url);
+//      IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
 //    } catch (MalformedURLException e) {
 //      e.printStackTrace();
 //    }
+
+
+    if (!share.intro.equals(""))
+      user_introduce.setText(share.intro);
+
+    // try {
+    // // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
+    // PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
+    // // share_icon.setImageURI(getIconUri(share.url));
+    // Log.e("share_url", share.url);
+    // } catch (MalformedURLException e) {
+    // e.printStackTrace();
+    // }
     view.setTag(share);
   }
 

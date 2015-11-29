@@ -6,7 +6,9 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import unique.fancysherry.shr.ui.activity.UserActivity;
 
 /**
  * Created by fancysherry on 15-7-14.
@@ -53,13 +56,24 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
+  public void onBindViewHolder(ViewHolder holder, final int position) {
     Log.e("memberAdapter", items.get(position).name + "   " + position);
     holder.member_item_name.setText(items.get(position).name);
     holder.member_item_shr_num.setText(String.valueOf(items.get(position).share_sum));
-    holder.member_item_gratitude_num.setText(String.valueOf(items.get(position).gratitude_shares_sum));
+    holder.member_item_gratitude_num
+        .setText(String.valueOf(items.get(position).gratitude_shares_sum));
     holder.member_item_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
         + items.get(position).avatar));
+    holder.member_item_portrait.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(context, UserActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("user_id", items.get(position).id);
+        mIntent.putExtras(mBundle);
+        context.startActivity(mIntent);
+      }
+    });
     // holder.member_item_level.setText(items.get(position).level);
     holder.view.setTag(items.get(position));
   }

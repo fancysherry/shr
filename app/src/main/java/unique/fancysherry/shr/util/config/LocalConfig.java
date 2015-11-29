@@ -48,6 +48,12 @@ public class LocalConfig {
     return editor.commit();
   }
 
+  public static boolean isFirstLaunch()
+  {
+    SharedPreferences userConfig = getUserConfigSharedpref();
+    return userConfig.getBoolean(KEY_USER_ACCOUNT, true);
+  }
+
   public static String getUserAccountString() {
     SharedPreferences userConfig = getUserConfigSharedpref();
     return userConfig.getString(KEY_USER_ACCOUNT, "");

@@ -123,7 +123,10 @@ public class AccountManager implements IAccountManager {
   }
 
   @Override
-  public void deleteAccount(String userName) {
-
+  public void deleteAccount(String username) {
+    int accountIndex = getAccountIndex(username);
+    if (accountIndex != -1) {
+      saveAccountData();
+    }
   }
 }

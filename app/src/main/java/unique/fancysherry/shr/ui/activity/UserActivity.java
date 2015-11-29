@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +22,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.otto.Subscribe;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,14 +39,25 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountManager;
+import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.UploadImage.SelectPicPopupWindow;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserShareAdapter;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
+import unique.fancysherry.shr.ui.widget.BlacklistPopupWindow;
 import unique.fancysherry.shr.ui.widget.TagGroup;
+import unique.fancysherry.shr.util.DateUtil;
+import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.config.SApplication;
+import unique.fancysherry.shr.util.system.ResourceHelper;
 
 public class UserActivity extends AppCompatActivity {
   @InjectView(R.id.user_portrait)
@@ -57,41 +78,183 @@ public class UserActivity extends AppCompatActivity {
   TagGroup tagGroup;
   @InjectView(R.id.user_edit_icon)
   ImageView user_edit;
-
+  private BlacklistPopupWindow menuWindow; // 自定义的头像编辑弹出框
   private UserShareAdapter userShareAdapter;
   private Activity context;
   private User mUser;
   private Toolbar mToolbar;
   private ArrayList<String> test_taggroup = new ArrayList<>();// todo 目前最大组的数量是20个
+  private Handler handler;
+  private Runnable runnable;
+
+  private String is_mine_id;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_user);
+    BusProvider.getInstance().register(this);
     ButterKnife.inject(this);
     context = this;
     initializeToolbar();
-    initData();
+
+    handler = new Handler();
+    runnable = new Runnable() {
+      @Override
+      public void run() {
+        // LogUtil.e(AccountManager.getInstance().getCurrentUser().mAccountBean.username+ "");
+        user_edit.setBackgroundResource(R.drawable.ic_more2x);
+        user_edit.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            menuWindow = new BlacklistPopupWindow(context, itemsOnClick);
+            menuWindow.showAtLocation(findViewById(R.id.parent_layout),
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+          }
+        });
+        initData();
+      }
+    };
+
+
+    if (getIntent().getParcelableExtra("user") != null) {
+      user_edit.setBackgroundResource(R.drawable.icon_input_four);
+      user_edit.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Intent mIntent = new Intent(context, UserInformationResetActivity.class);
+          mIntent.putExtra("user_id", mUser.id);
+          mIntent.putExtra("user_avatar", mUser.avatar);
+          startActivity(mIntent);
+        }
+      });
+      mUser = getIntent().getParcelableExtra("user");
+      initData();
+    }
+    else if (getIntent().getExtras().getString("user_id") != null)
+    {
+      is_mine_id = getIntent().getExtras().getString("user_id");
+      getUserData(is_mine_id);
+    }
+  }
+
+  // 为弹出窗口实现监听类
+  private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      // 隐藏弹出窗口
+      menuWindow.dismiss();
+
+      switch (v.getId()) {
+        case R.id.putblack:// 相册选择图片
+          Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
+          break;
+        case R.id.cancelBtn:// 取消
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  public void getUserData(String user_id) {
+    GsonRequest<User> user_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/homepage?uid=" + user_id,
+            getHeader(), null,
+            User.class,
+            new Response.Listener<User>() {
+              @Override
+              public void onResponse(User pUser) {
+                // shareAdapter.setData(shares.shares);
+                // mShares = shares.shares;
+                mUser = pUser;
+                handler.post(runnable);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(user_request);
+  }
+
+  public void getUserData() {
+    GsonRequest<User> user_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/homepage",
+            getHeader(), null,
+            User.class,
+            new Response.Listener<User>() {
+              @Override
+              public void onResponse(User pUser) {
+                // shareAdapter.setData(shares.shares);
+                // mShares = shares.shares;
+                mUser = pUser;
+                handler.post(runnable);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(user_request);
+  }
+
+  public Map<String, String> getHeader() {
+    Map<String, String> headers = new HashMap<String, String>();
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
+    }
+
+    headers
+        .put(
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+    return headers;
+  }
+
+  public void executeRequest(Request request) {
+    SApplication.getRequestManager().executeRequest(request, this);
+  }
+
+  // Resolve the given attribute of the current theme
+  private int getAttributeColor(int resId) {
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(resId, typedValue, true);
+    int color = 0x000000;
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
+        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+      // resId is a color
+      color = typedValue.data;
+    } else {
+      // resId is not a color
+    }
+    return color;
   }
 
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
     }
     mToolbar = (Toolbar) findViewById(R.id.user_activity_toolbar);
-//    // 设置菜单及其点击监听
-//    mToolbar.inflateMenu(R.menu.menu_user);
-//    mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//      @Override
-//      public boolean onMenuItemClick(MenuItem item) {
-//        switch (item.getItemId()) {
-//          case R.id.action_settings:
-//            break;
-//        }
-//        return true;
-//      }
-//    });
+    // // 设置菜单及其点击监听
+    // mToolbar.inflateMenu(R.menu.menu_user);
+    // mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+    // @Override
+    // public boolean onMenuItemClick(MenuItem item) {
+    // switch (item.getItemId()) {
+    // case R.id.action_settings:
+    // break;
+    // }
+    // return true;
+    // }
+    // });
 
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -146,15 +309,15 @@ public class UserActivity extends AppCompatActivity {
 
   private void initData()
   {
-    user_edit.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-         Intent mIntent = new Intent(context, UserInformationResetActivity.class);
-         mIntent.putExtra("user_id", mUser.id);
-         startActivity(mIntent);
-      }
-    });
-    mUser = getIntent().getParcelableExtra("user");
+    // user_edit.setOnClickListener(new View.OnClickListener() {
+    // @Override
+    // public void onClick(View v) {
+    // Intent mIntent = new Intent(context, UserInformationResetActivity.class);
+    // mIntent.putExtra("user_id", mUser.id);
+    // startActivity(mIntent);
+    // }
+    // });
+    // mUser = getIntent().getParcelableExtra("user");
     shr_number.setText(String.valueOf(mUser.shares.size()));
     gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum));
     group_name.setText(mUser.groups.get(0).name);
@@ -213,9 +376,19 @@ public class UserActivity extends AppCompatActivity {
       return null;
   }
 
+  // 这个注解一定要有,表示订阅了TestAction,并且方法的用 public 修饰的.方法名可以随意取,重点是参数,它是根据你的参数进行判断
+  @Subscribe
+  public void onChangeAvatar(DataChangeAction dataChangeAction) {
+    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR))
+    {
+      getUserData();
+    }
+  }
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    BusProvider.getInstance().unregister(this);
     ButterKnife.reset(this);
   }
 

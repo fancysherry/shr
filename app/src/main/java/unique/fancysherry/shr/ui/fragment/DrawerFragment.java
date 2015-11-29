@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,8 @@ import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.UserActivity;
 import unique.fancysherry.shr.ui.adapter.recycleview.DrawItemAdapter;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.BadgeView;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
@@ -82,7 +85,7 @@ public class DrawerFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    BusProvider.getInstance().register(this);
     getUserData();
 
     handler = new Handler();
@@ -314,4 +317,23 @@ public class DrawerFragment extends Fragment {
 
     void onGetAllGroup(List<String> group_name_list);
   }
+
+  // 这个注解一定要有,表示订阅了TestAction,并且方法的用 public 修饰的.方法名可以随意取,重点是参数,它是根据你的参数进行判断
+  @Subscribe
+  public void onChangeData(DataChangeAction dataChangeAction) {
+    // 这里更新视图或者后台操作,从TestAction获取传递参数.
+    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR)) {
+      getUserData();
+    }
+    if (dataChangeAction.getStr().equals(DataChangeAction.DELETE_GROUP)) {
+      getUserData();
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    BusProvider.getInstance().unregister(this);
+    super.onDestroy();
+  }
+
 }

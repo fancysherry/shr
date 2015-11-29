@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,8 @@ import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.DeleteRequest;
 import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.ProgressWheel;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
@@ -76,13 +79,20 @@ public class DeleteGroupActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     activity = this;
+
+    /**
+     * otto 的bus只能在主线程启动
+     */
     handler = new Handler();
     runnable = new Runnable() {
       @Override
       public void run() {
+        DataChangeAction mDataChangeAction = new DataChangeAction();
+        mDataChangeAction.setStr(DataChangeAction.DELETE_GROUP);
+        BusProvider.getInstance().post(mDataChangeAction);
         delete_spinner.stopSpinning();
         Toast.makeText(activity, "该组已被解散", Toast.LENGTH_LONG).show();
-        Intent mIntent=new Intent(activity,MainActivity.class);
+        Intent mIntent = new Intent(activity, MainActivity.class);
         startActivity(mIntent);
         finish();
       }
@@ -118,10 +128,25 @@ public class DeleteGroupActivity extends AppCompatActivity {
     delete_group_result.setText("解散后组员仍可以在个人主页查看他们在" + group_name + "组Shr过的分享的源网页，但评论和组员数据将全部删除");
   }
 
+  // Resolve the given attribute of the current theme
+  private int getAttributeColor(int resId) {
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(resId, typedValue, true);
+    int color = 0x000000;
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
+        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+      // resId is a color
+      color = typedValue.data;
+    } else {
+      // resId is not a color
+    }
+    return color;
+  }
+
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
     }
     Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -166,24 +191,28 @@ public class DeleteGroupActivity extends AppCompatActivity {
   }
 
 
-  public void deleteGroup()  {
-//    DeleteRequest<GsonRequest.FormResult> group_delete_request =
-//        new DeleteRequest<>(Request.Method.DELETE,
-//            APIConstants.BASE_URL + "/group",
-//            getHeader(), null,
-//            GsonRequest.FormResult.class,
-//            new Response.Listener<GsonRequest.FormResult>() {
-//              @Override
-//              public void onResponse(GsonRequest.FormResult result) {
-//                handler.postDelayed(runnable, 2000);
-//              }
-//            }, new Response.ErrorListener() {
-//              @Override
-//              public void onErrorResponse(VolleyError pVolleyError) {
-//                LogUtil.e("response error " + pVolleyError);
-//              }
-//            });
-//    executeRequest(group_delete_request);
+  /****
+   * mcxiaoke的volley版本有个bug，执行delete方法的参数会被清空，
+   * 所以这里使用了最原始的请求方法，后续的版本可能会使用okhttp来替代
+   */
+  public void deleteGroup() {
+    // DeleteRequest<GsonRequest.FormResult> group_delete_request =
+    // new DeleteRequest<>(Request.Method.DELETE,
+    // APIConstants.BASE_URL + "/group",
+    // getHeader(), getParams(),
+    // GsonRequest.FormResult.class,
+    // new Response.Listener<GsonRequest.FormResult>() {
+    // @Override
+    // public void onResponse(GsonRequest.FormResult result) {
+    // handler.postDelayed(runnable, 2000);
+    // }
+    // }, new Response.ErrorListener() {
+    // @Override
+    // public void onErrorResponse(VolleyError pVolleyError) {
+    // LogUtil.e("response error " + pVolleyError);
+    // }
+    // });
+    // executeRequest(group_delete_request);
     new Thread(new Runnable() {
       @Override
       public void run() {
@@ -197,9 +226,11 @@ public class DeleteGroupActivity extends AppCompatActivity {
         try {
           httpURLConnection = (HttpURLConnection) url.openConnection();
           httpURLConnection.setRequestProperty("Content-Type",
-                  "application/x-www-form-urlencoded");
+              "application/x-www-form-urlencoded");
           httpURLConnection.setRequestProperty("Cookie", getCookie());
-          httpURLConnection.setRequestProperty("User-Agent",
+          httpURLConnection
+              .setRequestProperty(
+                  "User-Agent",
                   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
           httpURLConnection.setRequestMethod("DELETE");
           httpURLConnection.setDoInput(true);
@@ -210,7 +241,7 @@ public class DeleteGroupActivity extends AppCompatActivity {
 
           OutputStream os = httpURLConnection.getOutputStream();
           BufferedWriter writer = new BufferedWriter(
-                  new OutputStreamWriter(os, "UTF-8"));
+              new OutputStreamWriter(os, "UTF-8"));
           writer.write(getQuery(params));
           writer.flush();
           writer.close();
@@ -222,14 +253,16 @@ public class DeleteGroupActivity extends AppCompatActivity {
           BufferedReader br = new BufferedReader(new InputStreamReader(in));
           String str = null;
           StringBuffer buffer = new StringBuffer();
-          while((str = br.readLine())!=null){//BufferedReader特有功能，一次读取一行数据
+          while ((str = br.readLine()) != null) {// BufferedReader特有功能，一次读取一行数据
             buffer.append(str);
           }
           in.close();
           br.close();
-          LogUtil.e("message   "+buffer.toString());
-          if(httpURLConnection.getResponseCode()==200)
-            handler.postDelayed(runnable,2000);
+          LogUtil.e("message   " + buffer.toString());
+          if (httpURLConnection.getResponseCode() == 200) {
+
+            handler.postDelayed(runnable, 2000);
+          }
         } catch (IOException exception) {
           exception.printStackTrace();
         } finally {
@@ -257,22 +290,25 @@ public class DeleteGroupActivity extends AppCompatActivity {
       currentUser.getCookieHolder().generateCookieString();
       headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
     }
+    headers.put("Content-Type",
+        "application/x-www-form-urlencoded");
     headers
         .put(
-                "User-Agent",
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
     return headers;
   }
 
   public void executeRequest(Request request) {
     SApplication.getRequestManager().executeRequest(request, this);
   }
+
   public Map<String, String> getParams() {
     Map<String, String> params = new HashMap<>();
-    Log.e("delete request",group_id);
+    Log.e("delete request", group_id);
     params.put("group_id", group_id);
     return params;
   }
-//do as get http,put params after url
+  // do as get http,put params after url
 
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#eeeeee"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/putblack"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="@color/pure_white"
+            android:elevation="0dp"
+            android:gravity="center"
+            android:text="屏蔽用户"
+            android:textColor="#ea4f4f"
+            android:textSize="12sp"
+            />
+
+        <TextView
+            android:id="@+id/cancelBtn"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:background="@color/pure_white"
+            android:elevation="0dp"
+            android:text="取消"
+            android:textColor="#212121"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

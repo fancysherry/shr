@@ -13,9 +13,9 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentTransitions">true</item>
 
-        <item name="colorPrimary">#569597</item>
-        <item name="colorPrimaryDark">#20569597</item>
-        <item name="colorAccent">#20569597</item>
+        <item name="colorPrimary">#4fa6ae</item>
+        <item name="colorPrimaryDark">#33000000</item>
+        <item name="colorAccent">#4fa6ae</item>
     </style>
 
 
@@ -33,10 +33,19 @@
         <!--<item name="android:windowTranslucentStatus">true</item>-->
         <!--<item name="android:windowContentTransitions">true</item>-->
 
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowContentTransitions">true</item>-->
 
-        <item name="colorPrimary">#00000000</item>
-        <item name="colorPrimaryDark">#20569597</item>
-        <item name="colorAccent">#20569597</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="colorPrimary">#4fa6ae</item>
+        <!--<item name="colorPrimaryDark">#cc4fa6ae</item>-->
+        <item name="colorPrimaryDark">#cc4fa6ae</item>
+        <item name="colorAccent">#4fa6ae</item>
     </style>
 
     <!-- 选择照片底部弹出层 -->

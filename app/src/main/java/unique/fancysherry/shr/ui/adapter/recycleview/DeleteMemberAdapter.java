@@ -4,15 +4,19 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * Created by fancysherry on 15-7-14.
@@ -56,9 +60,8 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
     holder.member_item_nickname.setText(items.get(position).name);
-    // holder.member_item_shr_num.setText(String.valueOf(items.get(position).shares.size()));
-    // holder.member_item_gratitude_num.setText(items.get(position).gratitude_shares_sum);
-    // holder.member_item_level.setText(items.get(position).level);
+    holder.member_item_profile.setImageURI(Uri.parse(APIConstants.BASE_URL
+        + items.get(position).avatar));
     holder.view.setTag(items.get(position));
 
 
@@ -99,12 +102,12 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
-    CircleImageView member_item_profile;
+    SimpleDraweeView member_item_profile;
     TextView member_item_nickname;
 
     TextView member_item_level;
 
-    Button delete;
+    TextView delete;
     Context context;
     View view;
 
@@ -114,10 +117,10 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
       super(itemView);
       this.context = pContext;
       this.member_item_profile =
-          (CircleImageView) itemView.findViewById(R.id.group_member_item_portrait);
+          (SimpleDraweeView) itemView.findViewById(R.id.group_member_item_portrait);
       this.member_item_level = (TextView) itemView.findViewById(R.id.group_member_item_level);
       this.member_item_nickname = (TextView) itemView.findViewById(R.id.group_member_item_name);
-      this.delete = (Button) itemView.findViewById(R.id.group_member_item_delete_button);
+      this.delete = (TextView) itemView.findViewById(R.id.group_member_item_delete_button);
 
       this.view = itemView;
     }

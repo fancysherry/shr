@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -30,11 +32,13 @@ import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.adapter.recycleview.MemberAdapter;
 import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
+import unique.fancysherry.shr.util.system.ResourceHelper;
 
 public class GroupActivity extends AppCompatActivity {
   @InjectView(R.id.group_create_time)
@@ -53,12 +57,17 @@ public class GroupActivity extends AppCompatActivity {
   RecyclerView group_member_list;
   @InjectView(R.id.activity_group_toolbar_title)
   TextView activity_group_toolbar_title;
+  @InjectView(R.id.manage_group_layout)
+  LinearLayout manage_group_layout;
 
   private Group group;
+  private User user;
   private String group_id;
   private String group_name;
   private Handler handler;
   private Runnable runnable;
+  private Runnable runnable_user;
+
 
   private MemberAdapter manageAdapter;
   private Activity context;
@@ -128,6 +137,7 @@ public class GroupActivity extends AppCompatActivity {
     runnable = new Runnable() {
       @Override
       public void run() {
+        getUserData();//检查是否为管理员
         try {
           group_create_time.setText("创建于" + DateUtil.toDate(group.create_time));
         } catch (ParseException e) {
@@ -135,6 +145,16 @@ public class GroupActivity extends AppCompatActivity {
         }
         // group_shr_num.setText("共" + String.valueOf(group.shares.size()) + "条Shr");
         manageAdapter.setData(group.users);
+      }
+    };
+
+    runnable_user = new Runnable() {
+      @Override
+      public void run() {
+        if (user.nickname.equals(group.admin.name))
+          manage_group_layout.setVisibility(View.VISIBLE);
+        else
+          manage_group_layout.setVisibility(View.INVISIBLE);
       }
     };
 
@@ -147,10 +167,24 @@ public class GroupActivity extends AppCompatActivity {
   }
 
 
+  // Resolve the given attribute of the current theme
+  private int getAttributeColor(int resId) {
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(resId, typedValue, true);
+    int color = 0x000000;
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+      // resId is a color
+      color = typedValue.data;
+    } else {
+      // resId is not a color
+    }
+    return color;
+  }
+
   protected void initializeToolbar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
     }
     mToolbar = (Toolbar) findViewById(R.id.group_activity_toolbar);
     setSupportActionBar(mToolbar);
@@ -219,6 +253,29 @@ public class GroupActivity extends AppCompatActivity {
               }
             });
     executeRequest(group_share_request);
+  }
+
+  public void getUserData() {
+    GsonRequest<User> user_request =
+            new GsonRequest<>(Request.Method.GET,
+                    APIConstants.BASE_URL + "/homepage",
+                    getHeader(), null,
+                    User.class,
+                    new Response.Listener<User>() {
+                      @Override
+                      public void onResponse(User pUser) {
+                        // shareAdapter.setData(shares.shares);
+                        // mShares = shares.shares;
+                        user=pUser;
+                        handler.post(runnable_user);
+                      }
+                    }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(user_request);
   }
 
 

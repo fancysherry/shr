@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 
@@ -25,7 +26,7 @@
                 android:id="@+id/group_header"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="#569597"
+                android:background="?attr/colorPrimary"
                 >
                 <FrameLayout
                     android:layout_width="match_parent"

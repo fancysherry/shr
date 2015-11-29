@@ -183,8 +183,7 @@
                 android:id="@+id/user_information_introduce_content"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:layout_gravity="center_vertical"
-                android:background="@color/pure_white"
+                android:background="@drawable/edittext_normal"
                 android:paddingLeft="10dp"
                 android:textSize="12dp"/>
 
