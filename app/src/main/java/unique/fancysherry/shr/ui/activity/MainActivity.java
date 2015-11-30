@@ -57,6 +57,7 @@ import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.UrlFromString;
 import unique.fancysherry.shr.util.UrlUtil;
+import unique.fancysherry.shr.util.config.LocalConfig;
 import unique.fancysherry.shr.util.config.SApplication;
 
 
@@ -143,6 +144,7 @@ public class MainActivity extends BaseActivity
       // break;
 
         case R.id.action_settings:
+          exit_shr();
           break;
       }
       return true;
@@ -481,6 +483,31 @@ public class MainActivity extends BaseActivity
         .setOnClickListener(clickListener)
         .create();
     dialog.show();
+  }
+
+  public void exit_shr() {
+    GsonRequest<GsonRequest.FormResult> group_share_url_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/logout",
+            getHeader(), null,
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("success"))
+                  Toast.makeText(activity, "exit success", Toast.LENGTH_LONG)
+                      .show();
+                Log.e("message", result.message);
+                LocalConfig.setFirstLaunch(true);
+                activity.finish();
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_url_request);
   }
 
   public void post_share_url(String group_name) {

@@ -50,8 +50,8 @@ public class LocalConfig {
 
   public static boolean isFirstLaunch()
   {
-    SharedPreferences userConfig = getUserConfigSharedpref();
-    return userConfig.getBoolean(KEY_USER_ACCOUNT, true);
+    SharedPreferences userConfig = getAppStateSharedpref();
+    return userConfig.getBoolean(KEY_FIRST_LAUNCH, true);
   }
 
   public static String getUserAccountString() {
