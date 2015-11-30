@@ -6,6 +6,10 @@ package unique.fancysherry.shr.io;
 public class APIConstants {
 
 
+  public static final String INBOX_SHARE_TYPE="inbox_share_type";
+  public static final String SHARE_TYPE="share_type";
+  public static final String TYPE="type";
+
   /**
    * base url
    */

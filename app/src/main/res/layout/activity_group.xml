@@ -7,9 +7,6 @@
     android:orientation="vertical">
 
 
-
-
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,46 +25,48 @@
                 android:layout_height="150dp"
                 android:background="?attr/colorPrimary"
                 >
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/group_header_up"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="85dp"
-                    android:orientation="vertical"
-                    >
+                    <LinearLayout
+                        android:id="@+id/group_header_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="85dp"
+                        android:orientation="vertical"
+                        >
 
 
-                    <TextView
-                        android:id="@+id/group_create_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="创建于xxxxxxxxxxxxx"
-                        android:textColor="@color/pure_white"/>
+                        <TextView
+                            android:id="@+id/group_create_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="创建于xxxxxxxxxxxxx"
+                            android:textColor="@color/pure_white"/>
 
 
-                    <TextView
-                        android:id="@+id/group_header_share_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/group_header_up"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="5dp"
-                        android:text="共5条share"
-                        android:textColor="@color/pure_white"/>
+                        <TextView
+                            android:id="@+id/group_header_share_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/group_header_up"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:text="共5条share"
+                            android:textColor="@color/pure_white"/>
 
-                </LinearLayout>
+                    </LinearLayout>
+
                     <android.support.v7.widget.Toolbar
                         android:id="@+id/group_activity_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:layout_alignParentTop="true"
-                        android:background="#00000000"
+                        android:background="?attr/colorPrimary"
                         android:elevation="0dp"
                         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -83,7 +82,7 @@
                     </android.support.v7.widget.Toolbar>
 
 
-            </FrameLayout>
+                </FrameLayout>
             </RelativeLayout>
 
 

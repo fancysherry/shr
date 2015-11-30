@@ -62,7 +62,7 @@ public class IconFinder {
   // 获取Icon地址
   public static String getIconUrlString(String urlString) throws MalformedURLException {
 
-//    urlString = getFinalUrl(urlString);
+    // urlString = getFinalUrl(urlString);
     URL url = new URL(urlString);
     String iconUrl = url.getProtocol() + "://" + url.getHost() + "/favicon.ico";// 保证从域名根路径搜索
     return iconUrl;
@@ -71,6 +71,41 @@ public class IconFinder {
     //
     // return getIconUrlByRegex(urlString);
   }
+
+  // 获取Icon地址
+  public static String getHostUrl(String urlString) throws MalformedURLException {
+
+    // urlString = getFinalUrl(urlString);
+    URL url = new URL(urlString);
+    String hostUrl = url.getProtocol() + "://" + url.getHost();// 保证从域名根路径搜索
+    return hostUrl;
+    // if (hasRootIcon(iconUrl))
+    // return iconUrl;
+    //
+    // return getIconUrlByRegex(urlString);
+  }
+
+  public static String get32xIcon(String urlString) throws MalformedURLException {
+    String url_32x = null;
+    url_32x =
+        "http://icons.better-idea.org/icon?url=" + getHostUrl(urlString) + "&size=32&format=png";
+    return url_32x;
+  }
+
+  public static String get16xIcon(String urlString) throws MalformedURLException {
+    String url_32x = null;
+    url_32x =
+        "http://icons.better-idea.org/icon?url=" + getHostUrl(urlString) + "&size=16&format=png";
+    return url_32x;
+  }
+
+  public static String get64xIcon(String urlString) throws MalformedURLException {
+    String url_32x = null;
+    url_32x =
+        "http://icons.better-idea.org/icon?url=" + getHostUrl(urlString) + "&size=64&format=png";
+    return url_32x;
+  }
+
 
   // 判断在根目录下是否有Icon
   private static boolean hasRootIcon(String urlString) {

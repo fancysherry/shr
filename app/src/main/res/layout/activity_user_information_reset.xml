@@ -1,7 +1,7 @@
 <RelativeLayout
+    android:id="@+id/activity_user_setting_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_user_setting_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -50,10 +50,10 @@
             android:layout_height="55dp"
             android:layout_marginTop="28dp"
             android:scaleType="centerCrop"
-            tools:placeholderImageScaleType="centerCrop"
             tools:border_color="@color/pure_white"
             tools:border_width="2dp"
             tools:placeholderImage="@drawable/mine"
+            tools:placeholderImageScaleType="centerCrop"
             tools:roundAsCircle="true"/>
 
         <TextView
@@ -61,10 +61,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@color/gray_d8"
-            android:padding="7dp"
+            android:background="@drawable/tagview_corner"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:text="更换头像"
-            android:textSize="12dp"/>
+            android:textColor="#FFFFFF"
+            android:textSize="14dp"/>
 
     </LinearLayout>
 
@@ -233,14 +237,14 @@
 
 
         <!--<ImageView-->
-            <!--android:id="@+id/user_information_password_button"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_gravity="right|center_vertical"-->
-            <!--android:layout_marginLeft="240dp"-->
+        <!--android:id="@+id/user_information_password_button"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_gravity="right|center_vertical"-->
+        <!--android:layout_marginLeft="240dp"-->
 
-            <!--android:background="@drawable/ic_launcher"-->
-            <!--/>-->
+        <!--android:background="@drawable/ic_launcher"-->
+        <!--/>-->
 
 
     </LinearLayout>

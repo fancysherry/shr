@@ -263,6 +263,7 @@ public class ShareContentFragment extends Fragment {
           public void onItemClick(View view, Share data) {
             Intent mIntent = new Intent(getActivity(), BrowserActivity.class);
             mIntent.putExtra("id", data.id);
+            mIntent.putExtra(APIConstants.TYPE,APIConstants.SHARE_TYPE);
             startActivity(mIntent);
           }
         });

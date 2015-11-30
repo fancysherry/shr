@@ -69,13 +69,18 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
     share_title.setText(share.title);
     share_user.setText(shareUserText(share));
     user_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + share.origin.avatar));
+    try {
+      share_icon.setImageURI(Uri.parse(IconFinder.get64xIcon(share.url)));
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
 
-//    try {
-//      // share_icon.setImageURI(getIconUri(share.url));
-//      IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-//    } catch (MalformedURLException e) {
-//      e.printStackTrace();
-//    }
+    // try {
+    // // share_icon.setImageURI(getIconUri(share.url));
+    // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
+    // } catch (MalformedURLException e) {
+    // e.printStackTrace();
+    // }
 
 
     if (!share.intro.equals(""))
@@ -96,30 +101,37 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
     share_title.setText(inboxshare.title);
     share_user.setText(inboxshare.nickname);
     user_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + inboxshare.avatar));
-    // if (!inboxshare.intro.equals(""))
-    // user_introduce.setText(share.intro);
 
     try {
-      // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-      PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(inboxshare.url));
-      // share_icon.setImageURI(getIconUri(share.url));
-      Log.e("share_url", inboxshare.url);
+      share_icon.setImageURI(Uri.parse(IconFinder.get64xIcon(inboxshare.url)));
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
+
+    // if (!inboxshare.intro.equals(""))
+    // user_introduce.setText(share.intro);
+
+    // try {
+    // // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
+    // PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(inboxshare.url));
+    // // share_icon.setImageURI(getIconUri(share.url));
+    // Log.e("share_url", inboxshare.url);
+    // } catch (MalformedURLException e) {
+    // e.printStackTrace();
+    // }
     view.setTag(inboxshare);
   }
 
-  private Uri getIconUri(String url) throws MalformedURLException {
-    String icon_url = IconFinder.getIconUrlString(url);
-    if (icon_url != null) {
-      Log.e("icon_url", icon_url);
-      Log.e("icon_Uri", Uri.parse(icon_url).toString());
-      return Uri.parse(icon_url);
-    }
-    else
-      return null;
-  }
+  // private Uri getIconUri(String url) throws MalformedURLException {
+  // String icon_url = IconFinder.getIconUrlString(url);
+  // if (icon_url != null) {
+  // Log.e("icon_url", icon_url);
+  // Log.e("icon_Uri", Uri.parse(icon_url).toString());
+  // return Uri.parse(icon_url);
+  // }
+  // else
+  // return null;
+  // }
 
   private String shareUserText(Share share)
   {

@@ -128,6 +128,7 @@ public class InboxShareFragment extends Fragment {
           public void onItemClick(View view, InboxShare data) {
             Intent mIntent = new Intent(getActivity(), BrowserActivity.class);
             mIntent.putExtra("id", data.id);
+            mIntent.putExtra(APIConstants.TYPE,APIConstants.INBOX_SHARE_TYPE);
             startActivity(mIntent);
           }
         });

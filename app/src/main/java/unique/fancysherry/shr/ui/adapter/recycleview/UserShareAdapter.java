@@ -1,13 +1,16 @@
 package unique.fancysherry.shr.ui.adapter.recycleview;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.Share;
+import unique.fancysherry.shr.util.IconFinder;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +62,11 @@ public class UserShareAdapter extends RecyclerView.Adapter<UserShareAdapter.View
     holder.user_share_title.setText(items.get(position).title);
     holder.user_share_group.setText(items.get(position).group);
     holder.user_share_time.setText(getTime(items.get(position).share_time));
+    try {
+      holder.user_share_icon.setImageURI(Uri.parse(IconFinder.get64xIcon(items.get(position).url)));
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
     holder.view.setTag(items.get(position));
 
 
@@ -111,7 +119,7 @@ public class UserShareAdapter extends RecyclerView.Adapter<UserShareAdapter.View
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
-    ImageView user_share_icon;
+    SimpleDraweeView user_share_icon;
     TextView user_share_title;
 
     TextView user_share_group;

@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 
@@ -46,6 +47,8 @@ import unique.fancysherry.shr.ui.fragment.InboxShareFragment;
 import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
 import unique.fancysherry.shr.ui.fragment.NotificationFragment;
 import unique.fancysherry.shr.ui.fragment.ShareContentFragment;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.Dialog.DialogPlus;
 import unique.fancysherry.shr.ui.widget.Dialog.Holder;
 import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
@@ -90,6 +93,7 @@ public class MainActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     activity = this;
     setContentView(R.layout.activity_main);
+    BusProvider.getInstance().register(this);
     initView();
     initializeToolbar();
     getSupportActionBar().setTitle("消息");
@@ -101,13 +105,13 @@ public class MainActivity extends BaseActivity
     runnable = new Runnable() {
       @Override
       public void run() {
-//        LogUtil.e("first load ");
-//        LogUtil.e("first load "+user.groups.get(0).name);
-//        fragmentManager
-//                .beginTransaction()
-//            .replace(R.id.container,
-//                ShareContentFragment.newInstance(user.groups.get(0).name))
-//            .commit();
+        // LogUtil.e("first load ");
+        // LogUtil.e("first load "+user.groups.get(0).name);
+        // fragmentManager
+        // .beginTransaction()
+        // .replace(R.id.container,
+        // ShareContentFragment.newInstance(user.groups.get(0).name))
+        // .commit();
       }
     };
   }
@@ -179,12 +183,12 @@ public class MainActivity extends BaseActivity
 
     fragmentManager = getSupportFragmentManager();
 
-    //default load ar_me
+    // default load ar_me
     fragmentManager
-            .beginTransaction()
-            .replace(R.id.container,
-                    InboxShareFragment.newInstance())
-            .commit();
+        .beginTransaction()
+        .replace(R.id.container,
+            InboxShareFragment.newInstance())
+        .commit();
     group_intro.setVisibility(View.INVISIBLE);
     getUserData();
   }
@@ -248,7 +252,7 @@ public class MainActivity extends BaseActivity
         .replace(R.id.container,
             ShareContentFragment.newInstance(group_name))
         .commit();
-
+    group_intro.setVisibility(View.VISIBLE);
   }
 
   @Override
@@ -516,6 +520,26 @@ public class MainActivity extends BaseActivity
     if (!group_name.equals("inbox_share"))
       params.put("groups", group_name);
     return params;
+  }
+
+  // 这个注解一定要有,表示订阅了TestAction,并且方法的用 public 修饰的.方法名可以随意取,重点是参数,它是根据你的参数进行判断
+  @Subscribe
+  public void onChangeData(DataChangeAction dataChangeAction) {
+    // 这里更新视图或者后台操作,从TestAction获取传递参数.
+    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR)
+        || dataChangeAction.getStr().equals(DataChangeAction.DELETE_GROUP)) {
+      fragmentManager
+          .beginTransaction()
+          .replace(R.id.container,
+              InboxShareFragment.newInstance())
+          .commit();
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    BusProvider.getInstance().unregister(this);
+    super.onDestroy();
   }
 
 }

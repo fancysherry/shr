@@ -324,7 +324,7 @@ public class UserActivity extends AppCompatActivity {
     user_attend_time.setText(getTime(mUser.register_time));
     introduce.setText(mUser.brief);
     getSupportActionBar().setTitle(mUser.nickname);
-    // Log.e("niclname", mUser.nickname);
+    // Log.e("nickname", mUser.nickname);
     imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
 
 
@@ -339,6 +339,7 @@ public class UserActivity extends AppCompatActivity {
       public void onItemClick(View view, Share data) {
         Intent mIntent = new Intent(context, BrowserActivity.class);
         mIntent.putExtra("id", data.id);
+        mIntent.putExtra(APIConstants.TYPE, APIConstants.SHARE_TYPE);
         startActivity(mIntent);
       }
     });
@@ -346,8 +347,13 @@ public class UserActivity extends AppCompatActivity {
 
     if (mUser.groups.size() <= 20) {
       for (int i = 0; i < mUser.groups.size(); i++) {
+        if (mUser.groups.get(i).name == null)
+          break;
         test_taggroup.add(mUser.groups.get(i).name);
+        // Log.e("groups index "+i, mUser.groups.get(i).name);
       }
+      Log.e("test_taggroup", String.valueOf(test_taggroup.size()));
+      Log.e("groups", String.valueOf(mUser.groups.size()));
       tagGroup.setTags(test_taggroup);
       tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
         @Override

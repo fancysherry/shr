@@ -322,10 +322,8 @@ public class DrawerFragment extends Fragment {
   @Subscribe
   public void onChangeData(DataChangeAction dataChangeAction) {
     // 这里更新视图或者后台操作,从TestAction获取传递参数.
-    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR)) {
-      getUserData();
-    }
-    if (dataChangeAction.getStr().equals(DataChangeAction.DELETE_GROUP)) {
+    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR)
+        || dataChangeAction.getStr().equals(DataChangeAction.DELETE_GROUP)) {
       getUserData();
     }
   }

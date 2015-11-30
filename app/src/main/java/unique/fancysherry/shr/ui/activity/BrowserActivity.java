@@ -44,7 +44,7 @@ public class BrowserActivity extends AppCompatActivity {
   private ImageView comment_bt;
   private Context context;
 
-
+  private String share_type = APIConstants.SHARE_TYPE;// share or inbox share
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,11 @@ public class BrowserActivity extends AppCompatActivity {
     setContentView(R.layout.activity_browser);
     Bundle extras = getIntent().getExtras();
     id = extras.getString("id");
+    share_type = extras.getString(APIConstants.TYPE);
     context = this;
 
-//    content_back_bt = (ImageView) findViewById(R.id.webview_content_back_button);
-//    gratitude_bt = (ImageView) findViewById(R.id.webview_content_gratitude_button);
+    // content_back_bt = (ImageView) findViewById(R.id.webview_content_back_button);
+    // gratitude_bt = (ImageView) findViewById(R.id.webview_content_gratitude_button);
     comment_bt = (ImageView) findViewById(R.id.webview_content_commment_button);
 
     comment_bt.setOnClickListener(new View.OnClickListener() {
@@ -71,28 +72,54 @@ public class BrowserActivity extends AppCompatActivity {
 
     initializeToolbar();
 
-    GsonRequest<Share> share_request =
-        new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL + "/share", getHeader(),
-            getParams(), Share.class,
-            new Response.Listener<Share>() {
-              @Override
-              public void onResponse(Share share) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                    .replace(R.id.webview_content, BrowserFragment.newInstance(share.url))
-                    .commit();
+    if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
+
+      GsonRequest<Share> inbox_share_request =
+          new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL
+              + "/inbox_share?inbox_share_id=" + id, getHeader(),
+              null, Share.class,
+              new Response.Listener<Share>() {
+                @Override
+                public void onResponse(Share share) {
+                  FragmentManager fragmentManager = getSupportFragmentManager();
+                  fragmentManager.beginTransaction()
+                      .replace(R.id.webview_content, BrowserFragment.newInstance(share.url))
+                      .commit();
 
 
-              }
-            }, new Response.ErrorListener() {
-              @Override
-              public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
-              }
-            });
+                }
+              }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError pVolleyError) {
+                  LogUtil.e("response error " + pVolleyError);
+                }
+              });
 
-    executeRequest(share_request);
+      executeRequest(inbox_share_request);
+    }
+    else if (share_type.equals(APIConstants.SHARE_TYPE)) {
+      GsonRequest<Share> share_request =
+          new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL + "/share", getHeader(),
+              getParams(), Share.class,
+              new Response.Listener<Share>() {
+                @Override
+                public void onResponse(Share share) {
+                  FragmentManager fragmentManager = getSupportFragmentManager();
+                  fragmentManager.beginTransaction()
+                      .replace(R.id.webview_content, BrowserFragment.newInstance(share.url))
+                      .commit();
 
+
+                }
+              }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError pVolleyError) {
+                  LogUtil.e("response error " + pVolleyError);
+                }
+              });
+
+      executeRequest(share_request);
+    }
 
   }
 
@@ -113,7 +140,8 @@ public class BrowserActivity extends AppCompatActivity {
     TypedValue typedValue = new TypedValue();
     getTheme().resolveAttribute(resId, typedValue, true);
     int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
+        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
       // resId is a color
       color = typedValue.data;
     } else {

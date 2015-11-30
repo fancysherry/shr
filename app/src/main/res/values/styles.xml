@@ -69,9 +69,9 @@
 
     <style name="Widget.TagView" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_height">20dp</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">#c2c2c2</item>
+        <item name="android:background">@drawable/tagview_corner</item>
         <item name="tagCornerRadius">7dp</item>
         <item name="tagPadding">9dp</item>
         <item name="tagUppercase">true</item>
@@ -79,8 +79,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
