@@ -58,6 +58,7 @@
         android:background="@drawable/edittext_normal"
         android:gravity="center_vertical"
         android:hint="password"
+        android:password="true"
         android:textSize="14sp"/>
 
     <ImageView

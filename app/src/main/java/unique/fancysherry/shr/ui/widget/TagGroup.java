@@ -205,14 +205,18 @@ public class TagGroup extends ViewGroup {
 
   public void setTags(String... tags) {
     removeAllViews();
-    if (tags.length <= 2) {
+    if (tags.length == 2) {
       appendTag(tags[0]);
       Log.e("tag", "   " + tags[0]);
       Log.e("tag", "   " + tags[1]);
       appendTag(tags[1]);
       appendTag("+");
     }
-    else {
+    else if(tags.length==1) {
+      appendTag(tags[0]);
+      appendTag("+");
+    }
+    else if(tags.length>2){
       appendTag(tags[0]);
       appendTag(tags[1]);
       appendTag("...");
