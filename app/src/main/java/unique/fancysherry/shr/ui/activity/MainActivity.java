@@ -559,7 +559,7 @@ public class MainActivity extends BaseActivity
           .beginTransaction()
           .replace(R.id.container,
               InboxShareFragment.newInstance())
-          .commit();
+          .commitAllowingStateLoss();
     }
   }
 

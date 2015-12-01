@@ -138,9 +138,11 @@ public class LoginActivity extends AppCompatActivity {
   protected void loginSuccessfully(LoginRequest.FormResult model) {
 
     sessionid = login_request.cookies;
-    if (AccountManager.getInstance().getCurrentUser() == null) {
+
+    //多账号
+//    if (AccountManager.getInstance().getCurrentUser() == null) {
       AccountManager.getInstance().addAccount(new AccountBean(username, password));
-    }
+//    }
     AccountManager.getInstance().getCurrentUser().getCookieHolder()
         .saveCookie(sessionid);
     LocalConfig.setFirstLaunch(false);
