@@ -156,14 +156,19 @@ public class TagGroup extends ViewGroup {
 
   public void setTagsDailog(String... tags) {
     removeAllViews();
-    if (tags.length <= 2) {
+    if (tags.length == 2) {
       appendTag(tags[0]);
       Log.e("tag", "   " + tags[0]);
       Log.e("tag", "   " + tags[1]);
       appendTag(tags[1]);
       appendTag("@me");
     }
-    else {
+    else if (tags.length == 1) {
+      appendTag(tags[0]);
+      Log.e("tag", "   " + tags[0]);
+      appendTag("@me");
+    }
+    else if (tags.length > 2) {
       appendTag(tags[0]);
       appendTag(tags[1]);
       appendTag("@me");
@@ -190,6 +195,7 @@ public class TagGroup extends ViewGroup {
       appendTag(tag);
       Log.e("tag", "   " + tag);
     }
+    appendTag("@me");
     appendTag("<-");
   }
 
@@ -212,11 +218,11 @@ public class TagGroup extends ViewGroup {
       appendTag(tags[1]);
       appendTag("+");
     }
-    else if(tags.length==1) {
+    else if (tags.length == 1) {
       appendTag(tags[0]);
       appendTag("+");
     }
-    else if(tags.length>2){
+    else if (tags.length > 2) {
       appendTag(tags[0]);
       appendTag(tags[1]);
       appendTag("...");
@@ -267,7 +273,7 @@ public class TagGroup extends ViewGroup {
         (TagView) LayoutInflater.from(getContext()).inflate(R.layout.include_tagview, null);
     newTag.setText(tag);
     newTag.setOnClickListener(mInternalTagClickListener);
-    addView(newTag);
+    addView(newTag, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
   }
 
   /**

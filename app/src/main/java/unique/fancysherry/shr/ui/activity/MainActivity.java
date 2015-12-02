@@ -320,7 +320,7 @@ public class MainActivity extends BaseActivity
       if (UrlFromString.pullLinks(text_from_clipboard) != null)
       {
         extract_url = UrlFromString.pullLinks(text_from_clipboard);
-        showMyDialog(Gravity.BOTTOM);
+//        showMyDialog(Gravity.BOTTOM);
         return true;
       } else
         return false;
@@ -428,62 +428,62 @@ public class MainActivity extends BaseActivity
     // }
   }
 
-  public void showMyDialog(int gravity) {
-    Holder holder = new ViewHolder(R.layout.dialog_shr_content);
-    LayoutInflater mLayoutInflater = this.getLayoutInflater();
-    View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
-    dialog_intro_input =
-        (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-    // getUserData();
-
-    OnClickListener clickListener = new OnClickListener() {
-      @Override
-      public void onClick(DialogPlus dialog, View view) {
-        switch (view.getId()) {
-          case R.id.dialog_shr_content_tagview1:
-            if (checkShare())
-              post_share_url("诶哟");
-            else
-              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
-            break;
-          case R.id.dialog_shr_content_tagview2:
-            if (checkShare())
-              post_share_url("测试");
-            else
-              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
-            break;
-          case R.id.dialog_shr_content_tagview3:
-            if (checkShare())
-              post_share_url("inbox_share");
-            else
-              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
-            break;
-
-        }
-        dialog.dismiss();
-      }
-    };
-
-    OnDismissListener dismissListener = new OnDismissListener() {
-      @Override
-      public void onDismiss(DialogPlus dialog) {}
-    };
-    showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
-  }
-
-  private void showOnlyContentDialog(Holder holder, int gravity,
-      OnDismissListener dismissListener, OnClickListener clickListener
-      ) {
-    final DialogPlus dialog = DialogPlus.newDialog(activity)
-        .setContentHolder(holder)
-        .setGravity(gravity)
-        .setOnDismissListener(dismissListener)
-        .setCancelable(true)
-        .setOnClickListener(clickListener)
-        .create();
-    dialog.show();
-  }
+//  public void showMyDialog(int gravity) {
+//    Holder holder = new ViewHolder(R.layout.dialog_shr_content);
+//    LayoutInflater mLayoutInflater = this.getLayoutInflater();
+//    View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
+//    dialog_intro_input =
+//        (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
+//    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+//    // getUserData();
+//
+//    OnClickListener clickListener = new OnClickListener() {
+//      @Override
+//      public void onClick(DialogPlus dialog, View view) {
+//        switch (view.getId()) {
+//          case R.id.dialog_shr_content_tagview1:
+//            if (checkShare())
+//              post_share_url("诶哟");
+//            else
+//              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
+//            break;
+//          case R.id.dialog_shr_content_tagview2:
+//            if (checkShare())
+//              post_share_url("测试");
+//            else
+//              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
+//            break;
+//          case R.id.dialog_shr_content_tagview3:
+//            if (checkShare())
+//              post_share_url("inbox_share");
+//            else
+//              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
+//            break;
+//
+//        }
+//        dialog.dismiss();
+//      }
+//    };
+//
+//    OnDismissListener dismissListener = new OnDismissListener() {
+//      @Override
+//      public void onDismiss(DialogPlus dialog) {}
+//    };
+//    showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
+//  }
+//
+//  private void showOnlyContentDialog(Holder holder, int gravity,
+//      OnDismissListener dismissListener, OnClickListener clickListener
+//      ) {
+//    final DialogPlus dialog = DialogPlus.newDialog(activity)
+//        .setContentHolder(holder)
+//        .setGravity(gravity)
+//        .setOnDismissListener(dismissListener)
+//        .setCancelable(true)
+//        .setOnClickListener(clickListener)
+//        .create();
+//    dialog.show();
+//  }
 
   public void exit_shr() {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =

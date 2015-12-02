@@ -1,10 +1,14 @@
 package unique.fancysherry.shr.ui.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +49,7 @@ import unique.fancysherry.shr.ui.widget.Dialog.DialogPlus;
 import unique.fancysherry.shr.ui.widget.Dialog.Holder;
 import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
 import unique.fancysherry.shr.ui.widget.Dialog.OnDismissListener;
+import unique.fancysherry.shr.ui.widget.Dialog.ShrDialog;
 import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.DateUtil;
@@ -93,27 +98,38 @@ public class ShareContentFragment extends Fragment {
     void OnGetGroupName(String name);
   }
 
-  public void initData()
+  public void start_dialog()
   {
-    // if (mUser.groups.size() <= 20) {
-    // for (int i = 0; i < mUser.groups.size(); i++) {
-    // test_taggroup.add(mUser.groups.get(i).name);
-    // }
+    // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
+    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
+    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+    for (int i = 0; i < 10; i++) {
+      test_taggroup.add("test");
+      LogUtil.e("test");
+    }
+    /**
+     * 为了不重复显示dialog，在显示对话框之前移除正在显示的对话框。
+     */
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    Fragment fragment = getFragmentManager().findFragmentByTag("ShrDialog");
+    if (null != fragment) {
+      ft.remove(fragment);
+    }
+    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup);
+    dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
+    dialogFragment.show(ft, "ShrDialog");
     // tagGroup.setTagsDailog(test_taggroup);
+    // LogUtil.e("tagGroup:"+tagGroup.getChildCount());
     // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
     // @Override
     // public void onTagClick(String tag) {
     // if (tag.equals("..."))
-    // tagGroup.setAllTags(test_taggroup);
+    // tagGroup.setAllTagsDailog(test_taggroup);
     // else if (tag.equals("<-"))
-    // tagGroup.setTags(test_taggroup);
+    // tagGroup.setTagsDailog(test_taggroup);
     // }
     // });
-    // }
-    // else
-    // {
-    // Toast.makeText(getActivity(), "你创建的组超过了20个", Toast.LENGTH_LONG).show();
-    // }
+    // showDialog(Gravity.CENTER,diaglog_view);
   }
 
   /**
@@ -145,12 +161,12 @@ public class ShareContentFragment extends Fragment {
       }
     };
 
-    runnable_tagGroup = new Runnable() {
-      @Override
-      public void run() {
-        initData();
-      }
-    };
+    // runnable_tagGroup = new Runnable() {
+    // @Override
+    // public void run() {
+    // // initData();
+    // }
+    // };
 
     runnable_changle_layout = new Runnable() {
       @Override
@@ -167,69 +183,64 @@ public class ShareContentFragment extends Fragment {
     };
   }
 
-  private void showDialog(int gravity) {
-    Holder holder = new ViewHolder(R.layout.dialog_shr_content);
-    LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
-    View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
-    dialog_intro_input = (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-    // Log.e("taggroup",tagGroup.toString());
-    // getUserData();
-
-    OnClickListener clickListener = new OnClickListener() {
-      @Override
-      public void onClick(DialogPlus dialog, View view) {
-        switch (view.getId()) {
-          case R.id.dialog_shr_content_tagview1:
-            break;
-
-          case R.id.dialog_shr_content_tagview2:
-            break;
-          case R.id.dialog_shr_content_tagview3:
-            // case R.id.user_groups_tagGroup:
-            // LogUtil.e("################# click");
-            //
-            // // post_share_url();
-            // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-            // @Override
-            // public void onTagClick(String tag) {
-            // if (tag.equals("..."))
-            // tagGroup.setAllTags(test_taggroup);
-            // else if (tag.equals("<-"))
-            // tagGroup.setTags(test_taggroup);
-            // else
-            // {
-            // Toast.makeText(getActivity(), "We're glad that you love it" + tag,
-            // Toast.LENGTH_LONG).show();
-            // }
-            // }
-            // });
-            break;
-
-        }
-        dialog.dismiss();
-      }
-    };
-    OnDismissListener dismissListener = new OnDismissListener() {
-      @Override
-      public void onDismiss(DialogPlus dialog) {}
-    };
-    showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
-  }
-
-  private void showOnlyContentDialog(Holder holder, int gravity,
-      OnDismissListener dismissListener, OnClickListener clickListener
-      ) {
-    final DialogPlus dialog = DialogPlus.newDialog(getActivity())
-        .setContentHolder(holder)
-        .setGravity(gravity)
-        .setOnDismissListener(dismissListener)
-        .setCancelable(true)
-        .setOnClickListener(clickListener)
-        .create();
-    dialog.show();
-  }
-
+//  private void showDialog(int gravity, View diaglog_view) {
+//    Holder holder = new ViewHolder(R.layout.dialog_shr_content_test);
+//
+//    dialog_intro_input = (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
+//
+//    OnClickListener clickListener = new OnClickListener() {
+//      @Override
+//      public void onClick(DialogPlus dialog, View view) {
+//        switch (view.getId()) {
+//        // case R.id.dialog_shr_content_tagview1:
+//        // break;
+//        //
+//        // case R.id.dialog_shr_content_tagview2:
+//        // break;
+//        // case R.id.dialog_shr_content_tagview3:
+//          case R.id.user_groups_tagGroup:
+//            // LogUtil.e("################# click");
+//            //
+//            // // post_share_url();
+//            // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+//            // @Override
+//            // public void onTagClick(String tag) {
+//            // if (tag.equals("..."))
+//            // tagGroup.setAllTags(test_taggroup);
+//            // else if (tag.equals("<-"))
+//            // tagGroup.setTags(test_taggroup);
+//            // else
+//            // {
+//            // Toast.makeText(getActivity(), "We're glad that you love it" + tag,
+//            // Toast.LENGTH_LONG).show();
+//            // }
+//            // }
+//            // });
+//            break;
+//
+//        }
+//        dialog.dismiss();
+//      }
+//    };
+//    OnDismissListener dismissListener = new OnDismissListener() {
+//      @Override
+//      public void onDismiss(DialogPlus dialog) {}
+//    };
+//    showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
+//  }
+//
+//  private void showOnlyContentDialog(Holder holder, int gravity,
+//      OnDismissListener dismissListener, OnClickListener clickListener
+//      ) {
+//    final DialogPlus dialog = DialogPlus.newDialog(getActivity())
+//        .setContentHolder(holder)
+//        .setGravity(gravity)
+//        .setOnDismissListener(dismissListener)
+//        .setCancelable(true)
+//        .setOnClickListener(clickListener)
+//        .create();
+//    dialog.show();
+//  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -241,7 +252,7 @@ public class ShareContentFragment extends Fragment {
     first_shr_bt.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        showDialog(Gravity.CENTER);
+//        start_dialog();
       }
     });
     share_list = (RecyclerView) view.findViewById(R.id.unique_group_share_list);
@@ -263,7 +274,7 @@ public class ShareContentFragment extends Fragment {
           public void onItemClick(View view, Share data) {
             Intent mIntent = new Intent(getActivity(), BrowserActivity.class);
             mIntent.putExtra("id", data.id);
-            mIntent.putExtra(APIConstants.TYPE,APIConstants.SHARE_TYPE);
+            mIntent.putExtra(APIConstants.TYPE, APIConstants.SHARE_TYPE);
             startActivity(mIntent);
           }
         });

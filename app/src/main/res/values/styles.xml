@@ -56,13 +56,27 @@
 
 
     <!--<style name="TitleBarBackground">-->
-        <!--<item name="android:background">@drawable/bg_title_bar</item>-->
+    <!--<item name="android:background">@drawable/bg_title_bar</item>-->
     <!--</style>-->
 
     <!--<style name="MyCustomTheme" parent="android:Theme">-->
-        <!--<item name="android:windowTitleBackgroundStyle">@style/TitleBarBackground</item>-->
-        <!--<item name="android:windowTitleSize">47dp</item>-->
+    <!--<item name="android:windowTitleBackgroundStyle">@style/TitleBarBackground</item>-->
+    <!--<item name="android:windowTitleSize">47dp</item>-->
     <!--</style>-->
+
+    <!--shrdialog-->
+    <style name="ShrDialog" parent="android:style/Theme.Dialog">
+
+        <!-- 背景颜色及透明程度 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 是否有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否模糊 -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFrame">@null</item>
+    </style>
 
 
     <!--TagView-->
