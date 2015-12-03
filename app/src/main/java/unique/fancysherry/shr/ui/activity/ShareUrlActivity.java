@@ -283,7 +283,7 @@ public class ShareUrlActivity extends AppCompatActivity {
     if (comment != null) {
       params.put("comment", comment);
     }
-    if (!group_name.equals("inbox_share"))
+    if (!group_name.equals("@me"))
       params.put("groups", group_name);
     return params;
   }

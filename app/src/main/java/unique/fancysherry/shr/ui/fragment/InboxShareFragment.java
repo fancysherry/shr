@@ -152,7 +152,7 @@ public class InboxShareFragment extends Fragment {
     first_shr_bt.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        showDialog(Gravity.CENTER);
+//        showDialog(Gravity.CENTER);
       }
     });
     inbox_share_list = (RecyclerView) view.findViewById(R.id.unique_group_share_list);

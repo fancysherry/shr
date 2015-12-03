@@ -29,6 +29,7 @@
             android:textSize="17sp"/>
 
         <Button
+            android:id="@+id/invite_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="#569597"

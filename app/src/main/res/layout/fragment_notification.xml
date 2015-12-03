@@ -2,17 +2,13 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:padding="10dp"
              tools:context="com.unique.fancysherry.scan.ui.fragment.StartListFragment">
 
-
-    <TextView
-        android:id="@+id/info_text"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/invite_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="Hello CardView"
-        android:textColor="#ffffff"
-        android:textSize="25sp"/>
-
-
+        />
 </FrameLayout>

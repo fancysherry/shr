@@ -101,6 +101,7 @@ public class GsonRequest<T> extends Request<T> {
   {
     public String message;
     public String cookie;
+    public String key;
   }
 
 
