@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class BlacklistPopupWindow extends PopupWindow {
 
-  private TextView putblack, cancelBtn;
+  public TextView putblack, cancelBtn;
   private View mMenuView;
 
   @SuppressLint("InflateParams")

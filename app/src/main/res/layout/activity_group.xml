@@ -134,26 +134,13 @@
                         android:layout_marginLeft="7dp"
                         android:gravity="center_vertical"
                         android:text="群组管理"/>
-
-
                 </LinearLayout>
-
-
-                <View
-                    android:id="@+id/line_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_below="@id/manage_group_layout"
-                    android:layout_margin="@dimen/group_dimen"
-                    android:background="@color/gray_d8"
-                    />
-
 
                 <LinearLayout
                     android:id="@+id/active_member"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/line_chart"
+                    android:layout_below="@id/manage_group_layout"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/group_dimen">

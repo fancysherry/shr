@@ -18,26 +18,26 @@
         <TextView
             android:id="@+id/putblack"
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="44dp"
             android:background="@color/pure_white"
             android:elevation="0dp"
             android:gravity="center"
             android:text="屏蔽用户"
             android:textColor="#ea4f4f"
-            android:textSize="12sp"
+            android:textSize="17sp"
             />
 
         <TextView
             android:id="@+id/cancelBtn"
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="44dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:background="@color/pure_white"
             android:elevation="0dp"
             android:text="取消"
             android:textColor="#212121"
-            android:textSize="12sp"
+            android:textSize="17sp"
             />
     </LinearLayout>
 

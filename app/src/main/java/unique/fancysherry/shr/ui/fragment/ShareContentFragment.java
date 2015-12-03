@@ -1,8 +1,6 @@
 package unique.fancysherry.shr.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,14 +41,8 @@ import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
-import unique.fancysherry.shr.ui.widget.Dialog.DialogPlus;
-import unique.fancysherry.shr.ui.widget.Dialog.Holder;
-import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
-import unique.fancysherry.shr.ui.widget.Dialog.OnDismissListener;
-import unique.fancysherry.shr.ui.widget.Dialog.ShrDialog;
-import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
+import unique.fancysherry.shr.ui.dialog.ShrDialog;
 import unique.fancysherry.shr.ui.widget.TagGroup;
-import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 

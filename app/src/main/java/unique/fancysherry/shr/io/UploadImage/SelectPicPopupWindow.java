@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ public class SelectPicPopupWindow extends PopupWindow {
     super(context);
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    mMenuView = inflater.inflate(R.layout.layout_dialog_pic, null);
+    mMenuView = inflater.inflate(R.layout.layout_dialog_select_image, null);
     takePhotoBtn = (TextView) mMenuView.findViewById(R.id.takePhotoBtn);
     pickPhotoBtn = (TextView) mMenuView.findViewById(R.id.pickPhotoBtn);
     cancelBtn = (TextView) mMenuView.findViewById(R.id.cancelBtn);

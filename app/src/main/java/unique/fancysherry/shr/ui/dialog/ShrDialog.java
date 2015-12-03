@@ -1,25 +1,19 @@
-package unique.fancysherry.shr.ui.widget.Dialog;
+package unique.fancysherry.shr.ui.dialog;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v4.app.DialogFragment;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.otto.ShareUrlAction;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 

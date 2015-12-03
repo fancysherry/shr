@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +29,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.otto.Subscribe;
+
+import org.json.JSONArray;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,6 +54,7 @@ import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserShareAdapter;
+import unique.fancysherry.shr.ui.dialog.ConfirmDialog;
 import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.BlacklistPopupWindow;
@@ -86,6 +91,7 @@ public class UserActivity extends AppCompatActivity {
   private ArrayList<String> test_taggroup = new ArrayList<>();// todo 目前最大组的数量是20个
   private Handler handler;
   private Runnable runnable;
+  private Runnable runnable_black;
 
   private String is_mine_id;
 
@@ -113,6 +119,22 @@ public class UserActivity extends AppCompatActivity {
           }
         });
         initData();
+      }
+    };
+    runnable_black = new Runnable() {
+      @Override
+      public void run() {
+        if (menuWindow.putblack.getText().equals("屏蔽用户")) {
+          Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
+          LogUtil.e("屏蔽");
+          menuWindow.putblack.setText("取消屏蔽");
+        } else if (menuWindow.putblack.getText().equals("取消屏蔽"))
+
+        {
+          LogUtil.e("取消屏蔽");
+          Toast.makeText(context, "取消拉黑", Toast.LENGTH_LONG).show();
+          menuWindow.putblack.setText("屏蔽用户");
+        }
       }
     };
 
@@ -146,8 +168,9 @@ public class UserActivity extends AppCompatActivity {
       menuWindow.dismiss();
 
       switch (v.getId()) {
-        case R.id.putblack:// 相册选择图片
-          Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
+        case R.id.putblack://
+          showDialog(ConfirmDialog.PUT_BLACKLIST_CONFIRM);
+          // Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
           break;
         case R.id.cancelBtn:// 取消
           break;
@@ -156,6 +179,83 @@ public class UserActivity extends AppCompatActivity {
       }
     }
   };
+
+  void showDialog(String type) {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    Fragment prev = getSupportFragmentManager().findFragmentByTag("put_black_dialog");
+    if (prev != null) {
+      ft.remove(prev);
+    }
+    ft.addToBackStack(null);
+    ConfirmDialog dialogFrag = ConfirmDialog.newInstance(type);
+    dialogFrag.show(getSupportFragmentManager(), "put_black_dialog");
+  }
+
+  public void onDismissDialog() {
+    if (menuWindow.putblack.getText().equals("屏蔽用户")) {
+      put_blacklist();
+    } else if (menuWindow.putblack.getText().equals("取消屏蔽")) {
+      cancel_put_blacklist();
+    }
+    // TODO add your implementation.
+  }
+
+  public Map<String, String> getParams_black() {
+    Map<String, String> params = new HashMap<>();
+    params.put("blacked_user_id", is_mine_id);
+    return params;
+  }
+
+  public Map<String, String> getParams_cancel_black() {
+    Map<String, String> params = new HashMap<>();
+    params.put("cancelled_user_id", is_mine_id);
+    return params;
+  }
+
+  public void put_blacklist() {
+    GsonRequest<GsonRequest.FormResult> put_blacklist_request =
+        new GsonRequest<>(Request.Method.POST,
+            APIConstants.BASE_URL + "/user/black",
+            getHeader(), getParams_black(),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("message")) {
+                  handler.post(runnable_black);
+                  LogUtil.e("log");
+                }
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(put_blacklist_request);
+  }
+
+  public void cancel_put_blacklist() {
+    GsonRequest<GsonRequest.FormResult> cancel_put_blacklist_request =
+        new GsonRequest<>(Request.Method.POST,
+            APIConstants.BASE_URL + "/user/cancel_black",
+            getHeader(), getParams_cancel_black(),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("message"))
+                  handler.post(runnable_black);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(cancel_put_blacklist_request);
+  }
+
 
   public void getUserData(String user_id) {
     GsonRequest<User> user_request =
