@@ -167,25 +167,25 @@ public class GroupActivity extends AppCompatActivity {
   }
 
 
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
+//  // Resolve the given attribute of the current theme
+//  private int getAttributeColor(int resId) {
+//    TypedValue typedValue = new TypedValue();
+//    getTheme().resolveAttribute(resId, typedValue, true);
+//    int color = 0x000000;
+//    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+//      // resId is a color
+//      color = typedValue.data;
+//    } else {
+//      // resId is not a color
+//    }
+//    return color;
+//  }
 
   protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
+//    }
     mToolbar = (Toolbar) findViewById(R.id.group_activity_toolbar);
     setSupportActionBar(mToolbar);
     getSupportActionBar().setTitle("");

@@ -44,7 +44,7 @@
 
         <item name="colorPrimary">#4fa6ae</item>
         <!--<item name="colorPrimaryDark">#cc4fa6ae</item>-->
-        <item name="colorPrimaryDark">#cc4fa6ae</item>
+        <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#4fa6ae</item>
     </style>
 
