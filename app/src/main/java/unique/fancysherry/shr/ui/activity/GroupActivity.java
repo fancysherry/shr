@@ -38,6 +38,7 @@ import unique.fancysherry.shr.ui.adapter.recycleview.MemberAdapter;
 import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
+import unique.fancysherry.shr.util.system.DensityUtils;
 import unique.fancysherry.shr.util.system.ResourceHelper;
 
 public class GroupActivity extends AppCompatActivity {
@@ -190,6 +191,8 @@ public class GroupActivity extends AppCompatActivity {
   }
 
   private void initAdapter() {
+    int viewHeight = DensityUtils.dp2px(this,60) * group.users.size();
+    group_member_list.getLayoutParams().height = viewHeight;
     manageAdapter = new MemberAdapter(this);
     group_member_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));

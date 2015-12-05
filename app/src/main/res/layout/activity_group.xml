@@ -237,10 +237,10 @@
                     </LinearLayout>
 
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/group_header"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
                         >
 
 
@@ -269,7 +269,6 @@
                             android:id="@+id/active_member_layout"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:layout_below="@id/active_member"
                             android:layout_marginTop="1dp"
                             android:background="@color/pure_white"
                             android:orientation="horizontal"
@@ -402,7 +401,6 @@
                             android:id="@+id/group_member"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_below="@id/active_member_layout"
                             android:layout_marginTop="20dp"
                             android:background="@color/pure_white"
                             android:gravity="center_vertical"
@@ -429,7 +427,7 @@
                             android:background="@color/pure_white"
                             android:paddingLeft="30dp"
                             android:paddingRight="30dp"/>
-                    </RelativeLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -439,10 +437,10 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/group_header"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
                         >
 
 
@@ -604,7 +602,6 @@
                             android:id="@+id/group_member_notmanage"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_below="@id/active_member_layout_notmanage"
                             android:layout_marginTop="20dp"
                             android:background="@color/pure_white"
                             android:gravity="center_vertical"
@@ -631,7 +628,7 @@
                             android:background="@color/pure_white"
                             android:paddingLeft="30dp"
                             android:paddingRight="30dp"/>
-                    </RelativeLayout>
+                   </LinearLayout>
                 </LinearLayout>
 
 

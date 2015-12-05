@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,7 +114,12 @@ public class UserActivity extends AppCompatActivity {
         user_edit.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            menuWindow = new BlacklistPopupWindow(context, itemsOnClick);
+            LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            menuWindow =
+                new BlacklistPopupWindow(inflater.inflate(R.layout.layout_dialog_putblacklist,
+                    null, false),
+                    itemsOnClick);
             menuWindow.showAtLocation(findViewById(R.id.parent_layout),
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
           }
@@ -126,14 +132,14 @@ public class UserActivity extends AppCompatActivity {
       public void run() {
         if (menuWindow.putblack.getText().equals("屏蔽用户")) {
           Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
-          LogUtil.e("屏蔽");
-          menuWindow.putblack.setText("取消屏蔽");
+          // menuWindow.change_text("取消屏蔽");
+          ((TextView) menuWindow.getContentView().findViewById(R.id.putblack)).setText("取消屏蔽");
         } else if (menuWindow.putblack.getText().equals("取消屏蔽"))
 
         {
-          LogUtil.e("取消屏蔽");
           Toast.makeText(context, "取消拉黑", Toast.LENGTH_LONG).show();
-          menuWindow.putblack.setText("屏蔽用户");
+          // menuWindow.change_text("屏蔽用户");
+          ((TextView) menuWindow.getContentView().findViewById(R.id.putblack)).setText("屏蔽用户");
         }
       }
     };
@@ -147,9 +153,9 @@ public class UserActivity extends AppCompatActivity {
           Intent mIntent = new Intent(context, UserInformationResetActivity.class);
           mIntent.putExtra("user_id", mUser.id);
           mIntent.putExtra("user_avatar", mUser.avatar);
-          mIntent.putExtra("user_intro",mUser.brief);
-          mIntent.putExtra("user_name",mUser.nickname);
-//          mIntent.putExtra("user_email", mUser.email);
+          mIntent.putExtra("user_intro", mUser.brief);
+          mIntent.putExtra("user_name", mUser.nickname);
+          // mIntent.putExtra("user_email", mUser.email);
           startActivity(mIntent);
         }
       });
@@ -224,9 +230,8 @@ public class UserActivity extends AppCompatActivity {
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
               public void onResponse(GsonRequest.FormResult result) {
-                if (result.message.equals("message")) {
+                if (result.message.equals("success")) {
                   handler.post(runnable_black);
-                  LogUtil.e("log");
                 }
               }
             }, new Response.ErrorListener() {
@@ -247,7 +252,7 @@ public class UserActivity extends AppCompatActivity {
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
               public void onResponse(GsonRequest.FormResult result) {
-                if (result.message.equals("message"))
+                if (result.message.equals("success"))
                   handler.post(runnable_black);
               }
             }, new Response.ErrorListener() {
