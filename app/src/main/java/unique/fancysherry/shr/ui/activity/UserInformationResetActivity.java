@@ -2,6 +2,7 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,16 +13,25 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +75,7 @@ import unique.fancysherry.shr.io.UploadImage.NetUtil;
 import unique.fancysherry.shr.io.UploadImage.SelectPicPopupWindow;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.dialog.ConfirmDialog;
 import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.util.LogUtil;
@@ -74,8 +85,18 @@ public class UserInformationResetActivity extends AppCompatActivity {
   private String user_id;
   @InjectView(R.id.change_portriat)
   TextView change_portrait;
+  @InjectView(R.id.user_information_name_content)
+  TextView user_information_name_content;
+  @InjectView(R.id.user_information_email_content)
+  TextView user_information_email_content;
+  @InjectView(R.id.user_information_introduce_number)
+  TextView user_information_introduce_number;
+  @InjectView(R.id.user_information_introduce_content)
+  EditText user_information_introduce_content;
   @InjectView(R.id.user_information_portrait)
   SimpleDraweeView user_information_portrait;
+  @InjectView(R.id.user_information_password_layout)
+  LinearLayout user_information_password_layout;
   private Activity mContext;
   private SelectPicPopupWindow menuWindow; // 自定义的头像编辑弹出框
 
@@ -89,6 +110,9 @@ public class UserInformationResetActivity extends AppCompatActivity {
   private String resultStr = ""; // 服务端返回结果集
   private String imgUrl = APIConstants.BASE_URL + "/upload_image";
   private String user_avatar;
+  private String user_intro;
+  private String user_name;
+  private String user_email;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +123,29 @@ public class UserInformationResetActivity extends AppCompatActivity {
     Bundle mBundle = getIntent().getExtras();
     user_id = mBundle.getString("user_id");
     user_avatar = mBundle.getString("user_avatar");
+    user_name = mBundle.getString("user_name");
+    user_intro = mBundle.getString("user_intro");
+    user_email = AccountManager.getInstance().getCurrentUser().mAccountBean.username;
     initializeToolbar();
     initView();
   }
 
   private void initView()
   {
+    user_information_password_layout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showDialog(ConfirmDialog.PASSWORD_CONFIRM);
+      }
+    });
+    user_information_introduce_content.setImeOptions(EditorInfo.IME_ACTION_DONE);
+    user_information_name_content.setText(user_name);
+    user_information_email_content.setText(user_email);
+    user_information_introduce_content.setText(user_intro);
+    user_information_introduce_number.setText(user_information_introduce_content.getText()
+        .length()
+        + "/50");
+    user_information_introduce_content.addTextChangedListener(textWatcher);
     user_information_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + user_avatar));
     change_portrait.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -114,7 +155,55 @@ public class UserInformationResetActivity extends AppCompatActivity {
             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
       }
     });
+
+    // 软件盘配置
+    user_information_introduce_content
+        .setOnEditorActionListener(new EditText.OnEditorActionListener() {
+          @Override
+          public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+              InputMethodManager imm =
+                  (InputMethodManager) v.getContext()
+                      .getSystemService(Context.INPUT_METHOD_SERVICE);
+              imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+              // 如果没有输入任何文字，则不添加新的item
+              if (user_intro.equals(user_information_introduce_content.getText().toString()))
+                return false;
+              else {
+                resetUserIntro(user_information_introduce_content.getText().toString());
+              }
+              // 不修改就不添加
+              return true;
+            }
+            return false;
+          }
+        });
   }
+
+  public void onDismissDialog(String old_password, String new_password) {
+    resetPassword(old_password, new_password);
+  }
+
+  /**
+   * TextWatcher：接口，继承它要实现其三个方法，分别为Text改变之前、改变的过程中、改变之后各自发生的动作
+   */
+  private TextWatcher textWatcher = new TextWatcher() {
+    @Override
+    public void beforeTextChanged(CharSequence s, int arg1, int arg2,
+        int arg3) {}
+
+    @Override
+    public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+      // 让TextView一直跟随EditText输入的内容同步显示
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+      user_information_introduce_number.setText(user_information_introduce_content.getText()
+          .length()
+          + "/50");
+    }
+  };
 
 
   // 为弹出窗口实现监听类
@@ -138,6 +227,17 @@ public class UserInformationResetActivity extends AppCompatActivity {
       }
     }
   };
+
+  void showDialog(String type) {
+//    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//    Fragment prev = getSupportFragmentManager().findFragmentByTag("reset_password_dialog");
+//    if (prev != null) {
+//      ft.remove(prev);
+//    }
+//    ft.addToBackStack(null);
+//    ConfirmDialog dialogFrag = ConfirmDialog.newInstance(type);
+//    dialogFrag.show(getSupportFragmentManager(), "reset_password_dialog");
+  }
 
   // Resolve the given attribute of the current theme
   private int getAttributeColor(int resId) {
@@ -504,5 +604,62 @@ public class UserInformationResetActivity extends AppCompatActivity {
     ButterKnife.reset(this);
   }
 
+  /**
+   * Callbacks interface that all activities using this fragment must implement.
+   */
+  public void resetUserIntro(String intro) {
+    GsonRequest<GsonRequest.FormResult> group_share_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/setting",
+            getHeader(), getParams_intro(intro),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("success"))
+                  LogUtil.e("reset intro success");
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
 
+  public void resetPassword(String old_password, String new_password) {
+    GsonRequest<GsonRequest.FormResult> group_share_request =
+        new GsonRequest<>(Request.Method.PUT,
+            APIConstants.BASE_URL + "/user/update_passwd",
+            getHeader(), getParams_password(old_password, new_password),
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("success"))
+                  LogUtil.e("reset password success");
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
+
+  public Map<String, String> getParams_intro(String intro) {
+    Map<String, String> params = new HashMap<>();
+    params.put("brief", intro);
+    params.put("education_information", " ");
+    return params;
+  }
+
+  public Map<String, String> getParams_password(String old_password, String new_password) {
+    Map<String, String> params = new HashMap<>();
+    params.put("old_password", old_password);
+    params.put("new_password", new_password);
+    return params;
+  }
 }

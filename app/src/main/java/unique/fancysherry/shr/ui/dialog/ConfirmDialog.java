@@ -2,6 +2,7 @@ package unique.fancysherry.shr.ui.dialog;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.activity.UserActivity;
+import unique.fancysherry.shr.ui.activity.UserInformationResetActivity;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 
 import android.app.Activity;
@@ -29,6 +30,9 @@ public class ConfirmDialog extends DialogFragment {
   private TextView dialog_notification_subtitle;
   private TextView dialog_notification_no;
   private TextView dialog_notification_yes;
+
+  private EditText dialog_notification_password_old;
+  private EditText dialog_notification_password_new;
   private String dialog_type;
 
   public static ConfirmDialog newInstance(String type) {
@@ -45,6 +49,9 @@ public class ConfirmDialog extends DialogFragment {
     int style = 0;
     style = DialogFragment.STYLE_NO_TITLE;// 无标题样式
     setStyle(style, 0);// 设置样式
+
+//    float width=getResources().getDimension(R.dimen.dialog_width);
+//    getDialog().getWindow().setLayout(width,);
   }
 
   @Override
@@ -53,7 +60,29 @@ public class ConfirmDialog extends DialogFragment {
     String type = getArguments().getString("type");
     this.dialog_type = type;
     if (type.equals(PASSWORD_CONFIRM)) {
-      view = inflater.inflate(R.layout.dialog_shr_content_test, container);
+      view = inflater.inflate(R.layout.dialog_notification_password, container);
+      dialog_notification_password_old =
+          (EditText) view.findViewById(R.id.dialog_notification_password_old_input);
+      dialog_notification_password_new =
+          (EditText) view.findViewById(R.id.dialog_notification_password_new_input);
+      dialog_notification_no = (TextView) view.findViewById(R.id.dialog_notification_password_no);
+      dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_password_yes);
+      dialog_notification_no.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          dismiss();
+        }
+      });
+      dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          UserInformationResetActivity mUserInformationResetActivity =
+              (UserInformationResetActivity) getActivity();
+          mUserInformationResetActivity.onDismissDialog(dialog_notification_password_old.getText()
+              .toString(), dialog_notification_password_new.getText().toString());
+          dismiss();
+        }
+      });
     }
     else if (type.equals(CHANGE_MANAGER_CONFIRM)) {
       view = inflater.inflate(R.layout.dialog_shr_content_test, container);
@@ -71,6 +100,7 @@ public class ConfirmDialog extends DialogFragment {
       view = inflater.inflate(R.layout.dialog_notification_small, container);
       dialog_notification_title =
           (TextView) view.findViewById(R.id.dialog_notification_small_title);
+      dialog_notification_title.setText("是否要屏蔽该用户");
       dialog_notification_no = (TextView) view.findViewById(R.id.dialog_notification_small_no);
       dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
       dialog_notification_no.setOnClickListener(new View.OnClickListener() {

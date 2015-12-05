@@ -5,17 +5,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Comment;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.util.DateUtil;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * Created by fancysherry on 15-7-14.
@@ -58,6 +62,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     holder.comment_nickname.setText(items.get(position).nickname);
     holder.comment_content.setText(items.get(position).content);
     holder.comment_time.setText(getTime(items.get(position).time));
+    holder.comment_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+        + items.get(position).avatar));
     holder.view.setTag(items.get(position));
 
 
@@ -111,7 +117,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
-    ImageView comment_portrait;
+    SimpleDraweeView comment_portrait;
     TextView comment_nickname;
     TextView comment_content;
     TextView comment_time;
@@ -125,7 +131,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public ViewHolder(View itemView, CommentAdapter commentAdapter, Context pContext) {
       super(itemView);
       this.context = pContext;
-      this.comment_portrait = (ImageView) itemView.findViewById(R.id.comment_item_message_profile);
+      this.comment_portrait =
+          (SimpleDraweeView) itemView.findViewById(R.id.comment_item_message_profile);
       this.comment_nickname = (TextView) itemView.findViewById(R.id.comment_item_message_nickname);
       this.comment_content =
           (TextView) itemView.findViewById(R.id.comment_item_message_text_content);

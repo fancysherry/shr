@@ -25,6 +25,7 @@ public class Group implements Parcelable {
   public String group_intro;
   public String name;
   public String id;
+  public String group_share_sum;
 
   public Group()
   {}
@@ -71,6 +72,7 @@ public class Group implements Parcelable {
     group_intro = in.readString();
     name = in.readString();
     id = in.readString();
+    group_share_sum = in.readString();
   }
 
   @Override
@@ -94,7 +96,7 @@ public class Group implements Parcelable {
     dest.writeString(group_intro);
     dest.writeString(name);
     dest.writeString(id);
-
+    dest.writeString(group_share_sum);
 
   }
 }

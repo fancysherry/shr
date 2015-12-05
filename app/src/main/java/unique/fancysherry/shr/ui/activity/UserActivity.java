@@ -147,6 +147,9 @@ public class UserActivity extends AppCompatActivity {
           Intent mIntent = new Intent(context, UserInformationResetActivity.class);
           mIntent.putExtra("user_id", mUser.id);
           mIntent.putExtra("user_avatar", mUser.avatar);
+          mIntent.putExtra("user_intro",mUser.brief);
+          mIntent.putExtra("user_name",mUser.nickname);
+//          mIntent.putExtra("user_email", mUser.email);
           startActivity(mIntent);
         }
       });

@@ -10,13 +10,13 @@
     android:paddingTop="10dp"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/comment_item_message_profile"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
-        android:src="@drawable/mine"
+        app:placeholderImage="@drawable/mine"
         app:border_color="#FF000000"
         app:border_width="0dp"/>
 

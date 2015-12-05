@@ -50,7 +50,6 @@
             android:text="取消"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/base_blue"
             android:textSize="18sp"/>
 
         <View
@@ -66,7 +65,6 @@
             android:text="确定"
             android:gravity="center"
             android:layout_weight="1"
-            android:textColor="@color/base_blue"
             android:textSize="18sp"/>
 
 
