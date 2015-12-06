@@ -123,7 +123,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_email2x"
+            android:src="@drawable/icon_email_grey"
             />
 
         <TextView
@@ -170,7 +170,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_intro2x"
+            android:src="@drawable/icon_editprofile_grey"
             />
 
         <FrameLayout
@@ -189,10 +189,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:maxLength="50"
+                android:background="@drawable/edittext_normal"
                 android:gravity="top"
                 android:inputType="textMultiLine"
-                android:background="@drawable/edittext_normal"
+                android:maxLength="50"
                 android:textColor="#FF333333"
                 android:textSize="13sp"/>
 
@@ -242,15 +242,14 @@
             android:textSize="13sp"/>
 
 
-        <!--<ImageView-->
-        <!--android:id="@+id/user_information_password_button"-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_gravity="right|center_vertical"-->
-        <!--android:layout_marginLeft="240dp"-->
-
-        <!--android:background="@drawable/ic_launcher"-->
-        <!--/>-->
+        <ImageView
+            android:id="@+id/user_information_password_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/icon_enter"
+            />
 
 
     </LinearLayout>

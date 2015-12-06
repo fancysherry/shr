@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                android:background="#eeeeee"
+                android:background="@color/pure_white"
                 tools:context="unique.fancysherry.shr.ui.activity.GroupChangeManagerActivity">
 
 

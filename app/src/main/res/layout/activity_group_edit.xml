@@ -53,9 +53,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:text="组名"
-            android:textSize="40px"/>
+            android:textSize="13sp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/change_group_name_layout_content"
             android:layout_width="250dp"
             android:layout_height="40dp"
@@ -63,9 +63,8 @@
             android:layout_marginLeft="20dp"
             android:background="@color/pure_white"
             android:gravity="center_vertical"
-            android:hint="uniquestudio"
-            android:textSize="16sp"
-            android:textColorHint="@color/gray_d8_20"/>
+            android:textColor="#FFC2C2C2"
+            android:textSize="13sp"/>
 
 
     </LinearLayout>
@@ -89,7 +88,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:text="组介绍"
-            android:textSize="40px"/>
+            android:textSize="13sp"/>
 
         <EditText
             android:id="@+id/change_group_introduce_layout_content"
@@ -98,8 +97,13 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="10dp"
-            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:maxLength="50"
+            android:gravity="top"
+            android:inputType="textMultiLine"
             android:background="@drawable/edittext_normal"
+            android:textColor="#FF333333"
+            android:textSize="13sp"
             />
 
 
@@ -124,16 +128,16 @@
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:text="成员管理"
-            android:textSize="40px"/>
+            android:textSize="13sp"/>
 
         <ImageView
             android:id="@+id/manage_group_member_layout_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:gravity="center_vertical"
-            android:src="@drawable/icon_arrow2x"
+            android:src="@drawable/icon_enter"
             />
 
 
@@ -156,16 +160,16 @@
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:text="移交管理员"
-            android:textSize="40px"/>
+            android:textSize="13sp"/>
 
         <ImageView
             android:id="@+id/change_group_manager_layout_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:gravity="center_vertical"
-            android:src="@drawable/icon_arrow2x"
+            android:src="@drawable/icon_enter"
             />
 
 

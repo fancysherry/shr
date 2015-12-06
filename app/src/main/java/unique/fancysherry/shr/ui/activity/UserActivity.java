@@ -318,7 +318,6 @@ public class UserActivity extends AppCompatActivity {
       currentUser.getCookieHolder().generateCookieString();
       headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
     }
-
     headers
         .put(
             "User-Agent",

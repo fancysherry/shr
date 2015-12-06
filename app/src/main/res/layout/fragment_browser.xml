@@ -4,11 +4,135 @@
              android:layout_height="match_parent"
              tools:context="com.unique.fancysherry.scan.ui.fragment.EndListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/webview_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="top"
+        android:background="@color/pure_white"
+        >
+
+        <TextView
+            android:id="@+id/share_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:text="11"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/webview_top_share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/share_count"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/icon_link"
+            />
+
+        <TextView
+            android:id="@+id/primary_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/webview_top_share_button"
+            android:textColor="#333333"
+            android:text="原文"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/webview_top_like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@id/primary_content"
+            android:src="@drawable/icon_shareout_black"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/webview_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="left|bottom"
+        android:background="@color/pure_white"
+        >
+
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:id="@+id/webview_content_back_button"-->
+        <!--android:layout_width="31dp"-->
+        <!--android:layout_height="31dp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginBottom="25dp"-->
+        <!--android:layout_marginLeft="25dp"-->
+        <!--android:src="@drawable/ic_launcher"-->
+        <!--tools:border_color="#FF000000"-->
+        <!--tools:border_width="0dp"/>-->
+
+
+        <ImageView
+            android:id="@+id/webview_bottom_dismiss_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_back_grey"
+            />
+
+
+        <TextView
+            android:id="@+id/comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:text="11"
+            android:textColor="#c2c2c2"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/webview_bottom_comment_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/comment_count"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/icon_comment"
+            />
+
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/webview_bottom_comment_button"
+            android:textColor="#c2c2c2"
+            android:text="11"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/webview_bottom_like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@id/like_count"
+            android:src="@drawable/icon_thanks"/>
+
+    </RelativeLayout>
+    <!-- TODO: Update blank fragment layout -->
 
 
 

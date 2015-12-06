@@ -2,6 +2,7 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
@@ -20,9 +21,12 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -54,13 +58,24 @@ public class GroupActivity extends AppCompatActivity {
   TextView group_create_name;
   RecyclerView group_member_list;
 
+  private TextView active_member_layout1_name;
+  private SimpleDraweeView active_member_layout1_portrait;
+  private TextView active_member_layout2_name;
+  private SimpleDraweeView active_member_layout2_portrait;
+  private TextView active_member_layout3_name;
+  private SimpleDraweeView active_member_layout3_portrait;
+  private TextView active_member_layout4_name;
+  private SimpleDraweeView active_member_layout4_portrait;
+
   private Group group;
   private User user;
+  private List<User> group_users = null;
   private String group_id;
   private String group_name;
   private Handler handler;
   private Runnable runnable;
   private Runnable runnable_user;
+  private Runnable runnable_group_users;
 
 
   private MemberAdapter manageAdapter;
@@ -109,7 +124,14 @@ public class GroupActivity extends AppCompatActivity {
           initView_manage();
         else
           initView_not_manage();
+        getGroupUserData();
         initData();
+      }
+    };
+    runnable_group_users = new Runnable() {
+      @Override
+      public void run() {
+        initGroupUserData();
       }
     };
 
@@ -117,6 +139,18 @@ public class GroupActivity extends AppCompatActivity {
   }
 
   private void initView_not_manage() {
+    active_member_layout1_name = (TextView) findViewById(R.id.active_member_layout1_name_notmanage);
+    active_member_layout2_name = (TextView) findViewById(R.id.active_member_layout2_name_notmanage);
+    active_member_layout3_name = (TextView) findViewById(R.id.active_member_layout3_name_notmanage);
+    active_member_layout4_name = (TextView) findViewById(R.id.active_member_layout4_name_notmanage);
+    active_member_layout1_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout1_portrait_notmanage);
+    active_member_layout2_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout2_portrait_notmanage);
+    active_member_layout3_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout3_portrait_notmanage);
+    active_member_layout4_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout4_portrait_notmanage);
     LinearLayout group_notmanage_framelayout_part2 =
         (LinearLayout) findViewById(R.id.group_notmanage_framelayout_part2);
     group_notmanage_framelayout_part2.setVisibility(View.VISIBLE);
@@ -126,6 +160,18 @@ public class GroupActivity extends AppCompatActivity {
   }
 
   private void initView_manage() {
+    active_member_layout1_name = (TextView) findViewById(R.id.active_member_layout1_name);
+    active_member_layout2_name = (TextView) findViewById(R.id.active_member_layout2_name);
+    active_member_layout3_name = (TextView) findViewById(R.id.active_member_layout3_name);
+    active_member_layout4_name = (TextView) findViewById(R.id.active_member_layout4_name);
+    active_member_layout1_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout1_portrait);
+    active_member_layout2_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout2_portrait);
+    active_member_layout3_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout3_portrait);
+    active_member_layout4_portrait =
+        (SimpleDraweeView) findViewById(R.id.active_member_layout4_portrait);
     LinearLayout group_manage_framelayout_part1 =
         (LinearLayout) findViewById(R.id.group_manage_framelayout_part1);
     group_manage_framelayout_part1.setVisibility(View.VISIBLE);
@@ -166,8 +212,195 @@ public class GroupActivity extends AppCompatActivity {
     group_layout_member_count.setText(String.valueOf(group.users.size()));
     group_create_name.setText(group_name);
     group_shr_intro.setText(group.group_intro);
-    manageAdapter.setData(group.users);
   }
+
+  public void initGroupUserData() {
+    manageAdapter.setData(group_users);
+    int size = group_users.size();
+    List<User> temp = new ArrayList<>();
+    temp.addAll(group_users);
+    if (size == 0) {
+      active_member_layout1_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout1_name.setVisibility(View.INVISIBLE);
+      active_member_layout2_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout2_name.setVisibility(View.INVISIBLE);
+      active_member_layout3_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout3_name.setVisibility(View.INVISIBLE);
+      active_member_layout4_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout4_name.setVisibility(View.INVISIBLE);
+    }
+    else if (size == 1) {
+      active_member_layout2_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout2_name.setVisibility(View.INVISIBLE);
+      active_member_layout3_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout3_name.setVisibility(View.INVISIBLE);
+      active_member_layout4_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout4_name.setVisibility(View.INVISIBLE);
+      temp = select_active(1, temp);
+      active_member_layout1_name.setText(temp.get(0).name);
+      active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(0).avatar));
+    }
+    else if (size == 2) {
+      active_member_layout3_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout3_name.setVisibility(View.INVISIBLE);
+      active_member_layout4_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout4_name.setVisibility(View.INVISIBLE);
+      temp = select_active(2, temp);
+      active_member_layout1_name.setText(temp.get(0).name);
+      active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(0).avatar));
+      active_member_layout2_name.setText(temp.get(1).name);
+      active_member_layout2_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(1).avatar));
+    }
+    else if (size == 3) {
+      active_member_layout4_portrait.setVisibility(View.INVISIBLE);
+      active_member_layout4_name.setVisibility(View.INVISIBLE);
+      temp = select_active(3, temp);
+      active_member_layout1_name.setText(temp.get(0).name);
+      active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(0).avatar));
+      active_member_layout2_name.setText(temp.get(1).name);
+      active_member_layout2_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(1).avatar));
+      active_member_layout3_name.setText(temp.get(2).name);
+      active_member_layout3_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(2).avatar));
+
+    }
+    else if (size >= 4)
+    {
+      temp = select_active(4, temp);
+      active_member_layout1_name.setText(temp.get(0).name);
+      active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(0).avatar));
+      active_member_layout2_name.setText(temp.get(1).name);
+      active_member_layout2_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(1).avatar));
+      active_member_layout3_name.setText(temp.get(2).name);
+      active_member_layout3_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(2).avatar));
+      active_member_layout4_name.setText(temp.get(3).name);
+      active_member_layout4_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
+          + temp.get(3).avatar));
+    }
+
+
+
+  }
+
+  private List<User> select_active(int mount, List<User> primary_list)
+  {
+    User first;
+    User second;
+    User third;
+    User fourth;
+    int flag = 0;
+    List<User> select_list = new ArrayList<>();
+    if (mount == 1) {
+      first = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > first.share_sum) {
+          first = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      select_list.add(first);
+
+    }
+    else if (mount == 2) {
+      first = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > first.share_sum) {
+          first = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      second = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > second.share_sum) {
+          second = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      select_list.add(first);
+      select_list.add(second);
+
+    }
+    else if (mount == 3) {
+      first = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > first.share_sum) {
+          first = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      second = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > second.share_sum) {
+          second = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      third = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > third.share_sum) {
+          third = primary_list.get(i);
+          flag = i;
+        }
+      }
+//      primary_list.remove(flag);
+      select_list.add(first);
+      select_list.add(second);
+      select_list.add(third);
+    }
+    else if (mount == 4) {
+      first = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > first.share_sum) {
+          first = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      second = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > second.share_sum) {
+          second = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      third = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > third.share_sum) {
+          third = primary_list.get(i);
+          flag = i;
+        }
+      }
+      primary_list.remove(flag);
+      fourth = primary_list.get(0);
+      for (int i = 0; i < primary_list.size(); i++) {
+        if (primary_list.get(i).share_sum > fourth.share_sum) {
+          fourth = primary_list.get(i);
+          flag = i;
+        }
+      }
+//      primary_list.remove(flag);
+      select_list.add(first);
+      select_list.add(second);
+      select_list.add(third);
+      select_list.add(fourth);
+    }
+    return select_list;
+  }
+
 
   protected void initializeToolbar() {
     mToolbar = (Toolbar) findViewById(R.id.group_activity_toolbar);
@@ -191,7 +424,7 @@ public class GroupActivity extends AppCompatActivity {
   }
 
   private void initAdapter() {
-    int viewHeight = DensityUtils.dp2px(this,60) * group.users.size();
+    int viewHeight = DensityUtils.dp2px(this, 60) * group.users.size();
     group_member_list.getLayoutParams().height = viewHeight;
     manageAdapter = new MemberAdapter(this);
     group_member_list.setLayoutManager(new LinearLayoutManager(this,
@@ -218,6 +451,27 @@ public class GroupActivity extends AppCompatActivity {
                 // mShares = shares.shares;
                 group = pGroup;
                 handler.post(runnable);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
+
+  public void getGroupUserData() {
+    GsonRequest<Group> group_share_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/group/users?group_id=" + group_id,
+            getHeader(), null,
+            Group.class,
+            new Response.Listener<Group>() {
+              @Override
+              public void onResponse(Group pGroup) {
+                group_users = pGroup.users;
+                handler.post(runnable_group_users);
               }
             }, new Response.ErrorListener() {
               @Override

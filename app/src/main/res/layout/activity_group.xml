@@ -165,6 +165,7 @@
                 </LinearLayout>
             </LinearLayout>
 
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -272,9 +273,8 @@
                             android:layout_marginTop="1dp"
                             android:background="@color/pure_white"
                             android:orientation="horizontal"
-                            android:paddingBottom="15dp"
-                            android:paddingLeft="50dp"
-                            android:paddingRight="30dp"
+                            android:paddingLeft="25dp"
+                            android:paddingRight="25dp"
                             android:paddingTop="15dp"
                             >
 
@@ -282,8 +282,8 @@
                                 android:id="@+id/active_member_layout1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -292,11 +292,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout1_name"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -311,8 +313,8 @@
                                 android:id="@+id/active_member_layout2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -321,11 +323,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout2_name"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -340,8 +344,8 @@
                                 android:id="@+id/active_member_layout3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -350,11 +354,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout3_name"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -369,8 +375,8 @@
                                 android:id="@+id/active_member_layout4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -379,11 +385,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout4_name"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -425,8 +433,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="1dp"
                             android:background="@color/pure_white"
-                            android:paddingLeft="30dp"
-                            android:paddingRight="30dp"/>
+                            android:paddingLeft="25dp"
+                            android:paddingRight="25dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -469,12 +477,10 @@
                             android:id="@+id/active_member_layout_notmanage"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:layout_below="@id/active_member_notmanage"
                             android:layout_marginTop="1dp"
                             android:background="@color/pure_white"
                             android:orientation="horizontal"
-                            android:paddingBottom="15dp"
-                            android:paddingLeft="50dp"
+                            android:paddingLeft="30dp"
                             android:paddingRight="30dp"
                             android:paddingTop="15dp"
                             >
@@ -483,8 +489,8 @@
                                 android:id="@+id/active_member_layout1_notmanage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -493,11 +499,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout1_name_notmanage"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -512,8 +520,8 @@
                                 android:id="@+id/active_member_layout2_notmanage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -522,11 +530,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout2_name_notmanage"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -541,8 +551,8 @@
                                 android:id="@+id/active_member_layout3_notmanage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -551,11 +561,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
-                                    android:id="@+id/active_member_layout3_name_notmannage"
-                                    android:layout_width="50dp"
+                                    android:id="@+id/active_member_layout3_name_notmanage"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -570,8 +582,8 @@
                                 android:id="@+id/active_member_layout4_notmanage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
+                                android:gravity="center_horizontal"
                                 android:orientation="vertical"
                                 >
 
@@ -580,11 +592,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     tools:border_color="#FF000000"
-                                    tools:border_width="0dp"/>
+                                    tools:border_width="0dp"
+                                    tools:placeholderImage="@drawable/mine"
+                                    tools:roundAsCircle="true"/>
 
                                 <TextView
                                     android:id="@+id/active_member_layout4_name_notmanage"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
                                     android:gravity="center_horizontal"
@@ -626,12 +640,10 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="1dp"
                             android:background="@color/pure_white"
-                            android:paddingLeft="30dp"
-                            android:paddingRight="30dp"/>
-                   </LinearLayout>
+                            android:paddingLeft="25dp"
+                            android:paddingRight="25dp"/>
+                    </LinearLayout>
                 </LinearLayout>
-
-
 
 
             </FrameLayout>

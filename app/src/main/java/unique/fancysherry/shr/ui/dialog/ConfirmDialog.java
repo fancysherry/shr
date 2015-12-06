@@ -34,6 +34,7 @@ public class ConfirmDialog extends DialogFragment {
   private EditText dialog_notification_password_old;
   private EditText dialog_notification_password_new;
   private String dialog_type;
+  private String delete_name;
 
   public static ConfirmDialog newInstance(String type) {
     ConfirmDialog dialogFragment = new ConfirmDialog();
@@ -50,8 +51,8 @@ public class ConfirmDialog extends DialogFragment {
     style = DialogFragment.STYLE_NO_TITLE;// 无标题样式
     setStyle(style, 0);// 设置样式
 
-//    float width=getResources().getDimension(R.dimen.dialog_width);
-//    getDialog().getWindow().setLayout(width,);
+    // float width=getResources().getDimension(R.dimen.dialog_width);
+    // getDialog().getWindow().setLayout(width,);
   }
 
   @Override
@@ -59,6 +60,8 @@ public class ConfirmDialog extends DialogFragment {
     View view = null;
     String type = getArguments().getString("type");
     this.dialog_type = type;
+
+
     if (type.equals(PASSWORD_CONFIRM)) {
       view = inflater.inflate(R.layout.dialog_notification_password, container);
       dialog_notification_password_old =
@@ -84,18 +87,73 @@ public class ConfirmDialog extends DialogFragment {
         }
       });
     }
+
+
+
     else if (type.equals(CHANGE_MANAGER_CONFIRM)) {
       view = inflater.inflate(R.layout.dialog_shr_content_test, container);
     }
+
+
+
     else if (type.equals(CHANGE_MANAGER_CONFIRM_FINISH)) {
       view = inflater.inflate(R.layout.dialog_shr_content_test, container);
     }
+
+
+
     else if (type.equals(DELETE_MEMBER_CONFIRM)) {
-      view = inflater.inflate(R.layout.dialog_shr_content_test, container);
+      view = inflater.inflate(R.layout.dialog_notification_large, container);
+      dialog_notification_title =
+          (TextView) view.findViewById(R.id.dialog_notification_small_title);
+
+      if (delete_name != null)
+        dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
+
+      dialog_notification_subtitle =
+          (TextView) view.findViewById(R.id.dialog_notification_small_subtitle);
+      dialog_notification_subtitle.setText("此操作无法撤销");
+      dialog_notification_no = (TextView) view.findViewById(R.id.dialog_notification_small_no);
+      dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
+      dialog_notification_no.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          dismiss();
+        }
+      });
+      dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          // UserActivity mUserActivity = (UserActivity) getActivity();
+          // mUserActivity.onDismissDialog();
+          dismiss();
+        }
+      });
+
     }
+
+
+
+
     else if (type.equals(DELETE_MEMBER_CONFIRM_AGAIN)) {
-      view = inflater.inflate(R.layout.dialog_shr_content_test, container);
+      view = inflater.inflate(R.layout.dialog_notification_small_one_btn, container);
+      dialog_notification_title=(TextView)view.findViewById(R.id.dialog_notification_small_title);
+      dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
+      dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          // UserActivity mUserActivity = (UserActivity) getActivity();
+          // mUserActivity.onDismissDialog();
+          dismiss();
+        }
+      });
     }
+
+
+
+
+
+
     else if (type.equals(PUT_BLACKLIST_CONFIRM)) {
       view = inflater.inflate(R.layout.dialog_notification_small, container);
       dialog_notification_title =
@@ -123,5 +181,11 @@ public class ConfirmDialog extends DialogFragment {
       // todo default layout
     }
     return view;
+  }
+
+
+  public void delete_name(String delete_name)
+  {
+    this.delete_name = delete_name;
   }
 }

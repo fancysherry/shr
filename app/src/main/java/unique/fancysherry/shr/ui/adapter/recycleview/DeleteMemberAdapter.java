@@ -121,7 +121,12 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
       this.member_item_level = (TextView) itemView.findViewById(R.id.group_member_item_level);
       this.member_item_nickname = (TextView) itemView.findViewById(R.id.group_member_item_name);
       this.delete = (TextView) itemView.findViewById(R.id.group_member_item_delete_button);
+      this.delete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+        }
+      });
       this.view = itemView;
     }
 

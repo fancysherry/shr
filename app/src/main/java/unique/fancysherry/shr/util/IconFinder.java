@@ -77,8 +77,9 @@ public class IconFinder {
 
     // urlString = getFinalUrl(urlString);
     URL url = new URL(urlString);
-    String hostUrl = url.getProtocol() + "://" + url.getHost();// 保证从域名根路径搜索
-    return hostUrl;
+    // String hostUrl = url.getProtocol() + "://" + url.getHost();// 保证从域名根路径搜索
+    // return hostUrl;
+    return url.getHost();
     // if (hasRootIcon(iconUrl))
     // return iconUrl;
     //
@@ -102,7 +103,7 @@ public class IconFinder {
   public static String get64xIcon(String urlString) throws MalformedURLException {
     String url_32x = null;
     url_32x =
-        "http://icons.better-idea.org/icon?url=" + getHostUrl(urlString) + "&size=64&format=png";
+        "http://icons.better-idea.org/icon?url=" + getHostUrl(urlString) + "&size=60";
     return url_32x;
   }
 

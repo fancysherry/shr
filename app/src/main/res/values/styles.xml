@@ -8,18 +8,21 @@
         <!--<item name="android:windowSharedElementsUseOverlay">false</item>-->
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowContentTransitions">true</item>-->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentTransitions">true</item>
-
         <item name="colorPrimary">#4fa6ae</item>
         <item name="colorPrimaryDark">#3f848b</item>
         <item name="colorAccent">#4fa6ae</item>
     </style>
 
 
-    <style name="TransparentToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--<item name="android:windowSharedElementEnterTransition">@android:transition/move</item>-->
         <!--<item name="android:windowSharedElementExitTransition">@android:transition/move</item>-->
@@ -46,6 +49,26 @@
         <!--<item name="colorPrimaryDark">#cc4fa6ae</item>-->
         <item name="colorPrimaryDark">#3f848b</item>
         <item name="colorAccent">#4fa6ae</item>
+    </style>
+
+    <style name="WebViewTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimaryDark">#ffffff</item>
+    </style>
+
+
+
+    <style name="TranslucentStatusTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimaryDark">#32000000</item>
     </style>
 
     <!-- 选择照片底部弹出层 -->

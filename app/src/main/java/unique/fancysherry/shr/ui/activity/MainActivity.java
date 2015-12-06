@@ -298,7 +298,6 @@ public class MainActivity extends BaseActivity
       currentUser.getCookieHolder().generateCookieString();
       headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
     }
-    LogUtil.e(currentUser.getCookieHolder().generateCookieString());
     headers.put("Accept-Encoding", "gzip, deflate");
     headers
         .put(

@@ -57,20 +57,17 @@ public class BrowserActivity extends AppCompatActivity {
 
     // content_back_bt = (ImageView) findViewById(R.id.webview_content_back_button);
     // gratitude_bt = (ImageView) findViewById(R.id.webview_content_gratitude_button);
-    comment_bt = (ImageView) findViewById(R.id.webview_content_commment_button);
-
-    comment_bt.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        LogUtil.e("turn to comment activity");
-        Intent mIntent = new Intent(context, CommentActivity.class);
-        mIntent.putExtra("share_id", id);
-        startActivity(mIntent);
-      }
-    });
-
-
-    initializeToolbar();
+//    comment_bt = (ImageView) findViewById(R.id.webview_content_commment_button);
+//
+//    comment_bt.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        LogUtil.e("turn to comment activity");
+//        Intent mIntent = new Intent(context, CommentActivity.class);
+//        mIntent.putExtra("share_id", id);
+//        startActivity(mIntent);
+//      }
+//    });
 
     if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
 
@@ -134,48 +131,6 @@ public class BrowserActivity extends AppCompatActivity {
     }
     return super.onOptionsItemSelected(item);
   }
-
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
-        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.browser_activity_toolbar);
-
-    setSupportActionBar(mToolbar);
-    getSupportActionBar().setTitle("");
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    mToolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-  }
-
-  private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-      switch (menuItem.getItemId()) {
-        case android.R.id.home:
-          finish();
-      }
-      return true;
-    }
-  };
 
   public Map<String, String> getHeader()
   {

@@ -48,14 +48,16 @@
 
     <TextView
         android:id="@+id/group_member_item_delete_button"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
+        android:layout_width="60dp"
+        android:layout_height="33dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/textview_corner_delete"
         android:gravity="center"
         android:text="移除"
+        android:textColor="#c2c2c2"
+        android:tag="未移除"
         />
 
 
