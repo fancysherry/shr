@@ -22,7 +22,7 @@ import unique.fancysherry.shr.util.system.ResourceHelper;
 
 public class GroupEditActivity extends AppCompatActivity {
   @InjectView(R.id.change_group_name_layout_content)
-  EditText change_group_name_edittext;
+  TextView change_group_name_edittext;
   @InjectView(R.id.change_group_introduce_layout_content)
   EditText change_group_introduce_edittext;
   @InjectView(R.id.manage_group_member_layout)

@@ -35,6 +35,8 @@ import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.model.Notify;
+import unique.fancysherry.shr.io.model.NotifyList;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.UserActivity;
@@ -79,6 +81,10 @@ public class DrawerFragment extends Fragment {
   private User user;
   private Handler handler;
   private Runnable runnable;
+  private List<Notify> notifyList;
+  private Runnable runnable_get_invite_list;
+  private int notify_invite_size = 0;
+  private BadgeView mBadgeView_notify_invite;
 
   public DrawerFragment() {}
 
@@ -96,6 +102,19 @@ public class DrawerFragment extends Fragment {
         gratitude_num.setText("感谢数  " + user.gratitude_shares_sum);
         portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + user.avatar));
         refreshData(user.groups);
+      }
+    };
+    runnable_get_invite_list = new Runnable() {
+      @Override
+      public void run() {
+        for (int i = 0; i < notifyList.size(); i++) {
+          if (notifyList.get(i).notify_type.equals(Notify.INVITE))
+            notify_invite_size++;
+        }
+        mBadgeView_notify_invite.setBadgeCount(notify_invite_size);
+        LogUtil.e("notify_invite_size  "+notify_invite_size);
+        notify_invite_size=0;
+
       }
     };
 
@@ -133,17 +152,17 @@ public class DrawerFragment extends Fragment {
       }
     });
 
-    BadgeView mBadgeView_message = new BadgeView(getActivity());
-    mBadgeView_message.setTargetView(drawer_message_title);
-    mBadgeView_message.setBadgeMargin(0, 0, 8, 0);
-    mBadgeView_message.setBadgeGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT | Gravity.END);
-    mBadgeView_message.setBadgeCount(12);
+    mBadgeView_notify_invite = new BadgeView(getActivity());
+    mBadgeView_notify_invite.setTargetView(drawer_message_title);
+    mBadgeView_notify_invite.setBadgeMargin(0, 0, 8, 0);
+    mBadgeView_notify_invite.setBadgeGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT | Gravity.END);
+    mBadgeView_notify_invite.setBadgeCount(0);
 
     BadgeView mBadgeView_at = new BadgeView(getActivity());
     mBadgeView_at.setTargetView(drawer_at_title);
     mBadgeView_at.setBadgeMargin(0, 0, 8, 0);
     mBadgeView_at.setBadgeGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT | Gravity.END);
-    mBadgeView_at.setBadgeCount(23);
+    mBadgeView_at.setBadgeCount(0);
 
     portrait.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -267,6 +286,26 @@ public class DrawerFragment extends Fragment {
     SApplication.getRequestManager().executeRequest(request, this);
   }
 
+  public void get_invite_list() {
+    GsonRequest<NotifyList> group_share_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/user/notify",
+            getHeader(), null,
+            NotifyList.class,
+            new Response.Listener<NotifyList>() {
+              @Override
+              public void onResponse(NotifyList pNotifyList) {
+                notifyList = pNotifyList.notifies;
+                handler.post(runnable_get_invite_list);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
 
   /**
    * Callbacks interface that all activities using this fragment must implement.
@@ -325,6 +364,9 @@ public class DrawerFragment extends Fragment {
     if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR)
         || dataChangeAction.getStr().equals(DataChangeAction.DELETE_GROUP)) {
       getUserData();
+    }
+    if (dataChangeAction.getStr().equals(DataChangeAction.MESSAGE_COUNT)) {
+      get_invite_list();
     }
   }
 

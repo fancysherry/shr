@@ -8,6 +8,7 @@ public class DataChangeAction {
   public static final String CHANGE_AVATAR = "change avatar";
   public static final String ADD_GROUP = "add group";
   public static final String DELETE_GROUP = "delete group";
+  public static final String MESSAGE_COUNT = "message_count";
 
   private String str;
 

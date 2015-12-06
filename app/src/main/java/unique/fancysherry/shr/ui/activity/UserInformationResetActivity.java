@@ -138,14 +138,12 @@ public class UserInformationResetActivity extends AppCompatActivity {
         showDialog(ConfirmDialog.PASSWORD_CONFIRM);
       }
     });
-    user_information_introduce_content.setImeOptions(EditorInfo.IME_ACTION_DONE);
     user_information_name_content.setText(user_name);
     user_information_email_content.setText(user_email);
     user_information_introduce_content.setText(user_intro);
     user_information_introduce_number.setText(user_information_introduce_content.getText()
         .length()
         + "/50");
-    user_information_introduce_content.addTextChangedListener(textWatcher);
     user_information_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + user_avatar));
     change_portrait.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -156,6 +154,8 @@ public class UserInformationResetActivity extends AppCompatActivity {
       }
     });
 
+    user_information_introduce_content.addTextChangedListener(textWatcher);
+    user_information_introduce_content.setImeOptions(EditorInfo.IME_ACTION_DONE);
     // 软件盘配置
     user_information_introduce_content
         .setOnEditorActionListener(new EditText.OnEditorActionListener() {

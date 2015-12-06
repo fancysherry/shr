@@ -80,7 +80,7 @@ public class BrowserActivity extends AppCompatActivity {
                 public void onResponse(Share share) {
                   FragmentManager fragmentManager = getSupportFragmentManager();
                   fragmentManager.beginTransaction()
-                      .replace(R.id.webview_content, BrowserFragment.newInstance(share.url))
+                      .replace(R.id.webview_content, BrowserFragment.newInstance(share.url,APIConstants.INBOX_SHARE_TYPE,id))
                       .commit();
 
 
@@ -103,10 +103,8 @@ public class BrowserActivity extends AppCompatActivity {
                 public void onResponse(Share share) {
                   FragmentManager fragmentManager = getSupportFragmentManager();
                   fragmentManager.beginTransaction()
-                      .replace(R.id.webview_content, BrowserFragment.newInstance(share.url))
+                      .replace(R.id.webview_content, BrowserFragment.newInstance(share.url,APIConstants.SHARE_TYPE,id))
                       .commit();
-
-
                 }
               }, new Response.ErrorListener() {
                 @Override
@@ -147,16 +145,12 @@ public class BrowserActivity extends AppCompatActivity {
 
     return headers;
   }
-
-
   public Map<String, String> getParams()
   {
     Map<String, String> params = new HashMap<String, String>();
     params.put("share_id", id);
     return params;
   }
-
-
   public void executeRequest(Request request) {
     SApplication.getRequestManager().executeRequest(request, this);
   }

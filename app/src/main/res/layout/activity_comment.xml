@@ -3,6 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                android:background="@color/pure_white"
                 tools:context="unique.fancysherry.shr.ui.activity.CommentActivity">
 
     <RelativeLayout
@@ -21,8 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/comment_activity_toolbar"
             android:layout_marginBottom="60dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+
             android:paddingTop="10dp"/>
 
 

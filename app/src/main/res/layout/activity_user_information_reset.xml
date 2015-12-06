@@ -194,6 +194,7 @@
                 android:inputType="textMultiLine"
                 android:maxLength="50"
                 android:textColor="#FF333333"
+                android:imeOptions="actionSend"
                 android:textSize="13sp"/>
 
             <TextView

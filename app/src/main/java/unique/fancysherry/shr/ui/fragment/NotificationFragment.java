@@ -137,6 +137,20 @@ public class NotificationFragment extends Fragment {
   }
 
   public void accept_invite(String key) {
+    GsonRequest<GsonRequest.FormResult> has_read_request =
+        new GsonRequest<>(Request.Method.PUT,
+            APIConstants.BASE_URL + "/user/notify/",
+            getHeader(), null,
+            GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult pGroup) {}
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
     GsonRequest<GsonRequest.FormResult> accept_invite_request =
         new GsonRequest<>(Request.Method.GET,
             APIConstants.BASE_URL + "/user/accept/" + key,
@@ -149,6 +163,9 @@ public class NotificationFragment extends Fragment {
                   Toast.makeText(getActivity(), "accept invite", Toast.LENGTH_LONG)
                       .show();
                 handler.post(runnable_accept_invite);
+                DataChangeAction mDataChangeAction = new DataChangeAction();
+                mDataChangeAction.setStr(DataChangeAction.ADD_GROUP);
+                BusProvider.getInstance().post(mDataChangeAction);
               }
             }, new Response.ErrorListener() {
               @Override
@@ -157,6 +174,7 @@ public class NotificationFragment extends Fragment {
               }
             });
     executeRequest(accept_invite_request);
+    executeRequest(has_read_request);
   }
 
   public void executeRequest(Request request) {

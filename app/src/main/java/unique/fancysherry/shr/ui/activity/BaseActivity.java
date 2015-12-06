@@ -30,6 +30,8 @@ import android.widget.ListView;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.system.ResourceHelper;
 
@@ -58,6 +60,7 @@ public abstract class BaseActivity extends ActionBarActivity
   private DrawerLayout.DrawerListener mDrawerListener = new DrawerLayout.DrawerListener() {
     @Override
     public void onDrawerClosed(View drawerView) {
+      LogUtil.e("drawer close");
       if (mDrawerToggle != null) mDrawerToggle.onDrawerClosed(drawerView);
       int position = mItemToOpenWhenDrawerCloses;
       if (position >= 0) {
@@ -79,6 +82,10 @@ public abstract class BaseActivity extends ActionBarActivity
 
     @Override
     public void onDrawerOpened(View drawerView) {
+      LogUtil.e("drawer open");
+      DataChangeAction mDataChangeAction=new DataChangeAction();
+      mDataChangeAction.setStr(DataChangeAction.MESSAGE_COUNT);
+      BusProvider.getInstance().post(mDataChangeAction);
       if (mDrawerToggle != null) mDrawerToggle.onDrawerOpened(drawerView);
       getSupportActionBar().setTitle(R.string.app_name);
     }
