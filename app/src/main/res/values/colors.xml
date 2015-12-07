@@ -47,6 +47,8 @@
 
 
     <color name="colorPrimaryDark">#CC4fa6ae</color>
+    <color name="delete_member_color">#c2c2c2</color>
+    <color name="delete_member_select_color">#ed6969</color>
 
     <!--<color name="colorPrimary">#569597</color>-->
 </resources>

@@ -6,6 +6,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
 
 import android.content.Context;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -58,11 +61,24 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
+  public void onBindViewHolder(final ViewHolder holder, final int position) {
     holder.member_item_nickname.setText(items.get(position).name);
     holder.member_item_profile.setImageURI(Uri.parse(APIConstants.BASE_URL
-        + items.get(position).avatar));
+            + items.get(position).avatar));
     holder.view.setTag(items.get(position));
+    holder.delete.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        holder.delete.setTag("prepare delete");
+        holder.delete.setBackgroundColor(context.getResources().getColor(
+                R.color.delete_member_select_color));
+        DeleteMemberAction mDeleteMemberAction=new DeleteMemberAction();
+        mDeleteMemberAction.setUser_id(items.get(position).id);
+        mDeleteMemberAction.setUser_name(items.get(position).name);
+        mDeleteMemberAction.setDelete_btn(holder.delete);
+        BusProvider.getInstance().post(mDeleteMemberAction);
+      }
+    });
 
 
   }
@@ -75,16 +91,16 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
       return items.size();
   }
 
-  // @Override
-  // public long getItemId(int position) {
-  // return items.get(position).hashCode();
-  // }
+  @Override
+  public long getItemId(int position) {
+    return items.get(position).hashCode();
+  }
 
   // @Override
   // public void onClick(View v) {
   // if (mOnItemClickListener != null) {
   // // 注意这里使用getTag方法获取数据
-  // mOnItemClickListener.onItemClick(v, (Share) v.getTag());
+  // mOnItemClickListener.onItemClick(v, (User) v.getTag());
   // }
   // }
   //
@@ -95,7 +111,7 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
   // }
   //
   // public interface OnRecyclerViewItemClickListener {
-  // void onItemClick(View view, Share data);
+  // void onItemClick(View view, User data);
   // }
 
 
@@ -121,12 +137,8 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
       this.member_item_level = (TextView) itemView.findViewById(R.id.group_member_item_level);
       this.member_item_nickname = (TextView) itemView.findViewById(R.id.group_member_item_name);
       this.delete = (TextView) itemView.findViewById(R.id.group_member_item_delete_button);
-      this.delete.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+      this.delete.setBackgroundColor(context.getResources().getColor(R.color.delete_member_color));
 
-        }
-      });
       this.view = itemView;
     }
 

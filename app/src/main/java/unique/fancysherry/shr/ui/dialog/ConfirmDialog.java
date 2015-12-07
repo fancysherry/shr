@@ -3,6 +3,7 @@ package unique.fancysherry.shr.ui.dialog;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.activity.UserActivity;
 import unique.fancysherry.shr.ui.activity.UserInformationResetActivity;
+import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 
 import android.app.Activity;
@@ -118,14 +119,16 @@ public class ConfirmDialog extends DialogFragment {
       dialog_notification_no.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+          DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
+          mDeleteMemberAction.setVerify(DeleteMemberAction.VERIFY_NO);
           dismiss();
         }
       });
       dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          // UserActivity mUserActivity = (UserActivity) getActivity();
-          // mUserActivity.onDismissDialog();
+          DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
+          mDeleteMemberAction.setVerify(DeleteMemberAction.VERIFY_YES);
           dismiss();
         }
       });
@@ -134,10 +137,10 @@ public class ConfirmDialog extends DialogFragment {
 
 
 
-
     else if (type.equals(DELETE_MEMBER_CONFIRM_AGAIN)) {
       view = inflater.inflate(R.layout.dialog_notification_small_one_btn, container);
-      dialog_notification_title=(TextView)view.findViewById(R.id.dialog_notification_small_title);
+      dialog_notification_title =
+          (TextView) view.findViewById(R.id.dialog_notification_small_title);
       dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
       dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -148,9 +151,6 @@ public class ConfirmDialog extends DialogFragment {
         }
       });
     }
-
-
-
 
 
 
@@ -176,16 +176,15 @@ public class ConfirmDialog extends DialogFragment {
         }
       });
     }
-    else
-    {
+    else {
       // todo default layout
     }
     return view;
   }
 
 
-  public void delete_name(String delete_name)
-  {
+  public void delete_name(String delete_name) {
     this.delete_name = delete_name;
+    dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
   }
 }

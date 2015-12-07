@@ -306,7 +306,8 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
+primary_list.
       select_list.add(first);
 
     }
@@ -318,7 +319,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
       second = primary_list.get(0);
       for (int i = 0; i < primary_list.size(); i++) {
         if (primary_list.get(i).share_sum > second.share_sum) {
@@ -339,7 +340,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
       second = primary_list.get(0);
       for (int i = 0; i < primary_list.size(); i++) {
         if (primary_list.get(i).share_sum > second.share_sum) {
@@ -347,7 +348,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
       third = primary_list.get(0);
       for (int i = 0; i < primary_list.size(); i++) {
         if (primary_list.get(i).share_sum > third.share_sum) {
@@ -368,7 +369,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
       second = primary_list.get(0);
       for (int i = 0; i < primary_list.size(); i++) {
         if (primary_list.get(i).share_sum > second.share_sum) {
@@ -376,7 +377,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
       third = primary_list.get(0);
       for (int i = 0; i < primary_list.size(); i++) {
         if (primary_list.get(i).share_sum > third.share_sum) {
@@ -384,7 +385,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+      primary_list.remove(primary_list.get(flag));
       fourth = primary_list.get(0);
       for (int i = 0; i < primary_list.size(); i++) {
         if (primary_list.get(i).share_sum > fourth.share_sum) {
