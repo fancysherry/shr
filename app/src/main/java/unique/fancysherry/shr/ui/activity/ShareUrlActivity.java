@@ -95,7 +95,7 @@ public class ShareUrlActivity extends AppCompatActivity {
     if (null != fragment) {
       ft.remove(fragment);
     }
-    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup);
+    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup,APIConstants.SHARE_OUT);
     dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
     dialogFragment.show(ft, "ShrDialog");
     // tagGroup.setTagsDailog(test_taggroup);

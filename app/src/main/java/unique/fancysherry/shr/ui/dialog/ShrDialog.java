@@ -13,7 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
 import unique.fancysherry.shr.ui.otto.ShareUrlAction;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 
@@ -25,11 +27,13 @@ public class ShrDialog extends DialogFragment {
   private EditText dialog_shr_content_intro;
   private TagGroup user_groups_tagGroup;
   private ImageView dialog_shr_content_exit;
+  private String share_location;
   private static ArrayList<String> test_taggroup = new ArrayList<>();
 
-  public static ShrDialog newInstance(ArrayList<String> test_taggroup) {
+  public static ShrDialog newInstance(ArrayList<String> test_taggroup, String share_location) {
     ShrDialog dialogFragment = new ShrDialog();
     Bundle bundle = new Bundle();
+    bundle.putString(APIConstants.TYPE, share_location);
     bundle.putStringArrayList("taggroup", test_taggroup);
     dialogFragment.setArguments(bundle);
 
@@ -40,7 +44,7 @@ public class ShrDialog extends DialogFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-
+    share_location = getArguments().getString(APIConstants.TYPE);
     test_taggroup = getArguments().getStringArrayList("taggroup");
 
     // int styleNum = 1;
@@ -94,11 +98,18 @@ public class ShrDialog extends DialogFragment {
         else if (tag.equals("<-"))
           user_groups_tagGroup.setTagsDailog(test_taggroup);
         else {
-          String comment=dialog_shr_content_intro.getText().toString();
-          ShareUrlAction mShareUrlAction = new ShareUrlAction();
-          mShareUrlAction.setGroup_name(tag);
-          mShareUrlAction.setComment(comment);
-          BusProvider.getInstance().post(mShareUrlAction);
+          String comment = dialog_shr_content_intro.getText().toString();
+          if (share_location.equals(APIConstants.SHARE_OUT)) {
+            ShareUrlAction mShareUrlAction = new ShareUrlAction();
+            mShareUrlAction.setGroup_name(tag);
+            mShareUrlAction.setComment(comment);
+            BusProvider.getInstance().post(mShareUrlAction);
+          } else if (share_location.equals(APIConstants.SHARE_FORWARD)) {
+            ForwardUrlAction mForwardUrlAction=new ForwardUrlAction();
+            mForwardUrlAction.setGroup_name(tag);
+            mForwardUrlAction.setComment(comment);
+            BusProvider.getInstance().post(mForwardUrlAction);
+          }
         }
       }
     });

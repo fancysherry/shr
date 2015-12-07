@@ -137,4 +137,9 @@ public class AccountManager implements IAccountManager {
       saveAccountData();
     }
   }
+
+  public void saveNewPassword(String new_password) {
+    getCurrentUser().mAccountBean.pwd=new_password;
+    saveAccountData();
+  }
 }

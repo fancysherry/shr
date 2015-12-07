@@ -107,13 +107,15 @@ public class DrawerFragment extends Fragment {
     runnable_get_invite_list = new Runnable() {
       @Override
       public void run() {
-        for (int i = 0; i < notifyList.size(); i++) {
-          if (notifyList.get(i).notify_type.equals(Notify.INVITE))
-            notify_invite_size++;
+        if (notifyList != null) {
+          for (int i = 0; i < notifyList.size(); i++) {
+            if (notifyList.get(i).notify_type.equals(Notify.INVITE))
+              notify_invite_size++;
+          }
         }
         mBadgeView_notify_invite.setBadgeCount(notify_invite_size);
-        LogUtil.e("notify_invite_size  "+notify_invite_size);
-        notify_invite_size=0;
+        LogUtil.e("notify_invite_size  " + notify_invite_size);
+        notify_invite_size = 0;
 
       }
     };

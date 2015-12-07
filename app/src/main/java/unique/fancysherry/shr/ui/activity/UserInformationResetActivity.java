@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -229,14 +230,14 @@ public class UserInformationResetActivity extends AppCompatActivity {
   };
 
   void showDialog(String type) {
-//    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//    Fragment prev = getSupportFragmentManager().findFragmentByTag("reset_password_dialog");
-//    if (prev != null) {
-//      ft.remove(prev);
-//    }
-//    ft.addToBackStack(null);
-//    ConfirmDialog dialogFrag = ConfirmDialog.newInstance(type);
-//    dialogFrag.show(getSupportFragmentManager(), "reset_password_dialog");
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    Fragment prev = getSupportFragmentManager().findFragmentByTag("reset_password_dialog");
+    if (prev != null) {
+      ft.remove(prev);
+    }
+    ConfirmDialog dialogFrag = ConfirmDialog.newInstance(type);
+    dialogFrag.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
+    dialogFrag.show(getSupportFragmentManager(), "reset_password_dialog");
   }
 
   // Resolve the given attribute of the current theme
@@ -628,7 +629,7 @@ public class UserInformationResetActivity extends AppCompatActivity {
     executeRequest(group_share_request);
   }
 
-  public void resetPassword(String old_password, String new_password) {
+  public void resetPassword(String old_password, final String new_password) {
     GsonRequest<GsonRequest.FormResult> group_share_request =
         new GsonRequest<>(Request.Method.PUT,
             APIConstants.BASE_URL + "/user/update_passwd",
@@ -637,8 +638,11 @@ public class UserInformationResetActivity extends AppCompatActivity {
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
               public void onResponse(GsonRequest.FormResult result) {
-                if (result.message.equals("success"))
+                if (result.message.equals("success")) {
                   LogUtil.e("reset password success");
+                  AccountManager.getInstance().saveNewPassword(new_password);
+
+                }
               }
             }, new Response.ErrorListener() {
               @Override

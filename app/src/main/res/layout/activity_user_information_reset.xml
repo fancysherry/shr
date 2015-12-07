@@ -65,7 +65,7 @@
             android:paddingRight="6dp"
             android:paddingTop="3dp"
             android:text="更换头像"
-            android:textColor="#FFDDDDDD"
+            android:textColor="#a3a3a3"
             android:textSize="13sp"/>
 
     </LinearLayout>

@@ -24,7 +24,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
-            android:text="11"
+            android:text=""
             android:textColor="#333333"
             android:textSize="15sp"/>
 
@@ -35,7 +35,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/share_count"
             android:layout_marginRight="7dp"
-            android:src="@drawable/icon_link"
+            android:src="@drawable/icon_shareout_black"
+
             />
 
         <TextView
@@ -56,7 +57,19 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/primary_content"
-            android:src="@drawable/icon_shareout_black"/>
+            android:src="@drawable/icon_link"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:background="#c2c2c2"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#c2c2c2"/>
 
     </RelativeLayout>
 
@@ -67,6 +80,10 @@
         android:layout_gravity="left|bottom"
         android:background="@color/pure_white"
         >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c2c2c2"/>
 
         <!--<de.hdodenhof.circleimageview.CircleImageView-->
         <!--android:id="@+id/webview_content_back_button"-->
@@ -129,6 +146,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/like_count"
+            android:tag="like"
             android:src="@drawable/icon_thanks"/>
 
     </RelativeLayout>

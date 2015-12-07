@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +22,36 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountManager;
+import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.model.Share;
+import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
 import unique.fancysherry.shr.ui.activity.CommentActivity;
+import unique.fancysherry.shr.ui.activity.MainActivity;
+import unique.fancysherry.shr.ui.dialog.ShrDialog;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
+import unique.fancysherry.shr.ui.otto.ShareUrlAction;
+import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.config.SApplication;
 
 /**
  * Created by Dsnc on 6/28/14.
@@ -38,20 +66,30 @@ public class BrowserFragment extends Fragment {
   private String share_type;
   private String share_id;
 
+  private String group_id;// inboxshare to share
+
+  private Handler handler;
+  private Runnable runnable;
+  private Runnable runnable_refresh_data;
+  private Runnable runnable_thank;
+  private Runnable runnable_get_group_id;
+  private Share share;
+  private User mUser;
+  private ArrayList<String> test_taggroup = new ArrayList<>();
+  private GsonRequest<GsonRequest.FormResult> group_inboxshare_url_request;
   @InjectView(R.id.webview)
   WebView mWebview;
   @InjectView(R.id.webview_top_layout)
   RelativeLayout webview_top_layout;
+
   @InjectView(R.id.webview_bottom_layout)
   RelativeLayout webview_bottom_layout;
-
   @InjectView(R.id.share_count)
   TextView share_count;
   @InjectView(R.id.like_count)
   TextView like_count;
   @InjectView(R.id.comment_count)
   TextView comment_count;
-
   @InjectView(R.id.webview_bottom_comment_button)
   ImageView webview_bottom_comment_button;
   @InjectView(R.id.webview_bottom_like_button)
@@ -64,12 +102,12 @@ public class BrowserFragment extends Fragment {
   ImageView webview_top_primary_button;
 
 
-  public static BrowserFragment newInstance(String url, String share_type,String share_id) {
+  public static BrowserFragment newInstance(String url, String share_type, String share_id) {
     BrowserFragment fragment = new BrowserFragment();
     Bundle args = new Bundle();
     args.putString(KEY_URL, url);
     args.putString(SHARE_TYPE, share_type);
-    args.putString(SHARE_ID,share_id);
+    args.putString(SHARE_ID, share_id);
     fragment.setArguments(args);
     return fragment;
   }
@@ -79,11 +117,44 @@ public class BrowserFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    BusProvider.getInstance().register(this);
     if (getArguments() != null) {
       url = getArguments().getString(KEY_URL);
       share_type = getArguments().getString(SHARE_TYPE);
-      share_id=getArguments().getString(SHARE_ID);
+      share_id = getArguments().getString(SHARE_ID);
     }
+
+    handler = new Handler();
+    runnable_refresh_data = new Runnable() {
+      @Override
+      public void run() {
+        like_count.setText(share.gratitude_sum);
+        comment_count.setText(share.comment_sum);
+      }
+    };
+
+    runnable_get_group_id = new Runnable() {
+      @Override
+      public void run() {
+        executeRequest(group_inboxshare_url_request);
+      }
+    };
+    runnable = new Runnable() {
+      @Override
+      public void run() {
+        start_dialog();
+      }
+    };
+
+    runnable_thank = new Runnable() {
+      @Override
+      public void run() {
+        if (webview_bottom_like_button.getTag().toString().equals("like"))
+          webview_bottom_like_button.setTag("cancel like");
+        else if (webview_bottom_like_button.getTag().toString().equals("cancel like"))
+          webview_bottom_like_button.setTag("like");
+      }
+    };
   }
 
   @Override
@@ -91,33 +162,36 @@ public class BrowserFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_browser, container, false);
     ButterKnife.inject(this, view);
+    if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
+      webview_bottom_layout.setVisibility(View.INVISIBLE);
+    }
+    else {
+      webview_bottom_comment_button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          refreshData();
+          Intent mIntent = new Intent(getActivity(), CommentActivity.class);
+          mIntent.putExtra("share_id", share_id);
+          startActivity(mIntent);
+        }
+      });
+    }
+
     webview_top_primary_button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(KEY_URL));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
       }
     });
     webview_top_share_button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        getUserData();
       }
     });
-    if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
-      webview_bottom_layout.setVisibility(View.INVISIBLE);
-    }
-    else
-    {
-      webview_bottom_comment_button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        Intent mIntent = new Intent(getActivity(), CommentActivity.class);
-        mIntent.putExtra("share_id", share_id);
-        startActivity(mIntent);
-        }
-      });
-    }
+
+
     webview_bottom_dismiss_button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -127,10 +201,15 @@ public class BrowserFragment extends Fragment {
     webview_bottom_like_button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        if (webview_bottom_like_button.getTag().toString().equals("like"))
+          thank_request();
+        else if (webview_bottom_like_button.getTag().toString().equals("cancel like"))
+          cancel_thank_request();
+        refreshData();
       }
     });
     initWebView();
+    refreshData();
 
     return view;
   }
@@ -194,6 +273,252 @@ public class BrowserFragment extends Fragment {
     super.onPause();
     mWebview.onPause();
   }
+
+  public void getUserData() {
+    GsonRequest<User> group_share_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/homepage",
+            getHeader(), null,
+            User.class,
+            new Response.Listener<User>() {
+              @Override
+              public void onResponse(User pUser) {
+                mUser = pUser;
+                handler.post(runnable);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
+  }
+
+  public void getGroupId(String group_name) {
+    GsonRequest<Group> group_id_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/group?group_name=" + group_name,
+            getHeader(), null,
+            Group.class,
+            new Response.Listener<Group>() {
+              @Override
+              public void onResponse(Group pGroup) {
+                group_id = pGroup.group_id;
+                handler.post(runnable_get_group_id);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_id_request);
+  }
+
+  public void refreshData() {
+    GsonRequest<Share> share_request =
+        new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL + "/share", getHeader(),
+            getParams(), Share.class,
+            new Response.Listener<Share>() {
+              @Override
+              public void onResponse(Share pshare) {
+                share = pshare;
+                handler.post(runnable_refresh_data);
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(share_request);
+  }
+
+  public void thank_request() {
+    GsonRequest<GsonRequest.FormResult> thank_request =
+        new GsonRequest<>(Request.Method.POST, APIConstants.BASE_URL + "/gratitude", getHeader(),
+            getParams(), GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("success"))
+                  handler.post(runnable_thank);
+                else if (result.reason != null)
+                  Toast.makeText(getActivity(), result.reason, Toast.LENGTH_LONG).show();
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(thank_request);
+  }
+
+  public void cancel_thank_request() {
+    GsonRequest<GsonRequest.FormResult> cancel_thank_request =
+        new GsonRequest<>(Request.Method.DELETE, APIConstants.BASE_URL + "/gratitude", getHeader(),
+            getParams(), GsonRequest.FormResult.class,
+            new Response.Listener<GsonRequest.FormResult>() {
+              @Override
+              public void onResponse(GsonRequest.FormResult result) {
+                if (result.message.equals("success"))
+                  handler.post(runnable_thank);
+                else if (result.reason != null)
+                  Toast.makeText(getActivity(), result.reason, Toast.LENGTH_LONG).show();
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(cancel_thank_request);
+  }
+
+  public void start_dialog()
+  {
+    // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
+    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
+    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+    for (int i = 0; i < mUser.groups.size(); i++) {
+      test_taggroup.add(mUser.groups.get(i).name);
+      LogUtil.e("test");
+    }
+    /**
+     * 为了不重复显示dialog，在显示对话框之前移除正在显示的对话框。
+     */
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    Fragment fragment = getFragmentManager().findFragmentByTag("ForwardShrDialog");
+    if (null != fragment) {
+      ft.remove(fragment);
+    }
+    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_FORWARD);
+    dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
+    dialogFragment.show(ft, "ForwardShrDialog");
+  }
+
+  public void post_share_url(String group_name, String comment) {
+    if (share_type.equals(APIConstants.SHARE_TYPE)) {
+      GsonRequest<GsonRequest.FormResult> group_share_url_request =
+          new GsonRequest<>(Request.Method.POST,
+              APIConstants.BASE_URL + "/share/forward",
+              getHeader(), getParams_share(group_name, comment),
+              GsonRequest.FormResult.class,
+              new Response.Listener<GsonRequest.FormResult>() {
+                @Override
+                public void onResponse(GsonRequest.FormResult result) {
+                  if (result.message.equals("success")) {
+                    Toast.makeText(getActivity(), result.message, Toast.LENGTH_LONG).show();
+                    Intent mIntent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(mIntent);
+                  }
+                }
+              }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError pVolleyError) {
+                  LogUtil.e("response error " + pVolleyError);
+                }
+              });
+      executeRequest(group_share_url_request);
+    }
+    else if (share_type.equals(APIConstants.INBOX_SHARE_TYPE))
+    {
+      if (group_name.equals("@me"))
+      {
+        Toast.makeText(getActivity(), "shr已经在inboxshare中", Toast.LENGTH_SHORT).show();
+      }
+      else {
+        group_inboxshare_url_request =
+            new GsonRequest<>(Request.Method.PUT,
+                APIConstants.BASE_URL + "/inbox_share",
+                getHeader(), getParams_inboxshare(group_name, comment),
+                GsonRequest.FormResult.class,
+                new Response.Listener<GsonRequest.FormResult>() {
+                  @Override
+                  public void onResponse(GsonRequest.FormResult result) {
+                    if (result.message.equals("success")) {
+                      Toast.makeText(getActivity(), result.message, Toast.LENGTH_LONG).show();
+                      Intent mIntent = new Intent(getActivity(), MainActivity.class);
+                      startActivity(mIntent);
+                    }
+                  }
+                }, new Response.ErrorListener() {
+                  @Override
+                  public void onErrorResponse(VolleyError pVolleyError) {
+                    LogUtil.e("response error " + pVolleyError);
+                  }
+                });
+        getGroupId(group_name);
+        // executeRequest(group_inboxshare_url_request);
+      }
+    }
+  }
+
+  public Map<String, String> getParams_share(String group_name, String comment) {
+    // String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
+    Map<String, String> params = new HashMap<>();
+    params.put("share_id", share_id);
+    if (comment != null) {
+      params.put("comment", comment);
+    }
+    if (!group_name.equals("@me"))
+      params.put("groups", group_name);
+    return params;
+  }
+
+  public Map<String, String> getParams_inboxshare(String group_name, String comment) {
+    // String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
+    Map<String, String> params = new HashMap<>();
+    params.put("inbox_share_id", share_id);
+    params.put("group_id", group_id);
+    if (comment != null) {
+      params.put("comment", comment);
+    }
+    return params;
+  }
+
+  public Map<String, String> getHeader()
+  {
+    Map<String, String> headers = new HashMap<String, String>();
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
+    }
+    headers
+        .put(
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+    return headers;
+  }
+
+  public Map<String, String> getParams()
+  {
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("share_id", share_id);
+    return params;
+  }
+
+  public void executeRequest(Request request) {
+    SApplication.getRequestManager().executeRequest(request, this);
+  }
+
+  @Subscribe
+  public void onShareGroupName(ForwardUrlAction forwardUrlAction) {
+    // 这里更新视图或者后台操作,从TestAction获取传递参数.
+    if (forwardUrlAction.getGroup_name() != null) {
+      post_share_url(forwardUrlAction.getGroup_name(), forwardUrlAction.getComment());
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    BusProvider.getInstance().unregister(this);
+    super.onDestroy();
+  }
+
 
   private class MyWebViewClient extends WebViewClient {
 

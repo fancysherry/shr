@@ -88,39 +88,39 @@ public class ShareContentFragment extends Fragment {
     void OnGetGroupName(String name);
   }
 
-  public void start_dialog()
-  {
-    // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
-    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
-    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-    for (int i = 0; i < 10; i++) {
-      test_taggroup.add("test");
-      LogUtil.e("test");
-    }
-    /**
-     * 为了不重复显示dialog，在显示对话框之前移除正在显示的对话框。
-     */
-    FragmentTransaction ft = getFragmentManager().beginTransaction();
-    Fragment fragment = getFragmentManager().findFragmentByTag("ShrDialog");
-    if (null != fragment) {
-      ft.remove(fragment);
-    }
-    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup);
-    dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
-    dialogFragment.show(ft, "ShrDialog");
-    // tagGroup.setTagsDailog(test_taggroup);
-    // LogUtil.e("tagGroup:"+tagGroup.getChildCount());
-    // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-    // @Override
-    // public void onTagClick(String tag) {
-    // if (tag.equals("..."))
-    // tagGroup.setAllTagsDailog(test_taggroup);
-    // else if (tag.equals("<-"))
-    // tagGroup.setTagsDailog(test_taggroup);
-    // }
-    // });
-    // showDialog(Gravity.CENTER,diaglog_view);
-  }
+//  public void start_dialog()
+//  {
+//    // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
+//    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
+//    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
+//    for (int i = 0; i < 10; i++) {
+//      test_taggroup.add("test");
+//      LogUtil.e("test");
+//    }
+//    /**
+//     * 为了不重复显示dialog，在显示对话框之前移除正在显示的对话框。
+//     */
+//    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//    Fragment fragment = getFragmentManager().findFragmentByTag("ShrDialog");
+//    if (null != fragment) {
+//      ft.remove(fragment);
+//    }
+//    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup);
+//    dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
+//    dialogFragment.show(ft, "ShrDialog");
+//    // tagGroup.setTagsDailog(test_taggroup);
+//    // LogUtil.e("tagGroup:"+tagGroup.getChildCount());
+//    // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+//    // @Override
+//    // public void onTagClick(String tag) {
+//    // if (tag.equals("..."))
+//    // tagGroup.setAllTagsDailog(test_taggroup);
+//    // else if (tag.equals("<-"))
+//    // tagGroup.setTagsDailog(test_taggroup);
+//    // }
+//    // });
+//    // showDialog(Gravity.CENTER,diaglog_view);
+//  }
 
   /**
    * Use this factory method to create a new instance of

@@ -326,7 +326,7 @@ public class GroupActivity extends AppCompatActivity {
           flag = i;
         }
       }
-      primary_list.remove(flag);
+//      primary_list.remove(flag);
       select_list.add(first);
       select_list.add(second);
 

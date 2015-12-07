@@ -23,7 +23,7 @@
             android:layout_height="22dp"
             android:layout_gravity="center|right"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ic_launcher"/>
+            android:background="@android:drawable/btn_dialog"/>
 
         </LinearLayout>
 

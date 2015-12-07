@@ -5,15 +5,16 @@ package unique.fancysherry.shr.io;
  */
 public class APIConstants {
 
-
-  public static final String INBOX_SHARE_TYPE="inbox_share_type";
-  public static final String SHARE_TYPE="share_type";
-  public static final String TYPE="type";
+  public static final String SHARE_OUT = "share_out";
+  public static final String SHARE_FORWARD = "forward";
+  public static final String INBOX_SHARE_TYPE = "inbox_share_type";
+  public static final String SHARE_TYPE = "share_type";
+  public static final String TYPE = "type";
 
   /**
    * base url
    */
-//   public static final String BASE_URL = "http://104.236.46.64:8888";
+  // public static final String BASE_URL = "http://104.236.46.64:8888";
 
   public static final String BASE_URL = "http://139.129.22.121:23333";
 

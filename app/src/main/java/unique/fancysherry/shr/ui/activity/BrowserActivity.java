@@ -91,7 +91,6 @@ public class BrowserActivity extends AppCompatActivity {
                   LogUtil.e("response error " + pVolleyError);
                 }
               });
-
       executeRequest(inbox_share_request);
     }
     else if (share_type.equals(APIConstants.SHARE_TYPE)) {
@@ -115,23 +114,9 @@ public class BrowserActivity extends AppCompatActivity {
 
       executeRequest(share_request);
     }
-
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-    if (id == android.R.id.home) {
-      finish();
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  public Map<String, String> getHeader()
-  {
+  public Map<String, String> getHeader() {
     Map<String, String> headers = new HashMap<String, String>();
     UserBean currentUser = AccountManager.getInstance().getCurrentUser();
     if (currentUser != null && currentUser.getCookieHolder() != null) {
@@ -145,8 +130,7 @@ public class BrowserActivity extends AppCompatActivity {
 
     return headers;
   }
-  public Map<String, String> getParams()
-  {
+  public Map<String, String> getParams() {
     Map<String, String> params = new HashMap<String, String>();
     params.put("share_id", id);
     return params;

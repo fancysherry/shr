@@ -110,7 +110,7 @@ public class UserActivity extends AppCompatActivity {
       @Override
       public void run() {
         // LogUtil.e(AccountManager.getInstance().getCurrentUser().mAccountBean.username+ "");
-        user_edit.setBackgroundResource(R.drawable.ic_more2x);
+        user_edit.setBackgroundResource(R.drawable.ic_more);
         user_edit.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -146,7 +146,7 @@ public class UserActivity extends AppCompatActivity {
 
 
     if (getIntent().getParcelableExtra("user") != null) {
-      user_edit.setBackgroundResource(R.drawable.icon_input_four);
+      user_edit.setBackgroundResource(R.drawable.icon_edit_white);
       user_edit.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
