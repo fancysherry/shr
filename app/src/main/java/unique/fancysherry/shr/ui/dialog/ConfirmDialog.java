@@ -4,6 +4,7 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.activity.UserActivity;
 import unique.fancysherry.shr.ui.activity.UserInformationResetActivity;
 import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.ChangeManageAction;
 import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 
@@ -37,8 +38,10 @@ public class ConfirmDialog extends DialogFragment {
   private EditText dialog_notification_password_new;
   private String dialog_type;
   private String delete_name;
+  private String change_manage_name;
+  private String change_manage_group_name = " ";
 
-//  private boolean is_override_delete_dismiss = true;
+  // private boolean is_override_delete_dismiss = true;
 
   public static ConfirmDialog newInstance(String type) {
     ConfirmDialog dialogFragment = new ConfirmDialog();
@@ -66,6 +69,11 @@ public class ConfirmDialog extends DialogFragment {
       DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
       mDeleteMemberAction.setVerify(DeleteMemberAction.VERIFY_NO);
       BusProvider.getInstance().post(mDeleteMemberAction);
+    }
+    else if (dialog_type.equals(DELETE_MEMBER_CONFIRM)) {
+      ChangeManageAction mChangeManageAction = new ChangeManageAction();
+      mChangeManageAction.setVerify(ChangeManageAction.VERIFY_NO);
+      BusProvider.getInstance().post(mChangeManageAction);
     }
   }
 
@@ -106,13 +114,54 @@ public class ConfirmDialog extends DialogFragment {
 
 
     else if (type.equals(CHANGE_MANAGER_CONFIRM)) {
-      view = inflater.inflate(R.layout.dialog_shr_content_test, container);
+      view = inflater.inflate(R.layout.dialog_notification_large, container);
+      dialog_notification_title =
+          (TextView) view.findViewById(R.id.dialog_notification_small_title);
+
+      if (change_manage_name != null)
+        dialog_notification_title.setText("确认将管理员移交给" + change_manage_name);
+
+      dialog_notification_subtitle =
+          (TextView) view.findViewById(R.id.dialog_notification_small_subtitle);
+      dialog_notification_subtitle.setText("此操作无法撤销");
+      dialog_notification_no = (TextView) view.findViewById(R.id.dialog_notification_small_no);
+      dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
+      dialog_notification_no.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          dismiss();
+        }
+      });
+      dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          ChangeManageAction mChangeManageAction = new ChangeManageAction();
+          mChangeManageAction.setVerify(ChangeManageAction.VERIFY_YES);
+          BusProvider.getInstance().post(mChangeManageAction);
+          dismiss();
+        }
+      });
     }
 
 
 
     else if (type.equals(CHANGE_MANAGER_CONFIRM_FINISH)) {
-      view = inflater.inflate(R.layout.dialog_shr_content_test, container);
+      view = inflater.inflate(R.layout.dialog_notification_small_one_btn, container);
+      dialog_notification_title =
+          (TextView) view.findViewById(R.id.dialog_notification_small_title);
+      if (delete_name != null && change_manage_group_name != null)
+        dialog_notification_title.setText(change_manage_name + "已成为" + change_manage_group_name
+            + "的管理员");
+      dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
+      dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          ChangeManageAction mChangeManageAction=new ChangeManageAction();
+          mChangeManageAction.setFinished(true);
+          BusProvider.getInstance().post(mChangeManageAction);
+          dismiss();
+        }
+      });
     }
 
 
@@ -200,6 +249,26 @@ public class ConfirmDialog extends DialogFragment {
     if (dialog_notification_title != null && dialog_type.equals(DELETE_MEMBER_CONFIRM))
       dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
     else if (dialog_notification_title != null && dialog_type.equals(DELETE_MEMBER_CONFIRM_AGAIN))
-      dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
+      dialog_notification_title.setText("已将" + delete_name + "从群中移除");
+  }
+
+  public void change_manage_name(String change_manage_name)
+  {
+    this.change_manage_name = change_manage_name;
+    if (dialog_notification_title != null && dialog_type.equals(CHANGE_MANAGER_CONFIRM))
+      dialog_notification_title.setText("确认将管理员移交给" + change_manage_name);
+    else if (dialog_notification_title != null && dialog_type.equals(CHANGE_MANAGER_CONFIRM_FINISH))
+      dialog_notification_title.setText(change_manage_name + "已成为" + change_manage_group_name
+          + "的管理员");
+  }
+
+  public void change_manage_group_name(String change_manage_group_name)
+  {
+    this.change_manage_group_name = change_manage_group_name;
+    if (dialog_notification_title != null && dialog_type.equals(CHANGE_MANAGER_CONFIRM))
+      dialog_notification_title.setText("确认将管理员移交给" + change_manage_name);
+    else if (dialog_notification_title != null && dialog_type.equals(CHANGE_MANAGER_CONFIRM_FINISH))
+      dialog_notification_title.setText(change_manage_name + "已成为" + change_manage_group_name
+              + "的管理员");
   }
 }
