@@ -12,7 +12,6 @@ public class DeleteMemberAction {
   private String verify="default";
   private String user_id;
   private String user_name;
-  private TextView delete_btn;
 
   public String getUser_name() {
     return user_name;
@@ -29,15 +28,6 @@ public class DeleteMemberAction {
   public void setUser_id(String pUser_id) {
     user_id = pUser_id;
   }
-
-  public TextView getDelete_btn() {
-    return delete_btn;
-  }
-
-  public void setDelete_btn(TextView pDelete_btn) {
-    delete_btn = pDelete_btn;
-  }
-
 
   public String getVerify() {
     return verify;

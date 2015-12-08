@@ -3,6 +3,7 @@ package unique.fancysherry.shr.ui.dialog;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.ui.activity.UserActivity;
 import unique.fancysherry.shr.ui.activity.UserInformationResetActivity;
+import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 
@@ -37,6 +38,8 @@ public class ConfirmDialog extends DialogFragment {
   private String dialog_type;
   private String delete_name;
 
+//  private boolean is_override_delete_dismiss = true;
+
   public static ConfirmDialog newInstance(String type) {
     ConfirmDialog dialogFragment = new ConfirmDialog();
     Bundle bundle = new Bundle();
@@ -55,6 +58,17 @@ public class ConfirmDialog extends DialogFragment {
     // float width=getResources().getDimension(R.dimen.dialog_width);
     // getDialog().getWindow().setLayout(width,);
   }
+
+  @Override
+  public void dismiss() {
+    super.dismiss();
+    if (dialog_type.equals(DELETE_MEMBER_CONFIRM)) {
+      DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
+      mDeleteMemberAction.setVerify(DeleteMemberAction.VERIFY_NO);
+      BusProvider.getInstance().post(mDeleteMemberAction);
+    }
+  }
+
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,8 +133,6 @@ public class ConfirmDialog extends DialogFragment {
       dialog_notification_no.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
-          mDeleteMemberAction.setVerify(DeleteMemberAction.VERIFY_NO);
           dismiss();
         }
       });
@@ -129,6 +141,7 @@ public class ConfirmDialog extends DialogFragment {
         public void onClick(View v) {
           DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
           mDeleteMemberAction.setVerify(DeleteMemberAction.VERIFY_YES);
+          BusProvider.getInstance().post(mDeleteMemberAction);
           dismiss();
         }
       });
@@ -141,12 +154,12 @@ public class ConfirmDialog extends DialogFragment {
       view = inflater.inflate(R.layout.dialog_notification_small_one_btn, container);
       dialog_notification_title =
           (TextView) view.findViewById(R.id.dialog_notification_small_title);
+      if (delete_name != null)
+        dialog_notification_title.setText("已经将" + delete_name + "从群中移除");
       dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
       dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          // UserActivity mUserActivity = (UserActivity) getActivity();
-          // mUserActivity.onDismissDialog();
           dismiss();
         }
       });
@@ -182,9 +195,11 @@ public class ConfirmDialog extends DialogFragment {
     return view;
   }
 
-
   public void delete_name(String delete_name) {
     this.delete_name = delete_name;
-    dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
+    if (dialog_notification_title != null && dialog_type.equals(DELETE_MEMBER_CONFIRM))
+      dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
+    else if (dialog_notification_title != null && dialog_type.equals(DELETE_MEMBER_CONFIRM_AGAIN))
+      dialog_notification_title.setText("确认将" + delete_name + "从群中移除");
   }
 }

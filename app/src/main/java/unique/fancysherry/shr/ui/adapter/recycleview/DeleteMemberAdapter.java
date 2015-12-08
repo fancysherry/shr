@@ -53,10 +53,7 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
         LayoutInflater.from(parent.getContext()).inflate(R.layout.group_member_delete_list_item,
             parent,
             false);
-
     // itemView.setOnClickListener(this);
-
-
     return new ViewHolder(itemView, this, context);
   }
 
@@ -64,18 +61,19 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
   public void onBindViewHolder(final ViewHolder holder, final int position) {
     holder.member_item_nickname.setText(items.get(position).name);
     holder.member_item_profile.setImageURI(Uri.parse(APIConstants.BASE_URL
-            + items.get(position).avatar));
+        + items.get(position).avatar));
     holder.view.setTag(items.get(position));
+    holder.delete.setBackgroundDrawable(context.getResources().getDrawable(
+        R.drawable.delete_member_corner));
     holder.delete.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         holder.delete.setTag("prepare delete");
-        holder.delete.setBackgroundColor(context.getResources().getColor(
-                R.color.delete_member_select_color));
-        DeleteMemberAction mDeleteMemberAction=new DeleteMemberAction();
+        holder.delete.setBackgroundDrawable(context.getResources().getDrawable(
+            R.drawable.delete_member_corner_select));
+        DeleteMemberAction mDeleteMemberAction = new DeleteMemberAction();
         mDeleteMemberAction.setUser_id(items.get(position).id);
         mDeleteMemberAction.setUser_name(items.get(position).name);
-        mDeleteMemberAction.setDelete_btn(holder.delete);
         BusProvider.getInstance().post(mDeleteMemberAction);
       }
     });
@@ -137,8 +135,6 @@ public class DeleteMemberAdapter extends RecyclerView.Adapter<DeleteMemberAdapte
       this.member_item_level = (TextView) itemView.findViewById(R.id.group_member_item_level);
       this.member_item_nickname = (TextView) itemView.findViewById(R.id.group_member_item_name);
       this.delete = (TextView) itemView.findViewById(R.id.group_member_item_delete_button);
-      this.delete.setBackgroundColor(context.getResources().getColor(R.color.delete_member_color));
-
       this.view = itemView;
     }
 

@@ -25,6 +25,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -236,7 +237,7 @@ public class GroupActivity extends AppCompatActivity {
       active_member_layout3_name.setVisibility(View.INVISIBLE);
       active_member_layout4_portrait.setVisibility(View.INVISIBLE);
       active_member_layout4_name.setVisibility(View.INVISIBLE);
-      temp = select_active(1, temp);
+      select_active(temp);
       active_member_layout1_name.setText(temp.get(0).name);
       active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(0).avatar));
@@ -246,7 +247,7 @@ public class GroupActivity extends AppCompatActivity {
       active_member_layout3_name.setVisibility(View.INVISIBLE);
       active_member_layout4_portrait.setVisibility(View.INVISIBLE);
       active_member_layout4_name.setVisibility(View.INVISIBLE);
-      temp = select_active(2, temp);
+      select_active(temp);
       active_member_layout1_name.setText(temp.get(0).name);
       active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(0).avatar));
@@ -257,7 +258,7 @@ public class GroupActivity extends AppCompatActivity {
     else if (size == 3) {
       active_member_layout4_portrait.setVisibility(View.INVISIBLE);
       active_member_layout4_name.setVisibility(View.INVISIBLE);
-      temp = select_active(3, temp);
+      select_active(temp);
       active_member_layout1_name.setText(temp.get(0).name);
       active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(0).avatar));
@@ -271,7 +272,7 @@ public class GroupActivity extends AppCompatActivity {
     }
     else if (size >= 4)
     {
-      temp = select_active(4, temp);
+      select_active(temp);
       active_member_layout1_name.setText(temp.get(0).name);
       active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(0).avatar));
@@ -290,116 +291,8 @@ public class GroupActivity extends AppCompatActivity {
 
   }
 
-  private List<User> select_active(int mount, List<User> primary_list)
-  {
-    User first;
-    User second;
-    User third;
-    User fourth;
-    int flag = 0;
-    List<User> select_list = new ArrayList<>();
-    if (mount == 1) {
-      first = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > first.share_sum) {
-          first = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-primary_list.
-      select_list.add(first);
-
-    }
-    else if (mount == 2) {
-      first = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > first.share_sum) {
-          first = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-      second = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > second.share_sum) {
-          second = primary_list.get(i);
-          flag = i;
-        }
-      }
-//      primary_list.remove(flag);
-      select_list.add(first);
-      select_list.add(second);
-
-    }
-    else if (mount == 3) {
-      first = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > first.share_sum) {
-          first = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-      second = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > second.share_sum) {
-          second = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-      third = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > third.share_sum) {
-          third = primary_list.get(i);
-          flag = i;
-        }
-      }
-//      primary_list.remove(flag);
-      select_list.add(first);
-      select_list.add(second);
-      select_list.add(third);
-    }
-    else if (mount == 4) {
-      first = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > first.share_sum) {
-          first = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-      second = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > second.share_sum) {
-          second = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-      third = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > third.share_sum) {
-          third = primary_list.get(i);
-          flag = i;
-        }
-      }
-      primary_list.remove(primary_list.get(flag));
-      fourth = primary_list.get(0);
-      for (int i = 0; i < primary_list.size(); i++) {
-        if (primary_list.get(i).share_sum > fourth.share_sum) {
-          fourth = primary_list.get(i);
-          flag = i;
-        }
-      }
-//      primary_list.remove(flag);
-      select_list.add(first);
-      select_list.add(second);
-      select_list.add(third);
-      select_list.add(fourth);
-    }
-    return select_list;
+  private void select_active(List<User> primary_list) {
+    Collections.sort(primary_list);
   }
 
 

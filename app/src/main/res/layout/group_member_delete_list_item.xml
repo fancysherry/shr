@@ -15,7 +15,7 @@
         app:placeholderImage="@drawable/mine"
         app:roundAsCircle="true"/>
 
-        />
+    />
 
 
     <TextView
@@ -53,11 +53,11 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/textview_corner_delete"
+        android:background="@drawable/delete_member_corner"
         android:gravity="center"
-        android:text="移除"
-        android:textColor="#ed6969"
         android:tag="delete"
+        android:text="移除"
+        android:textColor="#a3a3a3"
         />
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by fancysherry on 15-7-8.
  */
-public class User implements Parcelable {
+public class User implements Parcelable, Comparable {
   public String reason;
   public String uid;
   public String id;
@@ -113,5 +113,25 @@ public class User implements Parcelable {
     dest.writeString(phone_number);
     dest.writeInt(share_sum);
 
+  }
+
+  /**
+   * * 这里表示按id从小到大排序，如果该对象小于、等于或大于指定对象Object o，则分别返回负整数、零或正整数
+   * 如果需要从大到小排序，则如果该对象小于、等于或大于指定对象Object o，则分别返回正整数、零或负整数
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   * @param another
+   * @return
+   */
+  @Override
+  public int compareTo(Object another) {
+    User mUser = (User) another;
+    if (share_sum < mUser.share_sum) {
+      return 1;
+    }
+    if (share_sum > mUser.share_sum) {
+      return -1;
+    }
+    return 0;
   }
 }

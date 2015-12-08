@@ -177,7 +177,7 @@ public class GroupMemberDeleteActivity extends AppCompatActivity {
   public void DeleteMember() {
     GsonRequest<GsonRequest.FormResult> delete_member_request =
         new GsonRequest<>(Request.Method.PUT,
-            APIConstants.BASE_URL + "/group/info?group_id=" + group_id,
+            APIConstants.BASE_URL + "/group/expel",
             getHeader(), getParams_delete(),
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
@@ -238,8 +238,7 @@ public class GroupMemberDeleteActivity extends AppCompatActivity {
       DeleteMember();
     }
     else if (pDeleteMemberAction.getVerify().equals(DeleteMemberAction.VERIFY_NO)) {
-      pDeleteMemberAction.getDelete_btn().setBackgroundColor(
-          getResources().getColor(R.color.delete_member_color));
+      deleteMemberAdapter.notifyDataSetChanged();
     }
     else {
       delete_member_id = pDeleteMemberAction.getUser_id();
