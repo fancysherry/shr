@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/share_list_item_share_divide"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="17dp"
             android:orientation="horizontal"
             android:paddingLeft="12dp"
             android:paddingRight="20dp">
@@ -84,8 +84,8 @@
                 android:layout_marginLeft="15dp"
                 android:maxLines="2"
                 android:text="投递了这条分享"
-                android:textColor="#a0a0a0"
-                android:textSize="15sp"
+                android:textColor="#c2c2c2"
+                android:textSize="13sp"
                 />
         </LinearLayout>
 
@@ -103,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/icon_shareout_grey"
                 />
 
@@ -115,8 +116,8 @@
                 android:layout_marginTop="1dp"
                 android:gravity="center_vertical"
                 android:text="郭唱、吴兵分享过"
-                android:textColor="#c0c0c0"
-                android:textSize="13sp"
+                android:textColor="#c2c2c2"
+                android:textSize="12sp"
                 />
 
         </LinearLayout>

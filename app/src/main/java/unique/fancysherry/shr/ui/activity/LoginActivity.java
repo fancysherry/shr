@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -36,16 +38,15 @@ import unique.fancysherry.shr.util.config.SApplication;
 
 public class LoginActivity extends AppCompatActivity {
   @InjectView(R.id.login_button)
-  ImageView login_button;
+  Button login_button;
   @InjectView(R.id.login_username)
   EditText login_username;
   @InjectView(R.id.login_password)
   EditText login_password;
   private String return_message;
   private Context context;
-  private String sessionid;
   private LoginRequest<LoginRequest.FormResult> login_request;
-
+  private String sessionid;
   private String username;
   private String password;
 
@@ -53,12 +54,14 @@ public class LoginActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_login);
-    ButterKnife.inject(this);
-    initializeToolbar();
     LogUtil.e("login_start");
     context = this;
     if (LocalConfig.isFirstLaunch()) {
+      /* set it to be full screen */
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+          WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      setContentView(R.layout.activity_login);
+      ButterKnife.inject(this);
       login_button.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -74,40 +77,15 @@ public class LoginActivity extends AppCompatActivity {
         }
       });
     }
-    else
-    {
+    else {
       AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
       username = mAccountBean.username;
       password = mAccountBean.pwd;
       start();
     }
-
-
   }
 
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-  }
-  private void start()
-  {
-
+  private void start() {
     login_request =
         new LoginRequest<>(APIConstants.BASE_URL + "/login", null,
             getParams_login(), LoginRequest.FormResult.class,
@@ -115,53 +93,35 @@ public class LoginActivity extends AppCompatActivity {
               @Override
               public void onResponse(LoginRequest.FormResult result) {
                 return_message = result.message;
-                if (return_message.equals("success"))
-                {
+                if (return_message.equals("success")) {
                   LogUtil.e("login success");
                   loginSuccessfully(result);
                 }
-
               }
             }, new Response.ErrorListener() {
               @Override
               public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
+                LogUtil.e("error " + pVolleyError);
               }
             });
-
     executeRequest(login_request);
-
   }
 
 
 
   protected void loginSuccessfully(LoginRequest.FormResult model) {
-
     sessionid = login_request.cookies;
-
-    //多账号
-//    if (AccountManager.getInstance().getCurrentUser() == null) {
-      AccountManager.getInstance().addAccount(new AccountBean(username, password));
-//    }
+    // 多账号
+    // if (AccountManager.getInstance().getCurrentUser() == null) {
+    AccountManager.getInstance().addAccount(new AccountBean(username, password));
+    // }
     AccountManager.getInstance().getCurrentUser().getCookieHolder()
         .saveCookie(sessionid);
     LocalConfig.setFirstLaunch(false);
-
     Intent mIntent = new Intent(context, MainActivity.class);
     startActivity(mIntent);
     finish();
   }
-
-
-  public Map<String, String> getHeader()
-  {
-    Map<String, String> headers = new HashMap<String, String>();
-    headers.put("", "");
-    headers.put("", "");
-
-    return headers;
-  }
-
 
   public Map<String, String> getParams_login()
   {
@@ -176,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
   public void executeRequest(Request request) {
     SApplication.getRequestManager().executeRequest(request, this);
   }
-
 
   @Override
   protected void onDestroy() {

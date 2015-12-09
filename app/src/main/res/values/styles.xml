@@ -21,6 +21,11 @@
         <item name="colorAccent">#4fa6ae</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -138,8 +143,8 @@
     </style>
 
     <style name="text_item_message_time">
-        <item name="android:textColor">@color/gray_5c</item>
-        <item name="android:textSize">13.5dp</item>
+        <item name="android:textColor">#c2c2c2</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:maxLines">5</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
@@ -148,14 +153,14 @@
     </style>
 
     <style name="text_item_message_content">
-        <item name="android:textColor">@color/gray_97</item>
-        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">#a3a3a3</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:maxLines">5</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginTop">0.5dp</item>
         <item name="android:layout_marginRight">30dp</item>
-        <item name="android:layout_marginLeft">80dp</item>
+        <item name="android:layout_marginLeft">72dp</item>
     </style>
 
     <style name="view_item_message_divider">

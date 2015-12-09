@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:paddingTop="20dp"
     android:orientation="vertical"
     >
 
@@ -23,13 +23,13 @@
         android:id="@+id/comment_item_message_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="72dp"
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:text="laoluo"
-        android:textColor="@color/gray_45"
-        android:textSize="15dp"
+        android:textColor="#212121"
+        android:textSize="15sp"
         />
 
     <TextView
@@ -48,10 +48,6 @@
         android:text="1.1.11."
         />
 
-    <View
-        style="@style/view_item_message_divider"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/comment_item_message_text_content"
-        android:layout_marginTop="20dp"/>
+
 
 </RelativeLayout>

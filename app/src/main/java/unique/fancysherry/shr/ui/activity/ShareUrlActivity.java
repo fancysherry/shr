@@ -21,16 +21,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountBean;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.io.request.LoginRequest;
 import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.ShareUrlAction;
 import unique.fancysherry.shr.ui.dialog.ShrDialog;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.config.LocalConfig;
 import unique.fancysherry.shr.util.config.SApplication;
 import unique.fancysherry.shr.util.UrlFromString;
 
@@ -44,6 +47,14 @@ public class ShareUrlActivity extends AppCompatActivity {
   private Runnable runnable;
 
   private String extract_url;
+
+  private String sessionid;
+  private String username;
+  private String password;
+  private String group_name;
+  private String comment;
+  private LoginRequest<LoginRequest.FormResult> login_request;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +81,61 @@ public class ShareUrlActivity extends AppCompatActivity {
         handleSendText(intent); // Handle text being sent
       }
     }
-    getUserData();// 获取个人所在组的信息，结束后启动dialog
+    start();
+
   }
 
-  public void initView()
-  {
+  public void initView() {
 
+  }
+
+  private void start() {
+    AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
+    username = mAccountBean.username;
+    password = mAccountBean.pwd;
+    if (username != null && password != null) {
+      login_request =
+          new LoginRequest<>(APIConstants.BASE_URL + "/login", null,
+              getParams_login(), LoginRequest.FormResult.class,
+              new Response.Listener<LoginRequest.FormResult>() {
+                @Override
+                public void onResponse(LoginRequest.FormResult result) {
+                  if (result.message.equals("success")) {
+                    loginSuccessfully(result);
+                  }
+                }
+              }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError pVolleyError) {
+                  LogUtil.e("error " + pVolleyError);
+                }
+              });
+      executeRequest(login_request);
+    }
+    // todo intent
+    else
+      Toast.makeText(this, "从未在该设备上登陆过shr，请先登陆", Toast.LENGTH_SHORT).show();
+  }
+
+
+
+  protected void loginSuccessfully(LoginRequest.FormResult model) {
+    sessionid = login_request.cookies;
+    AccountManager.getInstance().getCurrentUser().getCookieHolder()
+        .saveCookie(sessionid);
+    LocalConfig.setFirstLaunch(false);
+    getUserData();// 获取个人所在组的信息，结束后启动dialog
+
+  }
+
+  public Map<String, String> getParams_login()
+  {
+    // username = "longchen@hustunique.com";
+    // password = "hustunique";
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("email", username);
+    params.put("password", password);
+    return params;
   }
 
   public void start_dialog()
@@ -95,7 +155,7 @@ public class ShareUrlActivity extends AppCompatActivity {
     if (null != fragment) {
       ft.remove(fragment);
     }
-    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup,APIConstants.SHARE_OUT);
+    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_OUT);
     dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
     dialogFragment.show(ft, "ShrDialog");
     // tagGroup.setTagsDailog(test_taggroup);
@@ -130,85 +190,6 @@ public class ShareUrlActivity extends AppCompatActivity {
       }
     }
   }
-
-
-  // public void showMyDialog(int gravity) {
-  // Holder holder = new ViewHolder(R.layout.dialog_shr_content);
-  // LayoutInflater mLayoutInflater = this.getLayoutInflater();
-  // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
-  // dialog_intro_input =
-  // (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-  // // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-  // // getUserData();
-  //
-  // OnClickListener clickListener = new OnClickListener() {
-  // @Override
-  // public void onClick(DialogPlus dialog, View view) {
-  // switch (view.getId()) {
-  // case R.id.dialog_shr_content_tagview1:
-  // post_share_url("诶哟");
-  // break;
-  // case R.id.dialog_shr_content_tagview2:
-  // post_share_url("测试");
-  // break;
-  // case R.id.dialog_shr_content_tagview3:
-  // post_share_url("inbox_share");
-  // break;
-  //
-  // }
-  // dialog.dismiss();
-  // }
-  // };
-  //
-  //
-  // // OnClickListener clickListener = new OnClickListener() {
-  // // @Override
-  // // public void onClick(DialogPlus dialog, View view) {
-  // // switch (view.getId()) {
-  // //
-  // // case R.id.user_groups_tagGroup:
-  // //
-  // // // post_share_url();
-  // // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-  // // @Override
-  // // public void onTagClick(String tag) {
-  // // if (tag.equals("..."))
-  // // tagGroup.setAllTags(test_taggroup);
-  // // else if (tag.equals("<-"))
-  // // tagGroup.setTags(test_taggroup);
-  // // else
-  // // {
-  // // Toast.makeText(activity, "We're glad that you love it" + tag, Toast.LENGTH_LONG)
-  // // .show();
-  // // }
-  // // }
-  // // });
-  // // break;
-  // //
-  // // }
-  // // dialog.dismiss();
-  // // }
-  // // };
-  //
-  // OnDismissListener dismissListener = new OnDismissListener() {
-  // @Override
-  // public void onDismiss(DialogPlus dialog) {}
-  // };
-  // showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
-  // }
-  //
-  // private void showOnlyContentDialog(Holder holder, int gravity,
-  // OnDismissListener dismissListener, OnClickListener clickListener
-  // ) {
-  // final DialogPlus dialog = DialogPlus.newDialog(activity)
-  // .setContentHolder(holder)
-  // .setGravity(gravity)
-  // .setOnDismissListener(dismissListener)
-  // .setCancelable(true)
-  // .setOnClickListener(clickListener)
-  // .create();
-  // dialog.show();
-  // }
 
   public void getUserData() {
     GsonRequest<User> group_share_request =
@@ -290,7 +271,9 @@ public class ShareUrlActivity extends AppCompatActivity {
   public void onShareGroupName(ShareUrlAction shareUrlAction) {
     // 这里更新视图或者后台操作,从TestAction获取传递参数.
     if (shareUrlAction.getGroup_name() != null) {
-      post_share_url(shareUrlAction.getGroup_name(), shareUrlAction.getComment());
+      group_name = shareUrlAction.getGroup_name();
+      comment = shareUrlAction.getComment();
+      post_share_url(group_name, comment);
     }
   }
 

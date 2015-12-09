@@ -211,12 +211,10 @@ public abstract class BaseActivity extends ActionBarActivity
       mDrawerLayout.setStatusBarBackgroundColor(
           ResourceHelper.getThemeColor(this, R.attr.colorPrimary, android.R.color.black));
       setSupportActionBar(mToolbar);
-      mToolbar.setNavigationIcon(R.drawable.ic_launcher); // TODO
       updateDrawerToggle();
     }
     else {
       setSupportActionBar(mToolbar);
-      mToolbar.setNavigationIcon(R.drawable.ic_launcher); // TODO
     }
 
     mToolbarInitialized = true;

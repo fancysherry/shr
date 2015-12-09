@@ -195,7 +195,7 @@ public class BrowserFragment extends Fragment {
     webview_bottom_dismiss_button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        getActivity().finish();
       }
     });
     webview_bottom_like_button.setOnClickListener(new View.OnClickListener() {

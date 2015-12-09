@@ -191,6 +191,7 @@ public class MainActivity extends BaseActivity
         .replace(R.id.container,
             InboxShareFragment.newInstance())
         .commit();
+
     group_intro.setVisibility(View.INVISIBLE);
     getUserData();
   }

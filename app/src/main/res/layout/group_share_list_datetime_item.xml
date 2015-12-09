@@ -3,22 +3,21 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical"
               android:background="#eeeeee"
-              android:padding="7dp"
-         >
+              android:orientation="vertical"
+              android:padding="8dp"
+    >
 
 
-
-        <TextView
-            android:id="@+id/share_list_datetime_item_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="今天"
-            android:textSize="15sp"
-            />
-
+    <TextView
+        android:id="@+id/share_list_datetime_item_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="今天"
+        android:textColor="#c2c2c2"
+        android:textSize="15sp"
+        />
 
 
 </LinearLayout>

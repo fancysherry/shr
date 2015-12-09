@@ -75,7 +75,7 @@ public class CommentActivity extends AppCompatActivity {
         Toast.makeText(context, "评论发送成功", Toast.LENGTH_LONG).show();
         comment_sending_progress.setVisibility(View.INVISIBLE);
         comment_send.setVisibility(View.VISIBLE);
-        getSupportActionBar().setTitle("评论" + comment_data.size());
+        getSupportActionBar().setTitle("评论 " + comment_data.size());
       }
     };
 
@@ -85,14 +85,14 @@ public class CommentActivity extends AppCompatActivity {
         Toast.makeText(context, "评论发送失败", Toast.LENGTH_LONG).show();
         comment_sending_progress.setVisibility(View.INVISIBLE);
         comment_send.setVisibility(View.VISIBLE);
-        getSupportActionBar().setTitle("评论" + comment_data.size());
+        getSupportActionBar().setTitle("评论 " + comment_data.size());
       }
     };
 
     mRunable_toolbar = new Runnable() {
       @Override
       public void run() {
-        getSupportActionBar().setTitle("评论" + comment_data.size());
+        getSupportActionBar().setTitle("评论 " + comment_data.size());
       }
     };
 

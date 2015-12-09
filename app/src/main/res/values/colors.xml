@@ -50,7 +50,7 @@
     <color name="delete_member_select_color">#c2c2c2</color>
     <color name="delete_member_color">#ed6969</color>
 
-    <color name="change_manage_select_color">#c2c2c2</color>
+    <color name="change_manage_select_color">#eeeeee</color>
     <color name="change_manage_color">#ffffff</color>
 
     <!--<color name="colorPrimary">#569597</color>-->

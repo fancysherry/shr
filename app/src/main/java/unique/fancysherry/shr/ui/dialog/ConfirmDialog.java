@@ -149,14 +149,14 @@ public class ConfirmDialog extends DialogFragment {
       view = inflater.inflate(R.layout.dialog_notification_small_one_btn, container);
       dialog_notification_title =
           (TextView) view.findViewById(R.id.dialog_notification_small_title);
-      if (delete_name != null && change_manage_group_name != null)
+      if (change_manage_name != null && change_manage_group_name != null)
         dialog_notification_title.setText(change_manage_name + "已成为" + change_manage_group_name
             + "的管理员");
       dialog_notification_yes = (TextView) view.findViewById(R.id.dialog_notification_small_yes);
       dialog_notification_yes.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          ChangeManageAction mChangeManageAction=new ChangeManageAction();
+          ChangeManageAction mChangeManageAction = new ChangeManageAction();
           mChangeManageAction.setFinished(true);
           BusProvider.getInstance().post(mChangeManageAction);
           dismiss();
@@ -269,6 +269,6 @@ public class ConfirmDialog extends DialogFragment {
       dialog_notification_title.setText("确认将管理员移交给" + change_manage_name);
     else if (dialog_notification_title != null && dialog_type.equals(CHANGE_MANAGER_CONFIRM_FINISH))
       dialog_notification_title.setText(change_manage_name + "已成为" + change_manage_group_name
-              + "的管理员");
+          + "的管理员");
   }
 }

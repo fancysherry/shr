@@ -137,8 +137,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
       this.comment_content =
           (TextView) itemView.findViewById(R.id.comment_item_message_text_content);
       this.comment_time = (TextView) itemView.findViewById(R.id.comment_item_message_time);
-
-
       this.view = itemView;
     }
 

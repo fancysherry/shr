@@ -2,35 +2,40 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
                 android:background="@color/pure_white"
+                android:fitsSystemWindows="true"
                 tools:context="unique.fancysherry.shr.ui.activity.CommentActivity">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
-        <include
-            android:id="@+id/comment_activity_toolbar"
-            layout="@layout/include_toolbar"/>
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/share_comment_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/comment_activity_toolbar"
             android:layout_marginBottom="60dp"
+            android:layout_marginTop="56dp"
+            android:paddingTop="5dp"/>
 
-            android:paddingTop="10dp"/>
+        <include
+            android:id="@+id/comment_activity_toolbar"
+            layout="@layout/include_toolbar"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="60.5dp"
+            android:background="#eeeeee"/>
 
         <LinearLayout
             android:id="@+id/comment_send_layout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="@color/pure_white"
             android:orientation="horizontal">
 
@@ -41,7 +46,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_editcomment2x"
+                android:background="@drawable/icon_input_four"
 
                 />
 
@@ -52,7 +57,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:background="@color/pure_white"
-                android:hint="在这里说些什么把"/>
+                android:hint="在这里说些什么把"
+                android:textSize="13sp"/>
 
 
         </LinearLayout>
@@ -62,8 +68,7 @@
             android:id="@+id/comment_sending_progress_layout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="bottom"
             android:background="@color/black_00_20"
             android:orientation="horizontal"
             android:visibility="gone">
@@ -100,6 +105,6 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>
