@@ -241,6 +241,7 @@ public class ShareUrlActivity extends AppCompatActivity {
                 Log.e("message", pGroup.message);
                 Intent mIntent = new Intent(activity, MainActivity.class);
                 startActivity(mIntent);
+                finish();
               }
             }, new Response.ErrorListener() {
               @Override

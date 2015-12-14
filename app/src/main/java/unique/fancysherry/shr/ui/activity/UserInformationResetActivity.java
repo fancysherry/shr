@@ -33,6 +33,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,7 +98,7 @@ public class UserInformationResetActivity extends AppCompatActivity {
   @InjectView(R.id.user_information_portrait)
   SimpleDraweeView user_information_portrait;
   @InjectView(R.id.user_information_password_layout)
-  LinearLayout user_information_password_layout;
+  RelativeLayout user_information_password_layout;
   private Activity mContext;
   private SelectPicPopupWindow menuWindow; // 自定义的头像编辑弹出框
 
