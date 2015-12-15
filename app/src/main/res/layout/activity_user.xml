@@ -1,211 +1,188 @@
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/parent_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parent_layout"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
 
-    <FrameLayout
-        android:id="@+id/user_header_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar">
+        android:layout_height="280dp"
+        android:background="?attr/colorPrimary"
+        android:orientation="vertical">
 
-
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/user_activity_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="148dp"
-            android:background="?attr/colorPrimary">
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:elevation="0dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="130dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/shr_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="36"
-                    android:textColor="#ffffff"
-                    android:textSize="30sp"/>
-
-                <TextView
-                    android:id="@+id/shr_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:text="Shr"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp"/>
-
-                <TextView
-                    android:id="@+id/gratitude_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="36"
-                    android:textColor="#ffffff"
-                    android:textSize="30sp"/>
-
-                <TextView
-                    android:id="@+id/gratitude_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:text="感谢"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp"/>
-
-
-            </LinearLayout>
-
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/user_activity_toolbar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_alignParentTop="true"
-                android:background="?attr/colorPrimary"
-                android:elevation="0dp"
-                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/user_edit_icon"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentRight="true"
-                        />
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.Toolbar>
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="148dp"
-            android:background="@color/pure_white">
-
-
-            <LinearLayout
-                android:id="@+id/user_information_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="134dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/user_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="gratitude"
-                    android:textColor="#212121"
-                    android:textSize="13dp"/>
-
-                <TextView
-                    android:id="@+id/user_add_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="gratitude"
-                    android:textColor="#212121"
-                    android:textSize="13dp"/>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/user_information_introduce_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/user_information_layout"
-                android:layout_alignStart="@id/user_information_layout"
-                android:layout_below="@id/user_information_layout"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/user_introduce"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="gratitude"
-                    android:textColor="#c2c2c2"
-                    android:textSize="13dp"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/user_groups_tag_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/user_information_introduce_layout"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                >
-
-                <unique.fancysherry.shr.ui.widget.TagGroup
-                    android:id="@+id/activity_user_taggroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:atg_horizontalSpacing="15dp"
-                    app:atg_verticalSpacing="8dp"/>
-
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/user_edit_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
 
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/user_portrait"
-            android:layout_width="86dp"
-            android:layout_height="86dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="105dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
             app:placeholderImage="@drawable/mine"
-            app:border_color="@color/pure_white"
-            app:border_width="2dp"
-            app:roundAsCircle="true"/>
+            app:roundAsCircle="true"
+            app:roundingBorderColor="@color/pure_white"
+            app:roundingBorderWidth="2dp"
+            />
+
+        <TextView
+            android:id="@+id/user_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="老罗"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
 
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/gratitude_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="36 感谢"
+                android:textColor="#ffffff"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/user_information_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/user_add_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2013"
+                android:textColor="#ffffff"
+                android:textSize="13dp"/>
+
+            <TextView
+                android:id="@+id/user_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="design"
+                android:textColor="#ffffff"
+                android:textSize="13dp"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/user_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:text="12345678"
+            android:textColor="#ffffff"
+            android:textSize="13dp"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/user_groups_tag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pure_white"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="15dp"
+        >
+
+        <unique.fancysherry.shr.ui.widget.TagGroup
+            android:id="@+id/activity_user_taggroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:atg_horizontalSpacing="15dp"
+            app:atg_verticalSpacing="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_shr_num_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/user_shr_num_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_shareout_grey"
+            />
+
+        <TextView
+            android:id="@+id/shr_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="36 分享"
+            android:textColor="#a3a3a3"
+            android:textSize="13sp"/>
+
+
+    </LinearLayout>
 
 
     <RelativeLayout
         android:id="@+id/user_recyclerview_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_header_layout"
-        android:layout_marginTop="2dp"
-        android:padding="5dp">
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_shr_history"
@@ -215,4 +192,4 @@
     </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

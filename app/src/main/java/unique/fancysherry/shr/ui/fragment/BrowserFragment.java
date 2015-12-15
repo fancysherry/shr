@@ -29,6 +29,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.squareup.otto.Subscribe;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +55,7 @@ import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
 import unique.fancysherry.shr.ui.otto.ShareUrlAction;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
+import unique.fancysherry.shr.util.readability.Readability;
 
 /**
  * Created by Dsnc on 6/28/14.
@@ -65,7 +69,7 @@ public class BrowserFragment extends Fragment {
   private String url;
   private String share_type;
   private String share_id;
-
+  private String html = "";
   private String group_id;// inboxshare to share
 
   private Handler handler;
@@ -73,6 +77,7 @@ public class BrowserFragment extends Fragment {
   private Runnable runnable_refresh_data;
   private Runnable runnable_thank;
   private Runnable runnable_get_group_id;
+  private Runnable runnable_load_webview_data;
   private Share share;
   private User mUser;
   private ArrayList<String> test_taggroup = new ArrayList<>();
@@ -143,6 +148,12 @@ public class BrowserFragment extends Fragment {
       @Override
       public void run() {
         start_dialog();
+      }
+    };
+    runnable_load_webview_data = new Runnable() {
+      @Override
+      public void run() {
+        mWebview.loadData(html, "text/html", "UTF-8");
       }
     };
 
@@ -226,12 +237,12 @@ public class BrowserFragment extends Fragment {
       }
     });
 
-    StringBuilder builder = new StringBuilder("<html>");
-    builder.append("<head>");
-    builder.append("<link rel=stylesheet href='css/style.css'>");
-    builder.append("</head>");
-    builder.append("");
-    builder.append("</html>");
+    // StringBuilder builder = new StringBuilder("<html>");
+    // builder.append("<head>");
+    // builder.append("<link rel=stylesheet href='css/style.css'>");
+    // builder.append("</head>");
+    // builder.append("");
+    // builder.append("</html>");
 
 
     mWebview.setScrollbarFadingEnabled(true);
@@ -247,7 +258,27 @@ public class BrowserFragment extends Fragment {
     mWebview.setWebViewClient(new MyWebViewClient());
     mWebview.setWebChromeClient(new MyWebChromeClient());
 
-    mWebview.loadUrl(url);
+    Runnable mRunnable = new Runnable() {
+      @Override
+      public void run() {
+        try {
+          URL mURL = new URL(url);
+          Readability readability = new Readability(mURL, 5000); // URL
+          readability.init();
+          html = readability.outerHtml();
+          LogUtil.e(html);
+        } catch (MalformedURLException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        handler.post(runnable_load_webview_data);
+      }
+    };
+    new Thread(mRunnable).start();
+
+
+    // mWebview.loadUrl(url);
     // mWebview.loadDataWithBaseURL("file:///android_asset/", builder.toString(), "text/html",
     // "UTF-8", "");
   }

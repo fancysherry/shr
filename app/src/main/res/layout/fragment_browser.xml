@@ -6,6 +6,7 @@
 
     <WebView
         android:id="@+id/webview"
+        android:layout_marginTop="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -58,11 +59,7 @@
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/primary_content"
             android:src="@drawable/icon_link"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentTop="true"
-            android:background="#c2c2c2"/>
+
 
 
         <View

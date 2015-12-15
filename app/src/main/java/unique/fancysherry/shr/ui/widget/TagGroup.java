@@ -212,21 +212,21 @@ public class TagGroup extends ViewGroup {
   public void setTags(String... tags) {
     removeAllViews();
     if (tags.length == 2) {
+      appendTag("+");
       appendTag(tags[0]);
       Log.e("tag", "   " + tags[0]);
       Log.e("tag", "   " + tags[1]);
       appendTag(tags[1]);
-      appendTag("+");
     }
     else if (tags.length == 1) {
-      appendTag(tags[0]);
       appendTag("+");
+      appendTag(tags[0]);
     }
     else if (tags.length > 2) {
+      appendTag("+");
       appendTag(tags[0]);
       appendTag(tags[1]);
       appendTag("...");
-      appendTag("+");
     }
   }
 
@@ -245,12 +245,12 @@ public class TagGroup extends ViewGroup {
    */
   public void setAllTags(String... tags) {
     removeAllViews();
+    appendTag("+");
     for (final String tag : tags) {
       appendTag(tag);
       Log.e("tag", "   " + tag);
     }
     appendTag("<-");
-    appendTag("+");
   }
 
   public String[] getTags() {
@@ -273,7 +273,8 @@ public class TagGroup extends ViewGroup {
         (TagView) LayoutInflater.from(getContext()).inflate(R.layout.include_tagview, null);
     newTag.setText(tag);
     newTag.setOnClickListener(mInternalTagClickListener);
-    addView(newTag, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    addView(newTag, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT));
   }
 
   /**
@@ -404,8 +405,6 @@ public class TagGroup extends ViewGroup {
     return new TagGroup.LayoutParams(getContext(), attrs);
   }
 
-
-
   /**
    * Interface definition for a callback to be invoked when a tag group is changed.
    */
@@ -450,8 +449,6 @@ public class TagGroup extends ViewGroup {
     }
   }
 
-
-
   /**
    * The tag view click listener for internal use.
    */
@@ -465,5 +462,4 @@ public class TagGroup extends ViewGroup {
       }
     }
   }
-
 }

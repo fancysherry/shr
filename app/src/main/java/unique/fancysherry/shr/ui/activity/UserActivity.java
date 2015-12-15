@@ -70,6 +70,8 @@ public class UserActivity extends AppCompatActivity {
   SimpleDraweeView imageview_portrait;
   @InjectView(R.id.shr_number)
   TextView shr_number;
+  @InjectView(R.id.user_nickname)
+  TextView user_nickname;
   @InjectView(R.id.gratitude_number)
   TextView gratitude_number;
   @InjectView(R.id.user_group)
@@ -425,16 +427,15 @@ public class UserActivity extends AppCompatActivity {
     // }
     // });
     // mUser = getIntent().getParcelableExtra("user");
-    shr_number.setText(String.valueOf(mUser.shares.size()));
-    gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum));
+    shr_number.setText(String.valueOf(mUser.shares.size()) + " 分享");
+    gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum) + " 感谢");
     group_name.setText(mUser.groups.get(0).name);
     user_attend_time.setText(getTime(mUser.register_time));
     introduce.setText(mUser.brief);
     getSupportActionBar().setTitle(mUser.nickname);
     // Log.e("nickname", mUser.nickname);
     imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
-
-
+    user_nickname.setText(mUser.nickname);
     shr_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
     userShareAdapter = new UserShareAdapter(this);
@@ -480,10 +481,10 @@ public class UserActivity extends AppCompatActivity {
 
   private String getTime(String time)
   {
-    Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
+    Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]");
     Matcher matcher = pattern.matcher(time);
     if (matcher.find()) {
-      return matcher.group(0) + "加入";
+      return matcher.group(0);
     }
     else
       return null;

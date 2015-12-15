@@ -12,21 +12,21 @@ import unique.fancysherry.shr.io.model.Share;
  */
 public class UserItemDecoration extends RecyclerView.ItemDecoration {
 
-    private int space = 50;// default
+  private int space = 35;// default
 
-    public UserItemDecoration(int space) {
-        this.space = space;
-    }
+  public UserItemDecoration(int space) {
+    this.space = space;
+  }
 
-    public UserItemDecoration() {}
+  public UserItemDecoration() {}
 
 
-     public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-     if (itemPosition == 0)
-     outRect.set(0, space, 0, space);
-     else
-     outRect.set(0, 0, 0, space);
-     }
+  public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+    if (itemPosition == 0)
+      outRect.set(0, 0, 0, space);
+    else
+      outRect.set(0, 0, 0, space);
+  }
 
 
 }
