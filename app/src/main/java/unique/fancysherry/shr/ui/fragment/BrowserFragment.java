@@ -43,6 +43,7 @@ import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.model.InboxShare;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
@@ -69,7 +70,7 @@ public class BrowserFragment extends Fragment {
   private String url;
   private String share_type;
   private String share_id;
-  private String html = "";
+  private String html;
   private String group_id;// inboxshare to share
 
   private Handler handler;
@@ -135,6 +136,10 @@ public class BrowserFragment extends Fragment {
       public void run() {
         like_count.setText(share.gratitude_sum);
         comment_count.setText(share.comment_sum);
+        // if (html == null) {
+        // html=share.content;
+        // mWebview.loadData(html, "text/html", "UTF-8");
+        // }
       }
     };
 
@@ -153,7 +158,8 @@ public class BrowserFragment extends Fragment {
     runnable_load_webview_data = new Runnable() {
       @Override
       public void run() {
-        mWebview.loadData(html, "text/html", "UTF-8");
+        if (html != null)
+          mWebview.loadData(html, "text/html;charset=utf-8", null);
       }
     };
 
@@ -221,7 +227,7 @@ public class BrowserFragment extends Fragment {
     });
     initWebView();
     refreshData();
-
+    loadContentData();
     return view;
   }
 
@@ -258,24 +264,24 @@ public class BrowserFragment extends Fragment {
     mWebview.setWebViewClient(new MyWebViewClient());
     mWebview.setWebChromeClient(new MyWebChromeClient());
 
-    Runnable mRunnable = new Runnable() {
-      @Override
-      public void run() {
-        try {
-          URL mURL = new URL(url);
-          Readability readability = new Readability(mURL, 5000); // URL
-          readability.init();
-          html = readability.outerHtml();
-          LogUtil.e(html);
-        } catch (MalformedURLException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        handler.post(runnable_load_webview_data);
-      }
-    };
-    new Thread(mRunnable).start();
+    // Runnable mRunnable = new Runnable() {
+    // @Override
+    // public void run() {
+    // try {
+    // URL mURL = new URL(url);
+    // Readability readability = new Readability(mURL, 5000); // URL
+    // readability.init();
+    // html = readability.outerHtml();
+    // LogUtil.e(html);
+    // } catch (MalformedURLException e) {
+    // e.printStackTrace();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // handler.post(runnable_load_webview_data);
+    // }
+    // };
+    // new Thread(mRunnable).start();
 
 
     // mWebview.loadUrl(url);
@@ -364,6 +370,47 @@ public class BrowserFragment extends Fragment {
               }
             });
     executeRequest(share_request);
+  }
+
+  public void loadContentData() {
+    if (share_type.equals(APIConstants.SHARE_TYPE)) {
+      GsonRequest<Share> share_request =
+          new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL + "/share", getHeader(),
+              getParams(), Share.class,
+              new Response.Listener<Share>() {
+                @Override
+                public void onResponse(Share pshare) {
+                  html = pshare.content;
+                  handler.post(runnable_load_webview_data);
+                }
+              }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError pVolleyError) {
+                  LogUtil.e("response error " + pVolleyError);
+                }
+              });
+      executeRequest(share_request);
+    } else if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
+      if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
+        GsonRequest<InboxShare> inbox_share_request =
+            new GsonRequest<>(Request.Method.GET, APIConstants.BASE_URL
+                + "/inbox_share?inbox_share_id=" + share_id, getHeader(),
+                null, InboxShare.class,
+                new Response.Listener<InboxShare>() {
+                  @Override
+                  public void onResponse(InboxShare pshare) {
+                    html = pshare.content;
+                    handler.post(runnable_load_webview_data);
+                  }
+                }, new Response.ErrorListener() {
+                  @Override
+                  public void onErrorResponse(VolleyError pVolleyError) {
+                    LogUtil.e("response error " + pVolleyError);
+                  }
+                });
+        executeRequest(inbox_share_request);
+      }
+    }
   }
 
   public void thank_request() {

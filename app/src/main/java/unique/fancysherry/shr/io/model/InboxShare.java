@@ -12,6 +12,7 @@ public class InboxShare {
   public String uid;// id of user
   public String avatar;// avatar of user
   public String type;
+  public String content;
 
   public InboxShare(String type) {
     this.type = type;

@@ -19,6 +19,7 @@ public class Share implements Parcelable {
   public User origin;
   public String gratitude_sum;
   public String type;
+  public String content;
 
   public List<User> others;
 
@@ -64,6 +65,7 @@ public class Share implements Parcelable {
     origin = in.readParcelable(getClass().getClassLoader());
     gratitude_sum = in.readString();
     type = in.readString();
+    content = in.readString();
     in.readList(others, getClass().getClassLoader());
 
 
@@ -87,6 +89,7 @@ public class Share implements Parcelable {
     dest.writeString(gratitude_sum);
     dest.writeList(others);
     dest.writeString(type);
+    dest.writeString(content);
   }
 
   public String getType()
