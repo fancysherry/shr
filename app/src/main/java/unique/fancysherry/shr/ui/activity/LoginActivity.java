@@ -36,7 +36,7 @@ import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.LocalConfig;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
   @InjectView(R.id.login_button)
   Button login_button;
   @InjectView(R.id.login_username)
@@ -76,8 +76,7 @@ public class LoginActivity extends AppCompatActivity {
           }
         }
       });
-    }
-    else {
+    } else {
       AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
       username = mAccountBean.username;
       password = mAccountBean.pwd;
@@ -86,9 +85,12 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void start() {
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("email", username);
+    params.put("password", password);
     login_request =
         new LoginRequest<>(APIConstants.BASE_URL + "/login", null,
-            getParams_login(), LoginRequest.FormResult.class,
+            params, LoginRequest.FormResult.class,
             new Response.Listener<LoginRequest.FormResult>() {
               @Override
               public void onResponse(LoginRequest.FormResult result) {
@@ -107,8 +109,6 @@ public class LoginActivity extends AppCompatActivity {
     executeRequest(login_request);
   }
 
-
-
   protected void loginSuccessfully(LoginRequest.FormResult model) {
     sessionid = login_request.cookies;
     // 多账号
@@ -121,20 +121,6 @@ public class LoginActivity extends AppCompatActivity {
     Intent mIntent = new Intent(context, MainActivity.class);
     startActivity(mIntent);
     finish();
-  }
-
-  public Map<String, String> getParams_login()
-  {
-    // username = "longchen@hustunique.com";
-    // password = "hustunique";
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("email", username);
-    params.put("password", password);
-    return params;
-  }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
   }
 
   @Override

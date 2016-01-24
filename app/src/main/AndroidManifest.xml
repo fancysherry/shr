@@ -58,12 +58,6 @@
             >
         </activity>
         <activity
-            android:name=".ui.activity.ArticleActivity"
-            android:label="@string/title_activity_article"
-            android:theme="@style/ToolbarTheme"
-            >
-        </activity>
-        <activity
             android:name=".ui.activity.BrowserActivity"
             android:label="@string/title_activity_browser"
             android:theme="@style/WebViewTheme"

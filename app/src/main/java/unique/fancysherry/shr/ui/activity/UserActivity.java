@@ -4,23 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +26,6 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.otto.Subscribe;
 
-import org.json.JSONArray;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,17 +34,13 @@ import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.UploadImage.SelectPicPopupWindow;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
-import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserShareAdapter;
 import unique.fancysherry.shr.ui.dialog.ConfirmDialog;
@@ -60,12 +48,10 @@ import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.BlacklistPopupWindow;
 import unique.fancysherry.shr.ui.widget.TagGroup;
-import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
-import unique.fancysherry.shr.util.system.ResourceHelper;
 
-public class UserActivity extends AppCompatActivity {
+public class UserActivity extends BaseActivity {
   @InjectView(R.id.user_portrait)
   SimpleDraweeView imageview_portrait;
   @InjectView(R.id.shr_number)
@@ -86,16 +72,16 @@ public class UserActivity extends AppCompatActivity {
   TagGroup tagGroup;
   @InjectView(R.id.user_edit_icon)
   ImageView user_edit;
+  @InjectView(R.id.user_activity_toolbar)
+  Toolbar mToolbar;
   private BlacklistPopupWindow menuWindow; // 自定义的头像编辑弹出框
   private UserShareAdapter userShareAdapter;
   private Activity context;
   private User mUser;
-  private Toolbar mToolbar;
   private ArrayList<String> test_taggroup = new ArrayList<>();// todo 目前最大组的数量是20个
   private Handler handler;
   private Runnable runnable;
   private Runnable runnable_black;
-
   private String is_mine_id;
 
   @Override
@@ -105,7 +91,7 @@ public class UserActivity extends AppCompatActivity {
     BusProvider.getInstance().register(this);
     ButterKnife.inject(this);
     context = this;
-    initializeToolbar();
+    initializeToolbar(mToolbar);
 
     handler = new Handler();
     runnable = new Runnable() {
@@ -211,23 +197,14 @@ public class UserActivity extends AppCompatActivity {
     // TODO add your implementation.
   }
 
-  public Map<String, String> getParams_black() {
+  public void put_blacklist() {
     Map<String, String> params = new HashMap<>();
     params.put("blacked_user_id", is_mine_id);
-    return params;
-  }
 
-  public Map<String, String> getParams_cancel_black() {
-    Map<String, String> params = new HashMap<>();
-    params.put("cancelled_user_id", is_mine_id);
-    return params;
-  }
-
-  public void put_blacklist() {
     GsonRequest<GsonRequest.FormResult> put_blacklist_request =
         new GsonRequest<>(Request.Method.POST,
             APIConstants.BASE_URL + "/user/black",
-            getHeader(), getParams_black(),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -246,10 +223,13 @@ public class UserActivity extends AppCompatActivity {
   }
 
   public void cancel_put_blacklist() {
+    Map<String, String> params = new HashMap<>();
+    params.put("cancelled_user_id", is_mine_id);
+
     GsonRequest<GsonRequest.FormResult> cancel_put_blacklist_request =
         new GsonRequest<>(Request.Method.POST,
             APIConstants.BASE_URL + "/user/cancel_black",
-            getHeader(), getParams_cancel_black(),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -331,49 +311,6 @@ public class UserActivity extends AppCompatActivity {
     SApplication.getRequestManager().executeRequest(request, this);
   }
 
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
-        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-    mToolbar = (Toolbar) findViewById(R.id.user_activity_toolbar);
-    // // 设置菜单及其点击监听
-    // mToolbar.inflateMenu(R.menu.menu_user);
-    // mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-    // @Override
-    // public boolean onMenuItemClick(MenuItem item) {
-    // switch (item.getItemId()) {
-    // case R.id.action_settings:
-    // break;
-    // }
-    // return true;
-    // }
-    // });
-
-    setSupportActionBar(mToolbar);
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    // mToolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-  }
-
-
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
@@ -385,36 +322,6 @@ public class UserActivity extends AppCompatActivity {
     }
     return super.onOptionsItemSelected(item);
   }
-
-  // private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener()
-  // {
-  // @Override
-  // public boolean onMenuItemClick(MenuItem menuItem) {
-  // switch (menuItem.getItemId()) {
-  // case android.R.id.home:
-  // Log.e("home_button", "onclick");
-  // context.finish();
-  // break;
-  // case R.id.action_edit:
-  // Intent mIntent = new Intent(context, UserInformationResetActivity.class);
-  // mIntent.putExtra("user_id", mUser.id);
-  // startActivity(mIntent);
-  // break;
-  //
-  // case R.id.action_settings:
-  // break;
-  // }
-  // return true;
-  // }
-  // };
-  //
-  // @Override
-  // public boolean onCreateOptionsMenu(Menu menu) {
-  // // Inflate the menu; this adds items to the action bar if it is present.
-  // getMenuInflater().inflate(R.menu.menu_user, menu);
-  // return true;
-  // }
-
 
   private void initData()
   {

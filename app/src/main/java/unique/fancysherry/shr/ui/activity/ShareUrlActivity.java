@@ -37,7 +37,7 @@ import unique.fancysherry.shr.util.config.LocalConfig;
 import unique.fancysherry.shr.util.config.SApplication;
 import unique.fancysherry.shr.util.UrlFromString;
 
-public class ShareUrlActivity extends AppCompatActivity {
+public class ShareUrlActivity extends BaseActivity {
   private Activity activity;
   private User mUser;
   private TagGroup tagGroup;
@@ -212,20 +212,6 @@ public class ShareUrlActivity extends AppCompatActivity {
     executeRequest(group_share_request);
   }
 
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
   public void post_share_url(String group_name, String comment) {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =
         new GsonRequest<>(Request.Method.POST,
@@ -264,9 +250,6 @@ public class ShareUrlActivity extends AppCompatActivity {
     return params;
   }
 
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
 
   @Subscribe
   public void onShareGroupName(ShareUrlAction shareUrlAction) {

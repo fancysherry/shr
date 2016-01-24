@@ -1,254 +1,68 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package unique.fancysherry.shr.ui.activity;
 
-import android.app.ActivityOptions;
-import android.app.FragmentManager;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.RecyclerView;
+import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
+import android.util.TypedValue;
+import android.view.WindowManager;
+
+import com.android.volley.Request;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
-import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.DataChangeAction;
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.system.ResourceHelper;
+import unique.fancysherry.shr.account.AccountManager;
+import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.util.config.SApplication;
 
 /**
- * Abstract activity with toolbar, navigation drawer and cast support. Needs to be extended by
- * any activity that wants to be shown as a top level activity.
- *
- * The requirements for a subclass is to call {@link #initializeToolbar()} on onCreate, after
- * setContentView() is called and have three mandatory layout elements:
- * a {@link Toolbar} with id 'toolbar',
- * a {@link DrawerLayout} with id 'drawerLayout' and
- * a {@link ListView} with id 'drawerList'.
- * 在抽象类中抽离出了toolbar和drawertoggle的逻辑
+ * Created by fancysherry on 15-11-29.
  */
-public abstract class BaseActivity extends ActionBarActivity
-{
-  public Toolbar mToolbar;
-  private ActionBarDrawerToggle mDrawerToggle;
-  private DrawerLayout mDrawerLayout;
-  protected RecyclerView mDrawerList;
-
-  private boolean mToolbarInitialized;
-
-  private int mItemToOpenWhenDrawerCloses = -1;
-
-  private DrawerLayout.DrawerListener mDrawerListener = new DrawerLayout.DrawerListener() {
-    @Override
-    public void onDrawerClosed(View drawerView) {
-      LogUtil.e("drawer close");
-      if (mDrawerToggle != null) mDrawerToggle.onDrawerClosed(drawerView);
-      int position = mItemToOpenWhenDrawerCloses;
-      if (position >= 0) {
-        Bundle extras = ActivityOptions.makeCustomAnimation(
-            BaseActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
-
-      }
+public class BaseActivity extends AppCompatActivity {
+  protected void initializeToolbar(Toolbar mToolbar) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
     }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-      if (mDrawerToggle != null) mDrawerToggle.onDrawerStateChanged(newState);
-    }
-
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-      if (mDrawerToggle != null) mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
-    }
-
-    @Override
-    public void onDrawerOpened(View drawerView) {
-      LogUtil.e("drawer open");
-      DataChangeAction mDataChangeAction=new DataChangeAction();
-      mDataChangeAction.setStr(DataChangeAction.MESSAGE_COUNT);
-      BusProvider.getInstance().post(mDataChangeAction);
-      if (mDrawerToggle != null) mDrawerToggle.onDrawerOpened(drawerView);
-      getSupportActionBar().setTitle(R.string.app_name);
-    }
-  };
-
-  private FragmentManager.OnBackStackChangedListener mBackStackChangedListener =
-      new FragmentManager.OnBackStackChangedListener() {
-        @Override
-        public void onBackStackChanged() {
-          updateDrawerToggle();
-        }
-      };
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    LogUtil.d("Activity onCreate");
-
+    setSupportActionBar(mToolbar);
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
+    getSupportActionBar().setTitle("编辑资料");
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    // mToolbar.setOnMenuItemClickListener(onMenuItemClick);
   }
 
-  @Override
-  protected void onStart() {
-    super.onStart();
-    if (!mToolbarInitialized) {
-      throw new IllegalStateException("You must run super.initializeToolbar at " +
-          "the end of your onCreate method");
-    }
-  }
-
-
-  // 使默认的图标变为三条杆
-  @Override
-  protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    if (mDrawerToggle != null) {
-      mDrawerToggle.syncState();
-    }
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-
-    // Whenever the fragment back stack changes, we may need to update the
-    // action bar toggle: only top level screens show the hamburger-like icon, inner
-    // screens - either Activities or fragments - show the "Up" icon instead.
-    getFragmentManager().addOnBackStackChangedListener(mBackStackChangedListener);
-  }
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    if (mDrawerToggle != null) {
-      mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-  }
-
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
-      return true;
-    }
-    // If not handled by drawerToggle, home needs to be handled by returning to previous
-    if (item != null && item.getItemId() == android.R.id.home) {
-      onBackPressed();
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  @Override
-  public void onPause() {
-    super.onPause();
-    getFragmentManager().removeOnBackStackChangedListener(mBackStackChangedListener);
-  }
-
-
-  @Override
-  public void onBackPressed() {
-    // If the drawer is open, back will close it
-    if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-      mDrawerLayout.closeDrawers();
-      return;
-    }
-    // Otherwise, it may return to the previous fragment stack
-    FragmentManager fragmentManager = getFragmentManager();
-    if (fragmentManager.getBackStackEntryCount() > 0) {
-      fragmentManager.popBackStack();
+  // Resolve the given attribute of the current theme
+  private int getAttributeColor(int resId) {
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(resId, typedValue, true);
+    int color = 0x000000;
+    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
+        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+      // resId is a color
+      color = typedValue.data;
     } else {
-      // Lastly, it will rely on the system behavior for back
-      super.onBackPressed();
+      // resId is not a color
     }
+    return color;
   }
 
-  @Override
-  public void setTitle(CharSequence title) {
-    super.setTitle(title);
-    mToolbar.setTitle(title);
+  public Map<String, String> getHeader() {
+    Map<String, String> headers = new HashMap<String, String>();
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
+    }
+    headers
+        .put(
+                "User-Agent",
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+    return headers;
   }
 
-  protected abstract void initView();
-
-  protected void initializeToolbar() {
-    mToolbar = (Toolbar) findViewById(R.id.toolbar);
-    if (mToolbar == null) {
-      throw new IllegalStateException("Layout is required to include a Toolbar with id " +
-          "'toolbar'");
-    }
-
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-    if (mDrawerLayout != null) {
-      mDrawerList = (RecyclerView) findViewById(R.id.drawer_list);
-      if (mDrawerList == null) {
-        throw new IllegalStateException("A layout with a drawerLayout is required to" +
-            "include a ListView with id 'drawerList'");
-      }
-
-      // Create an ActionBarDrawerToggle that will handle opening/closing of the drawer:
-      mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-          mToolbar, R.string.open_content_drawer, R.string.close_content_drawer);
-      mDrawerLayout.setDrawerListener(mDrawerListener);
-      mDrawerLayout.setStatusBarBackgroundColor(
-          ResourceHelper.getThemeColor(this, R.attr.colorPrimary, android.R.color.black));
-      setSupportActionBar(mToolbar);
-      updateDrawerToggle();
-    }
-    else {
-      setSupportActionBar(mToolbar);
-    }
-
-    mToolbarInitialized = true;
+  public void executeRequest(Request request) {
+    SApplication.getRequestManager().executeRequest(request, this);
   }
-
-
-
-  protected void updateDrawerToggle() {
-    if (mDrawerToggle == null) {
-      return;
-    }
-    boolean isRoot = getFragmentManager().getBackStackEntryCount() == 0;
-    mDrawerToggle.setDrawerIndicatorEnabled(isRoot);
-    getSupportActionBar().setDisplayShowHomeEnabled(!isRoot);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(!isRoot);
-    getSupportActionBar().setHomeButtonEnabled(!isRoot);
-    if (isRoot) {
-      mDrawerToggle.syncState();
-    }
-  }
-
-  /**
-   * Shows the Cast First Time User experience to the user (an overlay that explains what is
-   * the Cast icon)
-   */
-  // private void showFtu() {
-  // Menu menu = mToolbar.getMenu();
-  // View view = menu.findItem(R.id.media_route_menu_item).getActionView();
-  // if (view != null && view instanceof MediaRouteButton) {
-  // new ShowcaseView.Builder(this)
-  // .setTarget(new ViewTarget(view))
-  // .setContentTitle(R.string.touch_to_cast)
-  // .hideOnTouchOutside()
-  // .build();
-  // }
-  // }
 }

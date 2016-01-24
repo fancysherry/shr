@@ -83,7 +83,7 @@ import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class UserInformationResetActivity extends AppCompatActivity {
+public class UserInformationResetActivity extends BaseActivity {
   private String user_id;
   @InjectView(R.id.change_portriat)
   TextView change_portrait;
@@ -99,6 +99,9 @@ public class UserInformationResetActivity extends AppCompatActivity {
   SimpleDraweeView user_information_portrait;
   @InjectView(R.id.user_information_password_layout)
   RelativeLayout user_information_password_layout;
+  @InjectView(R.id.user_setting_activity_toolbar)
+  Toolbar mToolbar;
+
   private Activity mContext;
   private SelectPicPopupWindow menuWindow; // 自定义的头像编辑弹出框
 
@@ -128,12 +131,11 @@ public class UserInformationResetActivity extends AppCompatActivity {
     user_name = mBundle.getString("user_name");
     user_intro = mBundle.getString("user_intro");
     user_email = AccountManager.getInstance().getCurrentUser().mAccountBean.username;
-    initializeToolbar();
+    initializeToolbar(mToolbar);
     initView();
   }
 
-  private void initView()
-  {
+  private void initView() {
     user_information_password_layout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -240,38 +242,6 @@ public class UserInformationResetActivity extends AppCompatActivity {
     dialogFrag.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
     dialogFrag.show(getSupportFragmentManager(), "reset_password_dialog");
   }
-
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
-        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.user_setting_activity_toolbar);
-
-    setSupportActionBar(mToolbar);
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setTitle("编辑资料");
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    // mToolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-  }
-
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -380,7 +350,6 @@ public class UserInformationResetActivity extends AppCompatActivity {
         picPath.endsWith(".jpg") ||
         picPath.endsWith(".JPG"))) {
 
-
       BitmapFactory.Options option = new BitmapFactory.Options();
       // 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
       option.inSampleSize = 1;
@@ -395,7 +364,6 @@ public class UserInformationResetActivity extends AppCompatActivity {
     } else {
       Toast.makeText(this, "选择图片文件不正确", Toast.LENGTH_LONG).show();
     }
-
   }
 
   public void UploadImage() {
@@ -407,10 +375,12 @@ public class UserInformationResetActivity extends AppCompatActivity {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    Map<String, String> params = new HashMap<>();
+    params.put("avatar", base64_code);
     GsonRequest<GsonRequest.FormResult> user_avatar_request =
         new GsonRequest<>(Request.Method.PUT,
             imgUrl,
-            getHeader(), getParams(base64_code),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -447,159 +417,6 @@ public class UserInformationResetActivity extends AppCompatActivity {
     return headers;
   }
 
-  public Map<String, String> getParams(String base64_code) {
-    Map<String, String> params = new HashMap<>();
-    params.put("avatar", base64_code);
-    return params;
-  }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
-
-  /**
-   * 使用HttpUrlConnection模拟post表单进行文件
-   * 上传平时很少使用，比较麻烦
-   * 原理是： 分析文件上传的数据格式，然后根据格式构造相应的发送给服务器的字符串。
-   */
-  // Runnable uploadImageRunnable = new Runnable() {
-  // @Override
-  // public void run() {
-  // LogUtil.e("start 1");
-  // if (TextUtils.isEmpty(imgUrl)) {
-  // Toast.makeText(mContext, "还没有设置上传服务器的路径！", Toast.LENGTH_SHORT).show();
-  // return;
-  // }
-  // LogUtil.e("start a");
-  // File file = new File(picPath);
-  // LogUtil.e("start b");
-  // String base64_code = null;
-  // try {
-  // LogUtil.e("start c");
-  // // base64_code = NetUtil.getBase64Param(file);
-  // base64_code = "";
-  // LogUtil.e("base code :" + base64_code);
-  // } catch (Exception e) {
-  // e.printStackTrace();
-  // }
-  // URL url = null;
-  // try {
-  // url = new URL(imgUrl);
-  // } catch (MalformedURLException e) {
-  // e.printStackTrace();
-  // }
-  // LogUtil.e("imageurl " + imgUrl);
-  //
-  // // Map<String, String> textParams = new HashMap<String, String>();
-  // // Map<String, String> fileparams = new HashMap<>();
-  // LogUtil.e("start 2");
-  // HttpURLConnection conn = null;
-  // try {
-  // // 创建一个URL对象
-  // // textParams = new HashMap<String, String>();
-  // // fileparams.put("avatar", NetUtil.getBase64Param(file));
-  // // 要上传的图片文件
-  // // 利用HttpURLConnection对象从网络中获取网页数据
-  // conn = (HttpURLConnection) url.openConnection();
-  // // 设置连接超时（记得设置连接超时,如果网络不好,Android系统在超过默认时间会收回资源中断操作）
-  // conn.setConnectTimeout(5000);
-  // // 设置允许输出（发送POST请求必须设置允许输出）
-  // conn.setDoOutput(true);
-  // conn.setDoInput(true);
-  // // 设置使用POST的方式发送
-  // conn.setRequestMethod("Put");
-  // LogUtil.e("start 4");
-  // // 设置不使用缓存（容易出现问题）
-  // conn.setUseCaches(false);
-  // conn.setRequestProperty("Content-Type",
-  // "text/html; charset=UTF-8");
-  // conn.setRequestProperty("Cookie", getCookie());
-  // conn.setRequestProperty(
-  // "User-Agent",
-  // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-  // // 在开始用HttpURLConnection对象的setRequestProperty()设置,就是生成HTML文件头
-  // // conn.setRequestProperty("ser-Agent", "Fiddler");
-  // // // 设置contentType
-  // // conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" +
-  // // NetUtil.BOUNDARY);
-  // LogUtil.e("image address   " + picPath);
-  // List<NameValuePair> params = new ArrayList<NameValuePair>();
-  // params.add(new BasicNameValuePair("avatar", base64_code));
-  // OutputStream os = conn.getOutputStream();
-  // BufferedWriter writer = new BufferedWriter(
-  // new OutputStreamWriter(os, "UTF-8"));
-  // writer.write(getQuery(params));
-  // // 对文件流操作完,要记得及时关闭
-  // writer.flush();
-  // writer.close();
-  // os.close();
-  //
-  // LogUtil.e(String.valueOf(conn.getResponseCode()));
-  // InputStream in = conn.getInputStream();
-  // BufferedReader br = new BufferedReader(new InputStreamReader(in));
-  // String str = null;
-  // StringBuffer buffer = new StringBuffer();
-  // while ((str = br.readLine()) != null) {// BufferedReader特有功能，一次读取一行数据
-  // buffer.append(str);
-  // }
-  // in.close();
-  // br.close();
-  // LogUtil.e("message   " + buffer.toString());
-  // // 服务器返回的响应吗
-  // int code = conn.getResponseCode(); // 从Internet获取网页,发送请求,将网页以流的形式读回来
-  // // 对响应码进行判断
-  // if (code == 200) {// 返回的响应码200,是成功
-  // // 得到网络返回的输入流
-  // InputStream is = conn.getInputStream();
-  // resultStr = NetUtil.readString(is);
-  // LogUtil.e("put   " + resultStr);
-  // Toast.makeText(mContext, "头像已修改！", Toast.LENGTH_SHORT).show();
-  // } else {
-  // Toast.makeText(mContext, "请求URL失败！", Toast.LENGTH_SHORT).show();
-  // }
-  // }
-  // catch (IOException exception) {
-  // LogUtil.e("start error");
-  // exception.printStackTrace();
-  // } finally {
-  // if (conn != null) {
-  // conn.disconnect();
-  // }
-  // }
-  // handler.sendEmptyMessage(0);// 执行耗时的方法之后发送消给handler
-  // }
-  // };
-
-  public String getCookie() {
-
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-    }
-    return currentUser.getCookieHolder().generateCookieString();
-  }
-
-  private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-  {
-    StringBuilder result = new StringBuilder();
-    boolean first = true;
-
-    for (NameValuePair pair : params)
-    {
-      if (first)
-        first = false;
-      else
-        result.append("&");
-
-      result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-      result.append("=");
-      result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-    }
-
-    return result.toString();
-  }
-
-
   @Override
   protected void onDestroy() {
     super.onDestroy();
@@ -610,10 +427,13 @@ public class UserInformationResetActivity extends AppCompatActivity {
    * Callbacks interface that all activities using this fragment must implement.
    */
   public void resetUserIntro(String intro) {
+    Map<String, String> params = new HashMap<>();
+    params.put("brief", intro);
+    params.put("education_information", " ");
     GsonRequest<GsonRequest.FormResult> group_share_request =
         new GsonRequest<>(Request.Method.GET,
             APIConstants.BASE_URL + "/setting",
-            getHeader(), getParams_intro(intro),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -631,10 +451,13 @@ public class UserInformationResetActivity extends AppCompatActivity {
   }
 
   public void resetPassword(String old_password, final String new_password) {
+    Map<String, String> params = new HashMap<>();
+    params.put("old_password", old_password);
+    params.put("new_password", new_password);
     GsonRequest<GsonRequest.FormResult> group_share_request =
         new GsonRequest<>(Request.Method.PUT,
             APIConstants.BASE_URL + "/user/update_passwd",
-            getHeader(), getParams_password(old_password, new_password),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -654,17 +477,4 @@ public class UserInformationResetActivity extends AppCompatActivity {
     executeRequest(group_share_request);
   }
 
-  public Map<String, String> getParams_intro(String intro) {
-    Map<String, String> params = new HashMap<>();
-    params.put("brief", intro);
-    params.put("education_information", " ");
-    return params;
-  }
-
-  public Map<String, String> getParams_password(String old_password, String new_password) {
-    Map<String, String> params = new HashMap<>();
-    params.put("old_password", old_password);
-    params.put("new_password", new_password);
-    return params;
-  }
 }

@@ -2,29 +2,16 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,9 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,16 +34,12 @@ import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.User;
-import unique.fancysherry.shr.io.request.DeleteRequest;
-import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.ProgressWheel;
 import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
 
-public class DeleteGroupActivity extends AppCompatActivity {
+public class DeleteGroupActivity extends BaseActivity {
 
   private String group_id;
   private String group_name;
@@ -73,6 +54,8 @@ public class DeleteGroupActivity extends AppCompatActivity {
   TextView delete_group_result;
   @InjectView(R.id.delete_spinner)
   ProgressWheel delete_spinner;
+  @InjectView(R.id.delete_group_toolbar)
+  Toolbar mToolbar;
 
 
   @Override
@@ -103,13 +86,12 @@ public class DeleteGroupActivity extends AppCompatActivity {
     Bundle mBundle = getIntent().getExtras();
     group_id = mBundle.getString("group_id");
     group_name = mBundle.getString("group_name");
-    initializeToolbar();
+    initializeToolbar(mToolbar);
     initData();
   }
 
 
-  public void initData()
-  {
+  public void initData() {
     delete_spinner.setText("长按确认 解散组");
     delete_spinner.setTextSize(30);
     delete_spinner.setRimWidth(30);
@@ -127,36 +109,6 @@ public class DeleteGroupActivity extends AppCompatActivity {
     delete_group_name.setText("你确定要删除" + group_name + "组吗？");
     delete_group_result.setText("解散后组员仍可以在个人主页查看他们在" + group_name + "组Shr过的分享的源网页，但评论和组员数据将全部删除");
   }
-
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
-        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
-    setSupportActionBar(mToolbar);
-    getSupportActionBar().setTitle("成员管理");
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-  }
-
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -196,23 +148,6 @@ public class DeleteGroupActivity extends AppCompatActivity {
    * 所以这里使用了最原始的请求方法，后续的版本可能会使用okhttp来替代
    */
   public void deleteGroup() {
-    // DeleteRequest<GsonRequest.FormResult> group_delete_request =
-    // new DeleteRequest<>(Request.Method.DELETE,
-    // APIConstants.BASE_URL + "/group",
-    // getHeader(), getParams(),
-    // GsonRequest.FormResult.class,
-    // new Response.Listener<GsonRequest.FormResult>() {
-    // @Override
-    // public void onResponse(GsonRequest.FormResult result) {
-    // handler.postDelayed(runnable, 2000);
-    // }
-    // }, new Response.ErrorListener() {
-    // @Override
-    // public void onErrorResponse(VolleyError pVolleyError) {
-    // LogUtil.e("response error " + pVolleyError);
-    // }
-    // });
-    // executeRequest(group_delete_request);
     new Thread(new Runnable() {
       @Override
       public void run() {
@@ -246,9 +181,6 @@ public class DeleteGroupActivity extends AppCompatActivity {
           writer.flush();
           writer.close();
           os.close();
-
-
-          LogUtil.e(String.valueOf(httpURLConnection.getResponseCode()));
           InputStream in = httpURLConnection.getInputStream();
           BufferedReader br = new BufferedReader(new InputStreamReader(in));
           String str = null;
@@ -275,7 +207,6 @@ public class DeleteGroupActivity extends AppCompatActivity {
   }
 
   public String getCookie() {
-
     UserBean currentUser = AccountManager.getInstance().getCurrentUser();
     if (currentUser != null && currentUser.getCookieHolder() != null) {
       currentUser.getCookieHolder().generateCookieString();
@@ -283,32 +214,5 @@ public class DeleteGroupActivity extends AppCompatActivity {
     return currentUser.getCookieHolder().generateCookieString();
   }
 
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers.put("Content-Type",
-        "application/x-www-form-urlencoded");
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
-
-  public Map<String, String> getParams() {
-    Map<String, String> params = new HashMap<>();
-    Log.e("delete request", group_id);
-    params.put("group_id", group_id);
-    return params;
-  }
-  // do as get http,put params after url
 
 }

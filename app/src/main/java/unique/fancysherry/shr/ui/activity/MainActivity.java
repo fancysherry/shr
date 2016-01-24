@@ -4,19 +4,13 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +25,6 @@ import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,19 +42,13 @@ import unique.fancysherry.shr.ui.fragment.NotificationFragment;
 import unique.fancysherry.shr.ui.fragment.ShareContentFragment;
 import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
-import unique.fancysherry.shr.ui.widget.Dialog.DialogPlus;
-import unique.fancysherry.shr.ui.widget.Dialog.Holder;
-import unique.fancysherry.shr.ui.widget.Dialog.OnClickListener;
-import unique.fancysherry.shr.ui.widget.Dialog.OnDismissListener;
-import unique.fancysherry.shr.ui.widget.Dialog.ViewHolder;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.UrlFromString;
-import unique.fancysherry.shr.util.UrlUtil;
 import unique.fancysherry.shr.util.config.LocalConfig;
 import unique.fancysherry.shr.util.config.SApplication;
 
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends BaseMainActivity
     implements DrawerFragment.NavigationDrawerCallbacks,
     NewGroupFragment.OnNewGroupListener, ShareContentFragment.OnGetGroupIdListener {
 
@@ -338,32 +325,6 @@ public class MainActivity extends BaseActivity
     clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
     ClipData textCd = ClipData.newPlainText("kkk", "unique shr");
     clipboard.setPrimaryClip(textCd);
-
-    /**
-     * 往ClipboardManager中可放的数据类型有三种:
-     * 因为大家都知道,就算是电脑,Ctrl+c也不可能在同一时间里即
-     * 从C盘剪贴,又从D般剪贴,所以小马只写一种简单的信息进去,
-     * 另外两种写在注释中
-     */
-    /**
-     *
-     //类型二:URI
-     * Uri copyUri = Uri.parse(CONTACTS + COPY_PATH + "/" + "XiaoMa");
-     * ClipData clipUri = ClipData.newUri(getContentResolver(),"URI",copyUri);
-     * clipboard.setPrimaryClip(clipUri);
-     *
-     */
-    // //类型三:Intent
-    // //试下在Intent剪贴时使用Bundle传值进去
-    // clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-    // Intent appIntent = new Intent();
-    // Bundle bundle = new Bundle();
-    // bundle.putInt("xiaoma", 3344258);
-    // bundle.putInt("yatou", 3344179);
-    // appIntent.putExtra("XiaoMaGuo", bundle);
-    // appIntent.setClass(ClipBoardDemoActivity.this, ReceiverClip.class);
-    // ClipData clipIntent = ClipData.newIntent("Intent",appIntent);
-    // clipboard.setPrimaryClip(clipIntent);
   }
 
   /**
@@ -393,97 +354,8 @@ public class MainActivity extends BaseActivity
         text_from_clipboard = item.getText().toString();
       }
     }
-
-    // 如果是INTENT
-    // } else if (clipboard.getPrimaryClipDescription().hasMimeType(
-    // ClipDescription.MIMETYPE_TEXT_INTENT)) {
-    // //此处是INTENT
-    // item = clipboard.getPrimaryClip().getItemAt(0);
-    // Intent intent = item.getIntent();
-    // startActivity(intent);
-    // //........
-    //
-    // //如果是URI
-    // } else if (clipboard.getPrimaryClipDescription().hasMimeType(
-    // ClipDescription.MIMETYPE_TEXT_URILIST)) {
-    // //此处是URI内容
-    // ContentResolver cr = getContentResolver();
-    // ClipData cdUri = clipboard.getPrimaryClip();
-    // item = cdUri.getItemAt(0);
-    // Uri uri = item.getUri();
-    // if(uri != null){
-    // String mimeType = cr.getType(uri);
-    // if (mimeType != null) {
-    // if (mimeType.equals(MIME_TYPE_CONTACT)) {
-    // Cursor pasteCursor = cr.query(uri, null, null, null, null);
-    // if (pasteCursor != null) {
-    // if (pasteCursor.moveToFirst()) {
-    // //此处对数据进行操作就可以了,前提是有权限
-    // }
-    // }
-    // pasteCursor.close();
-    // }
-    // }
-    // }
-    // }
   }
 
-//  public void showMyDialog(int gravity) {
-//    Holder holder = new ViewHolder(R.layout.dialog_shr_content);
-//    LayoutInflater mLayoutInflater = this.getLayoutInflater();
-//    View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
-//    dialog_intro_input =
-//        (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-//    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-//    // getUserData();
-//
-//    OnClickListener clickListener = new OnClickListener() {
-//      @Override
-//      public void onClick(DialogPlus dialog, View view) {
-//        switch (view.getId()) {
-//          case R.id.dialog_shr_content_tagview1:
-//            if (checkShare())
-//              post_share_url("诶哟");
-//            else
-//              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
-//            break;
-//          case R.id.dialog_shr_content_tagview2:
-//            if (checkShare())
-//              post_share_url("测试");
-//            else
-//              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
-//            break;
-//          case R.id.dialog_shr_content_tagview3:
-//            if (checkShare())
-//              post_share_url("inbox_share");
-//            else
-//              Toast.makeText(activity, "请复制包含url的有效链接", Toast.LENGTH_LONG);
-//            break;
-//
-//        }
-//        dialog.dismiss();
-//      }
-//    };
-//
-//    OnDismissListener dismissListener = new OnDismissListener() {
-//      @Override
-//      public void onDismiss(DialogPlus dialog) {}
-//    };
-//    showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
-//  }
-//
-//  private void showOnlyContentDialog(Holder holder, int gravity,
-//      OnDismissListener dismissListener, OnClickListener clickListener
-//      ) {
-//    final DialogPlus dialog = DialogPlus.newDialog(activity)
-//        .setContentHolder(holder)
-//        .setGravity(gravity)
-//        .setOnDismissListener(dismissListener)
-//        .setCancelable(true)
-//        .setOnClickListener(clickListener)
-//        .create();
-//    dialog.show();
-//  }
 
   public void exit_shr() {
     GsonRequest<GsonRequest.FormResult> group_share_url_request =

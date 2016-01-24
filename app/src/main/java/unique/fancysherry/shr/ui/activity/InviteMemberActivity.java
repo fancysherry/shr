@@ -34,13 +34,15 @@ import unique.fancysherry.shr.ui.adapter.recycleview.InvitedMemberAdapter;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.SApplication;
 
-public class InviteMemberActivity extends AppCompatActivity {
+public class InviteMemberActivity extends BaseActivity {
   @InjectView(R.id.group_invited_list)
   RecyclerView group_invited_list;
   @InjectView(R.id.invite_btn)
   Button invite_btn;
   @InjectView(R.id.invite_email)
   EditText invite_email;
+  @InjectView(R.id.invite_activity_toolbar)
+  Toolbar mToolbar;
 
   private String group_id;
   private Activity activity;
@@ -52,17 +54,15 @@ public class InviteMemberActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_invite_member);
     ButterKnife.inject(this);
-
     activity = this;
     Bundle mBundle = getIntent().getExtras();
     group_id = mBundle.getString("group_id");
     initView();
     initAdapter();
-    initializeToolbar();
+    initializeToolbar(mToolbar);
   }
 
-  private void initView()
-  {
+  private void initView() {
     invite_btn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -72,43 +72,12 @@ public class InviteMemberActivity extends AppCompatActivity {
     });
   }
 
-  private void initAdapter()
-  {
+  private void initAdapter() {
     invitedMemberAdapter = new InvitedMemberAdapter(this);
     group_invited_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
     group_invited_list.setAdapter(invitedMemberAdapter);
   }
-
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT
-        && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
-    }
-    return color;
-  }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(mToolbar);
-    getSupportActionBar().setTitle("邀请成员");
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-
-  }
-
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,10 +92,13 @@ public class InviteMemberActivity extends AppCompatActivity {
   }
 
   public void inviteOthers() {
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("group_id", group_id);
+    params.put("email", invite_other_email);
     GsonRequest<GsonRequest.FormResult> invite_request =
         new GsonRequest<>(Request.Method.POST,
             APIConstants.BASE_URL + "/user/invite",
-            getHeader(),getParams(),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -146,35 +118,6 @@ public class InviteMemberActivity extends AppCompatActivity {
               }
             });
     executeRequest(invite_request);
-  }
-
-
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-
-  public Map<String, String> getParams() {
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("group_id", group_id);
-    params.put("email", invite_other_email);
-    return params;
-  }
-
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
   }
 
 }

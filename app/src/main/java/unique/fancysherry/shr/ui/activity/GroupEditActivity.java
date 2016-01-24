@@ -2,25 +2,19 @@ package unique.fancysherry.shr.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.util.system.ResourceHelper;
 
-public class GroupEditActivity extends AppCompatActivity {
+public class GroupEditActivity extends BaseActivity {
   @InjectView(R.id.change_group_name_layout_content)
   TextView change_group_name_edittext;
   @InjectView(R.id.change_group_introduce_layout_content)
@@ -31,14 +25,13 @@ public class GroupEditActivity extends AppCompatActivity {
   RelativeLayout change_group_manager_layout;
   @InjectView(R.id.delete_group_btn)
   TextView delete_group_btn;
+  @InjectView(R.id.group_edit_toolbar)
+  Toolbar mToolbar;
 
   private Context context;
   private String group_id;
   private String group_name;
-
   private Bundle complete_bundle;
-
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,71 +42,34 @@ public class GroupEditActivity extends AppCompatActivity {
     group_id = complete_bundle.getString("group_id");
     group_name = complete_bundle.getString("group_name");
     context = this;
+    initializeToolbar(mToolbar);
+  }
 
-    manage_group_member_layout.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+  @OnClick({R.id.manage_group_member_layout, R.id.change_group_manager_layout,
+      R.id.delete_group_btn})
+  public void click(View mView) {
+    switch (mView.getId()) {
+      case R.id.manage_group_member_layout:
         Intent mIntent = new Intent(context, GroupMemberDeleteActivity.class);
         Bundle mBundle = new Bundle();
         mBundle.putString("group_id", group_id);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
-
-      }
-    });
-
-    change_group_manager_layout.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent mIntent = new Intent(context, GroupChangeManagerActivity.class);
-        Bundle mBundle = new Bundle();
-        mBundle.putString("group_id", group_id);
-        mIntent.putExtras(mBundle);
-        startActivity(mIntent);
-
-      }
-    });
-
-    delete_group_btn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent mIntent = new Intent(context, DeleteGroupActivity.class);
-        mIntent.putExtras(complete_bundle);
-        startActivity(mIntent);
-      }
-    });
-
-    initializeToolbar();
-  }
-
-  // Resolve the given attribute of the current theme
-  private int getAttributeColor(int resId) {
-    TypedValue typedValue = new TypedValue();
-    getTheme().resolveAttribute(resId, typedValue, true);
-    int color = 0x000000;
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-      // resId is a color
-      color = typedValue.data;
-    } else {
-      // resId is not a color
+        break;
+      case R.id.change_group_manager_layout:
+        Intent mIntent_change = new Intent(context, GroupMemberDeleteActivity.class);
+        Bundle mBundle_change = new Bundle();
+        mBundle_change.putString("group_id", group_id);
+        mIntent_change.putExtras(mBundle_change);
+        startActivity(mIntent_change);
+        break;
+      case R.id.delete_group_btn:
+        Intent mIntent_delete = new Intent(context, DeleteGroupActivity.class);
+        mIntent_delete.putExtras(complete_bundle);
+        startActivity(mIntent_delete);
+        break;
     }
-    return color;
   }
-
-  protected void initializeToolbar() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      getWindow().setStatusBarColor(getAttributeColor(R.attr.colorPrimaryDark));
-    }
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-    mToolbar.setTitle("");
-    setSupportActionBar(mToolbar);
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-
-  }
-
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
