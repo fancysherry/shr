@@ -243,14 +243,6 @@ public class BrowserFragment extends Fragment {
       }
     });
 
-    // StringBuilder builder = new StringBuilder("<html>");
-    // builder.append("<head>");
-    // builder.append("<link rel=stylesheet href='css/style.css'>");
-    // builder.append("</head>");
-    // builder.append("");
-    // builder.append("</html>");
-
-
     mWebview.setScrollbarFadingEnabled(true);
     mWebview.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
     mWebview.setMapTrackballToArrowKeys(false);
