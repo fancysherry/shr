@@ -27,7 +27,7 @@ public class BaseActivity extends AppCompatActivity {
     }
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setTitle("编辑资料");
+    getSupportActionBar().setTitle("");
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     // mToolbar.setOnMenuItemClickListener(onMenuItemClick);

@@ -35,16 +35,24 @@
 
         >
 
-        <include
-            android:id="@+id/group_manage_activity_toolbar"
-            layout="@layout/include_toolbar"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/group_change_manage_activity_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:elevation="0dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        </android.support.v7.widget.Toolbar>
 
 
         <TextView
             android:id="@+id/group_manage_number"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@id/group_manage_activity_toolbar"
+            android:layout_below="@id/group_change_manage_activity_toolbar"
             android:gravity="center"
             android:paddingTop="10dp"
             android:text="请选择要移交管理员的组员对象"/>

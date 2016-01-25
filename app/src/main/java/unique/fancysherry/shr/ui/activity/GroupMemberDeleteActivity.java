@@ -1,25 +1,8 @@
 package unique.fancysherry.shr.ui.activity;
 
-import android.os.Handler;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.squareup.otto.Subscribe;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
@@ -30,10 +13,28 @@ import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
 import unique.fancysherry.shr.util.LogUtil;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.squareup.otto.Subscribe;
+
 public class GroupMemberDeleteActivity extends BaseActivity {
   @InjectView(R.id.group_member_list)
   RecyclerView group_member_list;
-  @InjectView(R.id.group_manage_activity_toolbar)
+  @InjectView(R.id.group_member_activity_toolbar)
   Toolbar mToolbar;
   private String group_id;
   private Group group;
@@ -47,8 +48,8 @@ public class GroupMemberDeleteActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_group_member_delete);
-    BusProvider.getInstance().register(this);
     ButterKnife.inject(this);
+    BusProvider.getInstance().register(this);
     Bundle mBundle = getIntent().getExtras();
     group_id = mBundle.getString("group_id");
     initAdapter();

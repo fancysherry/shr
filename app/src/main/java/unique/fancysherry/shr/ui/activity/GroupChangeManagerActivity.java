@@ -1,5 +1,19 @@
 package unique.fancysherry.shr.ui.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.adapter.recycleview.MemberManageAdapter;
+import unique.fancysherry.shr.ui.dialog.ConfirmDialog;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.ChangeManageAction;
+import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
+import unique.fancysherry.shr.util.LogUtil;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,33 +29,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.squareup.otto.Subscribe;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.Group;
-import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.adapter.recycleview.MemberManageAdapter;
-import unique.fancysherry.shr.ui.dialog.ConfirmDialog;
-import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.ChangeManageAction;
-import unique.fancysherry.shr.ui.otto.DeleteMemberAction;
-import unique.fancysherry.shr.util.LogUtil;
 
 public class GroupChangeManagerActivity extends BaseActivity {
   @InjectView(R.id.group_manage_list)
   RecyclerView group_manage_list;
   @InjectView(R.id.assure_change_manage_btn)
   TextView assure_change_manage_btn;
-  @InjectView(R.id.group_manage_activity_toolbar)
+  @InjectView(R.id.group_change_manage_activity_toolbar)
   Toolbar mToolbar;
   private String group_id;
   private Group group;
@@ -56,8 +57,8 @@ public class GroupChangeManagerActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_group_change_manager);
-    BusProvider.getInstance().register(this);
     ButterKnife.inject(this);
+    BusProvider.getInstance().register(this);
     initAdapter();
     activity = this;
     Bundle mBundle = getIntent().getExtras();
