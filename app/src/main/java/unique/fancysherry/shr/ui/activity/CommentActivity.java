@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import unique.fancysherry.shr.R;
@@ -50,10 +51,10 @@ public class CommentActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_comment);
+    ButterKnife.inject(this);
     context = this;
     Bundle mBundle = getIntent().getExtras();
     share_id = mBundle.getString("share_id");
-
     comment_sending_progress_text = (TextView) findViewById(R.id.comment_sending_progress_text1);
     comment_send_content = (EditText) findViewById(R.id.comment_send_content);
     comment_send = (LinearLayout) findViewById(R.id.comment_send_layout);

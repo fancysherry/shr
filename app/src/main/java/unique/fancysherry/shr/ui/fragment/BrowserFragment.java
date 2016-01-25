@@ -1,5 +1,23 @@
 package unique.fancysherry.shr.ui.fragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.model.InboxShare;
+import unique.fancysherry.shr.io.model.Share;
+import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.activity.CommentActivity;
+import unique.fancysherry.shr.ui.activity.MainActivity;
+import unique.fancysherry.shr.ui.dialog.ShrDialog;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
+import unique.fancysherry.shr.util.LogUtil;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -7,10 +25,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,44 +40,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.squareup.otto.Subscribe;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
-import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.Group;
-import unique.fancysherry.shr.io.model.InboxShare;
-import unique.fancysherry.shr.io.model.Share;
-import unique.fancysherry.shr.io.model.User;
-import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.activity.BrowserActivity;
-import unique.fancysherry.shr.ui.activity.CommentActivity;
-import unique.fancysherry.shr.ui.activity.MainActivity;
-import unique.fancysherry.shr.ui.dialog.ShrDialog;
-import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
-import unique.fancysherry.shr.ui.otto.ShareUrlAction;
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
-import unique.fancysherry.shr.util.readability.Readability;
-
 /**
  * Created by Dsnc on 6/28/14.
  */
-public class BrowserFragment extends Fragment {
+public class BrowserFragment extends BaseFragment {
 
   public static final String KEY_URL = "key_url";
   public static final String SHARE_TYPE = "share_type";
@@ -175,14 +166,14 @@ public class BrowserFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_browser, container, false);
     ButterKnife.inject(this, view);
     if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
       webview_bottom_layout.setVisibility(View.INVISIBLE);
-    }
-    else {
+    } else {
       webview_bottom_comment_button.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -194,41 +185,34 @@ public class BrowserFragment extends Fragment {
       });
     }
 
-    webview_top_primary_button.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+    initWebView();
+    refreshData();
+    loadContentData();
+    return view;
+  }
+
+  @OnClick({R.id.webview_top_primary_button, R.id.webview_top_share_button,
+      R.id.webview_bottom_dismiss_button, R.id.webview_bottom_like_button})
+  public void click(View mView) {
+    switch (mView.getId()) {
+      case R.id.webview_top_primary_button:
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
-      }
-    });
-    webview_top_share_button.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+        break;
+      case R.id.webview_top_share_button:
         getUserData();
-      }
-    });
-
-
-    webview_bottom_dismiss_button.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+        break;
+      case R.id.webview_bottom_dismiss_button:
         getActivity().finish();
-      }
-    });
-    webview_bottom_like_button.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+        break;
+      case R.id.webview_bottom_like_button:
         if (webview_bottom_like_button.getTag().toString().equals("like"))
           thank_request();
         else if (webview_bottom_like_button.getTag().toString().equals("cancel like"))
           cancel_thank_request();
         refreshData();
-      }
-    });
-    initWebView();
-    refreshData();
-    loadContentData();
-    return view;
+        break;
+    }
   }
 
   private void initWebView() {
@@ -447,8 +431,7 @@ public class BrowserFragment extends Fragment {
     executeRequest(cancel_thank_request);
   }
 
-  public void start_dialog()
-  {
+  public void start_dialog() {
     // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
     // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
     // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
@@ -492,14 +475,10 @@ public class BrowserFragment extends Fragment {
                 }
               });
       executeRequest(group_share_url_request);
-    }
-    else if (share_type.equals(APIConstants.INBOX_SHARE_TYPE))
-    {
-      if (group_name.equals("@me"))
-      {
+    } else if (share_type.equals(APIConstants.INBOX_SHARE_TYPE)) {
+      if (group_name.equals("@me")) {
         Toast.makeText(getActivity(), "shr已经在inboxshare中", Toast.LENGTH_SHORT).show();
-      }
-      else {
+      } else {
         group_inboxshare_url_request =
             new GsonRequest<>(Request.Method.PUT,
                 APIConstants.BASE_URL + "/inbox_share",
@@ -549,30 +528,10 @@ public class BrowserFragment extends Fragment {
     return params;
   }
 
-  public Map<String, String> getHeader()
-  {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-  public Map<String, String> getParams()
-  {
+  public Map<String, String> getParams() {
     Map<String, String> params = new HashMap<String, String>();
     params.put("share_id", share_id);
     return params;
-  }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
   }
 
   @Subscribe

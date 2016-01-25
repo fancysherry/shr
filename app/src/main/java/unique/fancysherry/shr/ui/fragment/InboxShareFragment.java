@@ -55,7 +55,7 @@ import unique.fancysherry.shr.util.config.SApplication;
  * Use the {@link InboxShareFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InboxShareFragment extends Fragment {
+public class InboxShareFragment extends BaseFragment {
   private List<InboxShare> inbox_shares_data = new ArrayList<>();
   private InboxShareAdapter inboxShareAdapter;
 
@@ -256,25 +256,5 @@ public class InboxShareFragment extends Fragment {
             });
     executeRequest(group_share_request);
   }
-
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-
-    headers
-        .put(
-                "User-Agent",
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
-
 
 }

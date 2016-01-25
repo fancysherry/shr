@@ -98,6 +98,8 @@
                 android:background="@color/pure_white"
                 android:orientation="horizontal"
                 android:paddingBottom="20dp"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp"
                 android:paddingTop="30dp"
                 >
 

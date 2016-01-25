@@ -30,19 +30,15 @@ import unique.fancysherry.shr.util.config.SApplication;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewGroupFragment extends Fragment {
-
+public class NewGroupFragment extends BaseFragment {
   OnNewGroupListener onNewGroupLisner;
-
-  public interface OnNewGroupListener
-  {
+  public interface OnNewGroupListener {
     public void OnNewGroupFinish(String group_name);
   }
 
   private EditText new_group_name;
   private EditText new_group_introduce;
   private ImageView new_group_button;
-
   private Handler mHandler;
   private Runnable mRunnable;
 
@@ -51,7 +47,6 @@ public class NewGroupFragment extends Fragment {
 
 
   public NewGroupFragment() {
-
     // Required empty public constructor
   }
 
@@ -59,7 +54,6 @@ public class NewGroupFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
     mHandler = new Handler();
     mRunnable = new Runnable() {
       @Override
@@ -68,10 +62,7 @@ public class NewGroupFragment extends Fragment {
         onNewGroupLisner.OnNewGroupFinish(group_name_input);
       }
     };
-
-
     // Inflate the layout for this fragment
-
     View view = inflater.inflate(R.layout.fragment_new_group, container, false);
     new_group_name = (EditText) view.findViewById(R.id.new_group_name);
     new_group_introduce = (EditText) view.findViewById(R.id.new_group_introduce);
@@ -82,12 +73,10 @@ public class NewGroupFragment extends Fragment {
         new_group_request();
       }
     });
-
     return view;
   }
 
-  public void new_group_request()
-  {
+  public void new_group_request() {
     GsonRequest<GsonRequest.FormResult> comment_request =
         new GsonRequest<>(Request.Method.POST,
             APIConstants.BASE_URL + "/group", getHeader(),
@@ -112,11 +101,9 @@ public class NewGroupFragment extends Fragment {
     executeRequest(comment_request);
   }
 
-
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-
     // This makes sure that the container activity has implemented
     // the callback interface. If not, it throws an exception
     try {
@@ -127,38 +114,13 @@ public class NewGroupFragment extends Fragment {
     }
   }
 
-
-  public Map<String, String> getHeader()
-  {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-
-    return headers;
-  }
-
-
-  public Map<String, String> getParams()
-  {
+  public Map<String, String> getParams() {
     group_name_input = new_group_name.getText().toString();
     group_intro_input = new_group_introduce.getText().toString();
     Map<String, String> params = new HashMap<String, String>();
     params.put("name", group_name_input);
     params.put("intro", group_intro_input);
     return params;
-  }
-
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
   }
 
 

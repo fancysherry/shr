@@ -1,38 +1,8 @@
 package unique.fancysherry.shr.ui.fragment;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.Notify;
@@ -45,8 +15,31 @@ import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.BadgeView;
 import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.otto.Subscribe;
 
 
 /**
@@ -55,7 +48,7 @@ import butterknife.InjectView;
  * href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class DrawerFragment extends Fragment {
+public class DrawerFragment extends BaseFragment {
   /**
    * A pointer to the current callbacks instance (the Activity).
    */
@@ -119,21 +112,7 @@ public class DrawerFragment extends Fragment {
 
       }
     };
-
-    // // Read in the flag indicating whether or not the user has demonstrated awareness of the
-    // // drawer. See PREF_USER_LEARNED_DRAWER for details.
-    // SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    // mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
-    //
-    // if (savedInstanceState != null) {
-    // mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-    // item_max_size = savedInstanceState.getInt(ITEM_MAX_SIZE_VALUE);
-    // group_name_list = savedInstanceState.getStringArrayList(ITEM_LIST);
-    // mFromSavedInstanceState = true;
-    // }
   }
-
-
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -183,8 +162,7 @@ public class DrawerFragment extends Fragment {
 
 
 
-  public void initAdapter()
-  {
+  public void initAdapter() {
     mDrawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
         LinearLayoutManager.VERTICAL, false));
     drawItemAdapter = new DrawItemAdapter(getActivity());
@@ -194,8 +172,7 @@ public class DrawerFragment extends Fragment {
       public void onItemClick(View view, Group group) {
         if (group.name != null)
           selectItem(group.name);
-        else
-        {
+        else {
           if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
           }
@@ -209,19 +186,16 @@ public class DrawerFragment extends Fragment {
   }
 
   // 重新获取数据
-  public void refresh()
-  {
+  public void refresh() {
     getUserData();
   }
 
   // 更新适配器数据
-  public void refreshData(List<Group> groups)
-  {
+  public void refreshData(List<Group> groups) {
     drawItemAdapter.setData(groups, null);
   }
 
-  private String getListTitle(int position)
-  {
+  private String getListTitle(int position) {
     // if (position == 0)
     // return getString(R.string.fragment_notification);
     // else if (2 <= position && position < item_max_size)
@@ -231,7 +205,6 @@ public class DrawerFragment extends Fragment {
     // else
     return null;
   }
-
 
   /**
    * Users of this fragment must call this method to set up the navigation drawer interactions.
@@ -247,9 +220,7 @@ public class DrawerFragment extends Fragment {
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
     mDrawerLayout.setStatusBarBackground(R.color.drawer_header_background);
     // set up the drawer's list view with items and click listener
-
   }
-
 
   private void selectItem(String group_name) {
     if (mDrawerLayout != null) {
@@ -274,18 +245,6 @@ public class DrawerFragment extends Fragment {
   public void onDetach() {
     super.onDetach();
     mCallbacks = null;
-  }
-
-  // @Override
-
-  // super.onSaveInstanceState(outState);
-  // outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
-  // outState.putInt(ITEM_MAX_SIZE_VALUE, item_max_size);
-  // outState.putStringArrayList(ITEM_LIST, group_name_list);
-  // }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
   }
 
   public void get_invite_list() {
@@ -333,20 +292,6 @@ public class DrawerFragment extends Fragment {
     executeRequest(group_share_request);
   }
 
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
   // public void onSaveInstanceState(Bundle outState) {
   public static interface NavigationDrawerCallbacks {
     /**
@@ -377,5 +322,6 @@ public class DrawerFragment extends Fragment {
     BusProvider.getInstance().unregister(this);
     super.onDestroy();
   }
+
 
 }

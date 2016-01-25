@@ -48,7 +48,7 @@ import unique.fancysherry.shr.util.config.SApplication;
  * Use the {@link NotificationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationFragment extends Fragment {
+public class NotificationFragment extends BaseFragment {
   private RecyclerView invite_list;
   private Runnable runnable_get_invite_list;
   private Runnable runnable_accept_invite;
@@ -98,21 +98,6 @@ public class NotificationFragment extends Fragment {
     notificationInviteAdapter = new NotificationInviteAdapter(getActivity());
     invite_list.setAdapter(notificationInviteAdapter);
 
-  }
-
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
   }
 
   public void get_invite_list() {
@@ -177,9 +162,6 @@ public class NotificationFragment extends Fragment {
     executeRequest(has_read_request);
   }
 
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
 
   // 这个注解一定要有,表示订阅了TestAction,并且方法的用 public 修饰的.方法名可以随意取,重点是参数,它是根据你的参数进行判断
   @Subscribe

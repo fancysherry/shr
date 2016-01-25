@@ -54,18 +54,13 @@ import unique.fancysherry.shr.util.config.SApplication;
  * Use the {@link ShareContentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShareContentFragment extends Fragment {
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
-
+public class ShareContentFragment extends BaseFragment {
   private static String group_name;
   private String group_id;
-
   private List<Share> shares_data = null;
   private RecyclerView share_list;
   private LinearLayout linearLayout;
   private Button first_shr_bt;
-
   private GroupShareAdapter groupShareAdapter;
   private List<Share> mShares;
   private Handler handler;
@@ -81,46 +76,10 @@ public class ShareContentFragment extends Fragment {
   OnGetGroupIdListener onGetGroupIdListener;
 
 
-  public interface OnGetGroupIdListener
-  {
+  public interface OnGetGroupIdListener {
     void OnGetGroupId(String id);
-
     void OnGetGroupName(String name);
   }
-
-//  public void start_dialog()
-//  {
-//    // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
-//    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
-//    // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
-//    for (int i = 0; i < 10; i++) {
-//      test_taggroup.add("test");
-//      LogUtil.e("test");
-//    }
-//    /**
-//     * 为了不重复显示dialog，在显示对话框之前移除正在显示的对话框。
-//     */
-//    FragmentTransaction ft = getFragmentManager().beginTransaction();
-//    Fragment fragment = getFragmentManager().findFragmentByTag("ShrDialog");
-//    if (null != fragment) {
-//      ft.remove(fragment);
-//    }
-//    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup);
-//    dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
-//    dialogFragment.show(ft, "ShrDialog");
-//    // tagGroup.setTagsDailog(test_taggroup);
-//    // LogUtil.e("tagGroup:"+tagGroup.getChildCount());
-//    // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-//    // @Override
-//    // public void onTagClick(String tag) {
-//    // if (tag.equals("..."))
-//    // tagGroup.setAllTagsDailog(test_taggroup);
-//    // else if (tag.equals("<-"))
-//    // tagGroup.setTagsDailog(test_taggroup);
-//    // }
-//    // });
-//    // showDialog(Gravity.CENTER,diaglog_view);
-//  }
 
   /**
    * Use this factory method to create a new instance of
@@ -151,13 +110,6 @@ public class ShareContentFragment extends Fragment {
       }
     };
 
-    // runnable_tagGroup = new Runnable() {
-    // @Override
-    // public void run() {
-    // // initData();
-    // }
-    // };
-
     runnable_changle_layout = new Runnable() {
       @Override
       public void run() {
@@ -172,65 +124,6 @@ public class ShareContentFragment extends Fragment {
       }
     };
   }
-
-//  private void showDialog(int gravity, View diaglog_view) {
-//    Holder holder = new ViewHolder(R.layout.dialog_shr_content_test);
-//
-//    dialog_intro_input = (EditText) diaglog_view.findViewById(R.id.dialog_shr_content_intro);
-//
-//    OnClickListener clickListener = new OnClickListener() {
-//      @Override
-//      public void onClick(DialogPlus dialog, View view) {
-//        switch (view.getId()) {
-//        // case R.id.dialog_shr_content_tagview1:
-//        // break;
-//        //
-//        // case R.id.dialog_shr_content_tagview2:
-//        // break;
-//        // case R.id.dialog_shr_content_tagview3:
-//          case R.id.user_groups_tagGroup:
-//            // LogUtil.e("################# click");
-//            //
-//            // // post_share_url();
-//            // tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
-//            // @Override
-//            // public void onTagClick(String tag) {
-//            // if (tag.equals("..."))
-//            // tagGroup.setAllTags(test_taggroup);
-//            // else if (tag.equals("<-"))
-//            // tagGroup.setTags(test_taggroup);
-//            // else
-//            // {
-//            // Toast.makeText(getActivity(), "We're glad that you love it" + tag,
-//            // Toast.LENGTH_LONG).show();
-//            // }
-//            // }
-//            // });
-//            break;
-//
-//        }
-//        dialog.dismiss();
-//      }
-//    };
-//    OnDismissListener dismissListener = new OnDismissListener() {
-//      @Override
-//      public void onDismiss(DialogPlus dialog) {}
-//    };
-//    showOnlyContentDialog(holder, gravity, dismissListener, clickListener);
-//  }
-//
-//  private void showOnlyContentDialog(Holder holder, int gravity,
-//      OnDismissListener dismissListener, OnClickListener clickListener
-//      ) {
-//    final DialogPlus dialog = DialogPlus.newDialog(getActivity())
-//        .setContentHolder(holder)
-//        .setGravity(gravity)
-//        .setOnDismissListener(dismissListener)
-//        .setCancelable(true)
-//        .setOnClickListener(clickListener)
-//        .create();
-//    dialog.show();
-//  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -346,20 +239,6 @@ public class ShareContentFragment extends Fragment {
     executeRequest(group_share_request);
   }
 
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
 
   public void getUserData() {
     GsonRequest<User> group_share_request =
@@ -435,8 +314,5 @@ public class ShareContentFragment extends Fragment {
     }
   }
 
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
 
 }
