@@ -205,4 +205,16 @@ public class DateUtil {
     return df.format(new Date());// new Date()为获取当前系统时间
   }
 
+
+  public static String getTime4(String time)
+  {
+    Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]");
+    Matcher matcher = pattern.matcher(time);
+    if (matcher.find()) {
+      return matcher.group(0);
+    }
+    else
+      return null;
+  }
+
 }

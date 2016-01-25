@@ -1,42 +1,10 @@
 package unique.fancysherry.shr.ui.activity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
@@ -48,8 +16,37 @@ import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.widget.BlacklistPopupWindow;
 import unique.fancysherry.shr.ui.widget.TagGroup;
+import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import unique.fancysherry.shr.util.system.DensityUtils;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.otto.Subscribe;
 
 public class UserActivity extends BaseActivity {
   @InjectView(R.id.user_portrait)
@@ -149,9 +146,7 @@ public class UserActivity extends BaseActivity {
       });
       mUser = getIntent().getParcelableExtra("user");
       initData();
-    }
-    else if (getIntent().getExtras().getString("user_id") != null)
-    {
+    } else if (getIntent().getExtras().getString("user_id") != null) {
       is_mine_id = getIntent().getExtras().getString("user_id");
       getUserData(is_mine_id);
     }
@@ -246,7 +241,6 @@ public class UserActivity extends BaseActivity {
     executeRequest(cancel_put_blacklist_request);
   }
 
-
   public void getUserData(String user_id) {
     GsonRequest<User> user_request =
         new GsonRequest<>(Request.Method.GET,
@@ -293,24 +287,6 @@ public class UserActivity extends BaseActivity {
     executeRequest(user_request);
   }
 
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
-
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
@@ -323,26 +299,9 @@ public class UserActivity extends BaseActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  private void initData()
-  {
-    // user_edit.setOnClickListener(new View.OnClickListener() {
-    // @Override
-    // public void onClick(View v) {
-    // Intent mIntent = new Intent(context, UserInformationResetActivity.class);
-    // mIntent.putExtra("user_id", mUser.id);
-    // startActivity(mIntent);
-    // }
-    // });
-    // mUser = getIntent().getParcelableExtra("user");
-    shr_number.setText(String.valueOf(mUser.shares.size()) + " 分享");
-    gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum) + " 感谢");
-    group_name.setText(mUser.groups.get(0).name);
-    user_attend_time.setText(getTime(mUser.register_time));
-    introduce.setText(mUser.brief);
-    getSupportActionBar().setTitle(mUser.nickname);
-    // Log.e("nickname", mUser.nickname);
-    imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
-    user_nickname.setText(mUser.nickname);
+  public void initAdapter() {
+    int viewHeight = DensityUtils.dp2px(this, 112) * mUser.shares.size();
+    shr_list.getLayoutParams().height = viewHeight;
     shr_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
     userShareAdapter = new UserShareAdapter(this);
@@ -358,6 +317,17 @@ public class UserActivity extends BaseActivity {
         startActivity(mIntent);
       }
     });
+  }
+
+  private void initData() {
+    shr_number.setText(String.valueOf(mUser.shares.size()) + " 分享");
+    gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum) + " 感谢");
+    group_name.setText(mUser.groups.get(0).name);
+    user_attend_time.setText(DateUtil.getTime4(mUser.register_time));
+    introduce.setText(mUser.brief);
+    imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
+    user_nickname.setText(mUser.nickname);
+    initAdapter();
 
 
     if (mUser.groups.size() <= 20) {
@@ -367,8 +337,6 @@ public class UserActivity extends BaseActivity {
         test_taggroup.add(mUser.groups.get(i).name);
         // Log.e("groups index "+i, mUser.groups.get(i).name);
       }
-      Log.e("test_taggroup", String.valueOf(test_taggroup.size()));
-      Log.e("groups", String.valueOf(mUser.groups.size()));
       tagGroup.setTags(test_taggroup);
       tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
         @Override
@@ -379,29 +347,15 @@ public class UserActivity extends BaseActivity {
             tagGroup.setTags(test_taggroup);
         }
       });
-    }
-    else {
+    } else {
       Toast.makeText(this, "你创建的组超过了20个", Toast.LENGTH_LONG).show();
     }
-
-  }
-
-  private String getTime(String time)
-  {
-    Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]");
-    Matcher matcher = pattern.matcher(time);
-    if (matcher.find()) {
-      return matcher.group(0);
-    }
-    else
-      return null;
   }
 
   // 这个注解一定要有,表示订阅了TestAction,并且方法的用 public 修饰的.方法名可以随意取,重点是参数,它是根据你的参数进行判断
   @Subscribe
   public void onChangeAvatar(DataChangeAction dataChangeAction) {
-    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR))
-    {
+    if (dataChangeAction.getStr().equals(DataChangeAction.CHANGE_AVATAR)) {
       getUserData();
     }
   }
