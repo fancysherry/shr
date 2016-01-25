@@ -1,5 +1,29 @@
 package unique.fancysherry.shr.ui.activity;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountManager;
+import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.fragment.DrawerFragment;
+import unique.fancysherry.shr.ui.fragment.InboxShareFragment;
+import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
+import unique.fancysherry.shr.ui.fragment.NotificationFragment;
+import unique.fancysherry.shr.ui.fragment.ShareContentFragment;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
+import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.UrlFromString;
+import unique.fancysherry.shr.util.config.LocalConfig;
+import unique.fancysherry.shr.util.config.SApplication;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -23,37 +47,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.squareup.otto.Subscribe;
 
-import org.json.JSONArray;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
-import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.User;
-import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.fragment.DrawerFragment;
-import unique.fancysherry.shr.ui.fragment.InboxShareFragment;
-import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
-import unique.fancysherry.shr.ui.fragment.NotificationFragment;
-import unique.fancysherry.shr.ui.fragment.ShareContentFragment;
-import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.DataChangeAction;
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.UrlFromString;
-import unique.fancysherry.shr.util.config.LocalConfig;
-import unique.fancysherry.shr.util.config.SApplication;
-
 
 public class MainActivity extends BaseMainActivity
-    implements DrawerFragment.NavigationDrawerCallbacks,
-    NewGroupFragment.OnNewGroupListener, ShareContentFragment.OnGetGroupIdListener {
-
+    implements
+      DrawerFragment.NavigationDrawerCallbacks,
+      NewGroupFragment.OnNewGroupListener,
+      ShareContentFragment.OnGetGroupIdListener {
   public FragmentManager fragmentManager;
-
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
    */
@@ -62,14 +62,14 @@ public class MainActivity extends BaseMainActivity
   private Activity activity;
 
   private String now_group_id;
-
   private String now_group_name;
+
   private String text_from_clipboard = null;
+  private ClipboardManager clipboard = null;
 
   private User user;
   private Handler handler;
   private Runnable runnable;
-  private ClipboardManager clipboard = null;
 
   private EditText dialog_intro_input;
   private ImageView group_intro;
@@ -121,14 +121,14 @@ public class MainActivity extends BaseMainActivity
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
       switch (menuItem.getItemId()) {
-      // case R.id.action_edit:
-      // Intent mIntent = new Intent(activity, GroupActivity.class);
-      // Bundle mBundle = new Bundle();
-      // mBundle.putString("group_id", now_group_id);
-      // mBundle.putString("group_name", now_group_name);
-      // mIntent.putExtras(mBundle);
-      // startActivity(mIntent);
-      // break;
+        // case R.id.action_edit:
+        // Intent mIntent = new Intent(activity, GroupActivity.class);
+        // Bundle mBundle = new Bundle();
+        // mBundle.putString("group_id", now_group_id);
+        // mBundle.putString("group_name", now_group_name);
+        // mIntent.putExtras(mBundle);
+        // startActivity(mIntent);
+        // break;
 
         case R.id.action_settings:
           exit_shr();
@@ -163,8 +163,8 @@ public class MainActivity extends BaseMainActivity
     });
 
 
-    mDrawerFragment = (DrawerFragment)
-        getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+    mDrawerFragment =
+        (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
     mDrawerFragment.setUp(
         R.id.navigation_drawer,
@@ -196,16 +196,14 @@ public class MainActivity extends BaseMainActivity
           .replace(R.id.container, new NotificationFragment())
           .commit();
       group_intro.setVisibility(View.INVISIBLE);
-    }
-    else if (group_name.equals("at_me")) {
+    } else if (group_name.equals("at_me")) {
       fragmentManager
           .beginTransaction()
           .replace(R.id.container,
               InboxShareFragment.newInstance())
           .commit();
       group_intro.setVisibility(View.INVISIBLE);
-    }
-    else {
+    } else {
       fragmentManager
           .beginTransaction()
           .replace(R.id.container,
@@ -300,19 +298,16 @@ public class MainActivity extends BaseMainActivity
   }
 
 
-  private boolean checkShare()
-  {
+  private boolean checkShare() {
     checkClipboard();
     if (text_from_clipboard != null) {
-      if (UrlFromString.pullLinks(text_from_clipboard) != null)
-      {
+      if (UrlFromString.pullLinks(text_from_clipboard) != null) {
         extract_url = UrlFromString.pullLinks(text_from_clipboard);
-//        showMyDialog(Gravity.BOTTOM);
+        // showMyDialog(Gravity.BOTTOM);
         return true;
       } else
         return false;
-    }
-    else
+    } else
       return false;
   }
 
@@ -383,10 +378,19 @@ public class MainActivity extends BaseMainActivity
   }
 
   public void post_share_url(String group_name) {
+    JSONArray mJSONArray = new JSONArray();
+    // String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
+    String intro = dialog_intro_input.getText().toString();
+    Map<String, String> params = new HashMap<>();
+    params.put("url", extract_url);
+    params.put("comment", intro);
+    if (!group_name.equals("inbox_share"))
+      params.put("groups", group_name);
+
     GsonRequest<GsonRequest.FormResult> group_share_url_request =
         new GsonRequest<>(Request.Method.POST,
             APIConstants.BASE_URL + "/share",
-            getHeader(), getParams_share(group_name),
+            getHeader(), params,
             GsonRequest.FormResult.class,
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
@@ -406,19 +410,6 @@ public class MainActivity extends BaseMainActivity
               }
             });
     executeRequest(group_share_url_request);
-  }
-
-  public Map<String, String> getParams_share(String group_name) {
-
-    JSONArray mJSONArray = new JSONArray();
-    // String url = "http://stackoverflow.com/questions/8126299/android-share-browser-url-to-app";
-    String intro = dialog_intro_input.getText().toString();
-    Map<String, String> params = new HashMap<>();
-    params.put("url", extract_url);
-    params.put("comment", intro);
-    if (!group_name.equals("inbox_share"))
-      params.put("groups", group_name);
-    return params;
   }
 
   // 这个注解一定要有,表示订阅了TestAction,并且方法的用 public 修饰的.方法名可以随意取,重点是参数,它是根据你的参数进行判断

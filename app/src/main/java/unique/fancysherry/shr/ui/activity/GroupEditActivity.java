@@ -1,5 +1,11 @@
 package unique.fancysherry.shr.ui.activity;
 
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.Group;
+import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.util.LogUtil;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +15,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import unique.fancysherry.shr.R;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 public class GroupEditActivity extends BaseActivity {
   @InjectView(R.id.change_group_name_layout_content)
-  TextView change_group_name_edittext;
+  TextView change_group_name_text;
   @InjectView(R.id.change_group_introduce_layout_content)
   EditText change_group_introduce_edittext;
   @InjectView(R.id.manage_group_member_layout)
@@ -43,6 +53,37 @@ public class GroupEditActivity extends BaseActivity {
     group_name = complete_bundle.getString("group_name");
     context = this;
     initializeToolbar(mToolbar);
+    setData();
+  }
+
+  public void setData() {
+    getGroupData();
+  }
+
+  public void getGroupData() {
+    GsonRequest<Group> group_share_request =
+        new GsonRequest<>(Request.Method.GET,
+            APIConstants.BASE_URL + "/group/info?group_id=" + group_id,
+            getHeader(), null,
+            Group.class,
+            new Response.Listener<Group>() {
+              @Override
+              public void onResponse(final Group pGroup) {
+                runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    change_group_name_text.setText(pGroup.group_name);
+                    change_group_introduce_edittext.setText(pGroup.group_intro);
+                  }
+                });
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(group_share_request);
   }
 
   @OnClick({R.id.manage_group_member_layout, R.id.change_group_manager_layout,

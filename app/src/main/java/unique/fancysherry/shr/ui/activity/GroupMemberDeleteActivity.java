@@ -55,7 +55,6 @@ public class GroupMemberDeleteActivity extends BaseActivity {
     initAdapter();
     getGroupData();
     initializeToolbar(mToolbar);
-
     handler = new Handler();
     runnable = new Runnable() {
       @Override
@@ -63,7 +62,6 @@ public class GroupMemberDeleteActivity extends BaseActivity {
         deleteMemberAdapter.setData(group.users);
       }
     };
-
   }
 
   private void initAdapter() {
@@ -177,6 +175,5 @@ public class GroupMemberDeleteActivity extends BaseActivity {
     super.onDestroy();
     BusProvider.getInstance().unregister(this);
   }
-
 
 }

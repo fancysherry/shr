@@ -465,7 +465,6 @@ public class UserInformationResetActivity extends BaseActivity {
                 if (result.message.equals("success")) {
                   LogUtil.e("reset password success");
                   AccountManager.getInstance().saveNewPassword(new_password);
-
                 }
               }
             }, new Response.ErrorListener() {
