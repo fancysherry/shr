@@ -19,6 +19,7 @@ public class LocalConfig {
   private static final String SHAREDPREF_APP_STATE = "app_state";
 
   private static final String KEY_FIRST_LAUNCH = "first_launch";
+  private static final String KEY_FIRST_REGISTER = "first_register";
 
   /**
    * user config, include:
@@ -45,6 +46,18 @@ public class LocalConfig {
   public static boolean setFirstLaunch(boolean firstLaunch) {
     SharedPreferences.Editor editor = getAppStateSharedpref().edit();
     editor.putBoolean(KEY_FIRST_LAUNCH, firstLaunch);
+    return editor.commit();
+  }
+
+  public static boolean isFirstRegister()
+  {
+    SharedPreferences userConfig = getAppStateSharedpref();
+    return userConfig.getBoolean(KEY_FIRST_REGISTER, true);
+  }
+
+  public static boolean setFirstRegister(boolean firstRegister) {
+    SharedPreferences.Editor editor = getAppStateSharedpref().edit();
+    editor.putBoolean(KEY_FIRST_REGISTER, firstRegister);
     return editor.commit();
   }
 

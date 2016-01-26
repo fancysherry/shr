@@ -160,8 +160,6 @@ public class DrawerFragment extends BaseFragment {
     return view;
   }
 
-
-
   public void initAdapter() {
     mDrawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
         LinearLayoutManager.VERTICAL, false));

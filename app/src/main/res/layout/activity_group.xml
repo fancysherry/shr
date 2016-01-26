@@ -190,6 +190,7 @@
                         android:id="@+id/manage_group_layout_manage"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
+                        android:layout_marginTop="10dp"
                         android:background="@color/pure_white"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -453,7 +454,7 @@
                             android:id="@+id/active_member_notmanage"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="10dp"
                             android:background="@color/pure_white"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
@@ -606,11 +607,10 @@
                             android:id="@+id/group_member_notmanage"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="10dp"
                             android:background="@color/pure_white"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
-
 
                             <TextView
                                 android:id="@+id/group_member_text_notmanage"
@@ -633,8 +633,6 @@
                             android:paddingRight="25dp" />
                     </LinearLayout>
                 </LinearLayout>
-
-
             </FrameLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

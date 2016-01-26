@@ -11,72 +11,44 @@ import unique.fancysherry.shr.io.request.LoginRequest;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.LocalConfig;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-public class LoginActivity extends BaseActivity {
-  @InjectView(R.id.login_activity_login_button)
-  Button login_button;
-  @InjectView(R.id.login_username)
-  EditText login_username;
-  @InjectView(R.id.login_password)
-  EditText login_password;
-  private Context context;
-  private LoginRequest<LoginRequest.FormResult> login_request;
-  private String username;
-  private String password;
-
+public class WelcomeActivity extends BaseActivity {
+  public Activity activity;
+  public LoginRequest<LoginRequest.FormResult> login_request;
+  public String username;
+  public String password;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    LogUtil.e("login_start");
-    context = this;
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    setContentView(R.layout.activity_login);
+    setContentView(R.layout.activity_welcome);
     ButterKnife.inject(this);
-    AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
-    username = mAccountBean.username;
-    login_username.setText(username);
+    activity = this;
   }
 
-  @OnClick({R.id.login_activity_login_button, R.id.login_activity_register_button,
-      R.id.login_activity_forget_password_button})
+  @OnClick({R.id.welcome_activity_text})
   public void click(View mView) {
     switch (mView.getId()) {
-      case R.id.login_activity_login_button:
-        username = login_username.getText().toString();
-        password = login_password.getText().toString();
-        if (username == null || username.equals(""))
-          Toast.makeText(context, "用户名不能为空", Toast.LENGTH_SHORT).show();
-        else if (password == null || password.equals(""))
-          Toast.makeText(context, "密码不能为空", Toast.LENGTH_SHORT).show();
-        else
-          start();
-        break;
-      case R.id.login_activity_register_button:
-        Intent intent_register = new Intent(context, RegisterActivity.class);
-        startActivity(intent_register);
-        finish();
-        break;
-      case R.id.login_activity_forget_password_button:
+      case R.id.welcome_activity_text:
+        AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
+        username = mAccountBean.username;
+        password = mAccountBean.pwd;
+        start();
         break;
     }
   }
+
 
   private void start() {
     Map<String, String> params = new HashMap<String, String>();
@@ -103,21 +75,16 @@ public class LoginActivity extends BaseActivity {
   }
 
   protected void loginSuccessfully(LoginRequest.FormResult model) {
+    String sessionid = login_request.cookies;
     // 多账号
     // if (AccountManager.getInstance().getCurrentUser() == null) {
     AccountManager.getInstance().addAccount(new AccountBean(username, password));
     // }
     AccountManager.getInstance().getCurrentUser().getCookieHolder()
-        .saveCookie(login_request.cookies);
+        .saveCookie(sessionid);
     LocalConfig.setFirstLaunch(false);
-    Intent mIntent = new Intent(context, MainActivity.class);
-    startActivity(mIntent);
+    Intent intent_enter_mainactivity = new Intent(activity, MainActivity.class);
+    startActivity(intent_enter_mainactivity);
     finish();
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    ButterKnife.reset(this);
   }
 }

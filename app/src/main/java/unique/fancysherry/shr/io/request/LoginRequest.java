@@ -21,9 +21,7 @@ import unique.fancysherry.shr.util.TextUtil;
  */
 public class LoginRequest<T> extends Request<T> {
   private final Response.Listener<T> mListener;
-
   private Gson mGson;
-
   private Class<T> mClass;
 
 

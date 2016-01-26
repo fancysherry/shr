@@ -69,7 +69,7 @@
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_user_information_reset">UserInformationResetActivity</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_group_member">GroupMemberActivity</string>
     <string name="title_activity_actionbar_cast">ActionbarCastActivity</string>
@@ -78,6 +78,8 @@
     <string name="title_activity_group_manage">GroupManageActivity</string>
     <string name="title_activity_delete_group">DeleteGroupActivity</string>
     <string name="title_activity_group_change_manager">GroupChangeManagerActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_launcher">LauncherActivity</string>
 
 
 </resources>
