@@ -49,6 +49,7 @@
             android:gravity="center_vertical"
             android:hint="请输入邮箱/手机号"
             android:paddingLeft="75dp"
+            android:textColorHint="#c2c2c2"
             android:textSize="14sp" />
 
         <TextView
@@ -57,6 +58,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textSize="14sp"
+            android:textColor="#333333"
             android:text="账号"/>
 
         <View
@@ -92,6 +94,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textSize="14sp"
+            android:textColor="#333333"
             android:text="用户名" />
 
         <View
@@ -128,6 +131,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textSize="14sp"
+            android:textColor="#333333"
             android:text="密码" />
 
         <View
@@ -161,6 +165,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textSize="14sp"
+            android:textColor="#333333"
             android:text="确认密码" />
 
         <View
@@ -173,24 +178,24 @@
     <Button
         android:id="@+id/register_activity_register_button"
         android:layout_width="270dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button_corner"
         android:text="注册"
         android:textColor="@color/pure_white"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/register_activity_login_button"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="270dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
         android:text="登陆"
-        android:textSize="17sp" />
-
+        android:textColor="#46c4d0"
+        android:textSize="15sp" />
 
 </LinearLayout>

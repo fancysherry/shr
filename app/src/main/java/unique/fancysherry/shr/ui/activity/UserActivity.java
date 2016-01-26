@@ -18,6 +18,7 @@ import unique.fancysherry.shr.ui.widget.BlacklistPopupWindow;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.system.DensityUtils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -40,7 +41,6 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import unique.fancysherry.shr.util.system.DensityUtils;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -94,7 +94,6 @@ public class UserActivity extends BaseActivity {
     runnable = new Runnable() {
       @Override
       public void run() {
-        // LogUtil.e(AccountManager.getInstance().getCurrentUser().mAccountBean.username+ "");
         user_edit.setBackgroundResource(R.drawable.ic_more);
         user_edit.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -300,7 +299,7 @@ public class UserActivity extends BaseActivity {
   }
 
   public void initAdapter() {
-    int viewHeight = DensityUtils.dp2px(this, 112) * mUser.shares.size();
+    int viewHeight = (DensityUtils.dp2px(this, 112) + 50) * mUser.shares.size()+100;
     shr_list.getLayoutParams().height = viewHeight;
     shr_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));

@@ -1,9 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                tools:context="unique.fancysherry.shr.ui.activity.BrowserActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pure_white"
+    android:fitsSystemWindows="true"
+    tools:context="unique.fancysherry.shr.ui.activity.BrowserActivity">
 
 
     <!--<include-->
@@ -13,14 +14,14 @@
     <FrameLayout
         android:id="@+id/webview_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/webview_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
 
         </FrameLayout>

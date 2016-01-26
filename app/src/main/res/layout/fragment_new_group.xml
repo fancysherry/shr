@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
-              android:orientation="vertical"
-              tools:context="unique.fancysherry.shr.ui.fragment.NewGroupFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="unique.fancysherry.shr.ui.fragment.NewGroupFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -13,7 +13,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
-        android:text="创建组后，你可以邀请朋友们加入"/>
+        android:text="创建组后，你可以邀请朋友们加入" />
 
     <TextView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginTop="3dp"
         android:gravity="center_horizontal"
-        android:text="分享你们的所见所闻并讨论"/>
+        android:text="分享你们的所见所闻并讨论" />
 
 
     <EditText
@@ -33,7 +33,7 @@
         android:background="@drawable/edittext_normal"
         android:gravity="center_vertical"
         android:hint="组名"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
 
     <EditText
@@ -45,14 +45,15 @@
         android:background="@drawable/edittext_normal"
         android:gravity="center_vertical"
         android:hint="组介绍"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
-    <ImageView
+    <Button
         android:id="@+id/new_group_button"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:background="@color/gray_d8"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal" />
 
 </LinearLayout>

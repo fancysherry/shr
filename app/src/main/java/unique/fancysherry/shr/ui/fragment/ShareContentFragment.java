@@ -131,13 +131,6 @@ public class ShareContentFragment extends BaseFragment {
     // Inflate the layout for this fragment
     View view;
     view = inflater.inflate(R.layout.fragment_share_content, container, false);
-    first_shr_bt = (Button) view.findViewById(R.id.new_group_button);
-    first_shr_bt.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-//        start_dialog();
-      }
-    });
     share_list = (RecyclerView) view.findViewById(R.id.unique_group_share_list);
     share_list.setLayoutManager(new LinearLayoutManager(getActivity(),
         LinearLayoutManager.VERTICAL, false));

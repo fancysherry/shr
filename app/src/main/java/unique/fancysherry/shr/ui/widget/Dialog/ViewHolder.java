@@ -61,7 +61,7 @@ public class ViewHolder implements Holder {
 
   @Override
   public View getView(LayoutInflater inflater, ViewGroup parent) {
-    View view = inflater.inflate(R.layout.dialog_view, parent, false);
+    View view = inflater.inflate(R.layout.dialogplus_view, parent, false);
     ViewGroup contentContainer = (ViewGroup) view.findViewById(R.id.view_container);
     contentContainer.setBackgroundColor(parent.getResources().getColor(getBackgroundColor()));
     contentContainer.setOnKeyListener(new View.OnKeyListener() {

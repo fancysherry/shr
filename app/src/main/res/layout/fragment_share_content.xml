@@ -31,16 +31,16 @@
             android:text="这里还没有人投递内容，有点寂寞～"/>
 
 
-        <Button
-            android:id="@+id/new_group_button"
-            android:layout_width="180dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:background="@color/gray_d8"
-            android:gravity="center"
-            android:text="投递我的第一条share"
-            />
+        <!--<Button-->
+            <!--android:id="@+id/new_group_button"-->
+            <!--android:layout_width="180dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_gravity="center" -->
+            <!--android:layout_marginTop="50dp"-->
+            <!--android:background="@color/gray_d8"-->
+            <!--android:gravity="center"-->
+            <!--android:text="投递我的第一条share"-->
+            <!--/>-->
 
     </LinearLayout>
 

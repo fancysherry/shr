@@ -54,7 +54,7 @@ public class ListHolder implements HolderAdapter, AdapterView.OnItemClickListene
 
   @Override
   public View getView(LayoutInflater inflater, ViewGroup parent) {
-    View view = inflater.inflate(R.layout.dialog_list, parent, false);
+    View view = inflater.inflate(R.layout.dialogplus_list, parent, false);
     listView = (ListView) view.findViewById(R.id.list);
     if (backgroundColor == 0) {
       backgroundColor = android.R.color.white;

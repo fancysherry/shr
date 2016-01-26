@@ -18,7 +18,7 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="colorPrimary">#4fa6ae</item>
         <item name="colorPrimaryDark">#3f848b</item>
-        <item name="colorAccent">#4fa6ae</item>
+        <item name="colorAccent">#46c4d0</item>
     </style>
 
     <!-- Base application theme. -->

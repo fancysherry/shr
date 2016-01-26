@@ -50,7 +50,7 @@ public class BrowserActivity extends BaseActivity {
                   FragmentManager fragmentManager = getSupportFragmentManager();
                   fragmentManager.beginTransaction()
                       .replace(R.id.webview_content,
-                          BrowserFragment.newInstance(share.url, APIConstants.INBOX_SHARE_TYPE, id))
+                          BrowserFragment.newInstance(share.url, APIConstants.INBOX_SHARE_TYPE, id,share.title))
                       .commit();
 
 
@@ -74,7 +74,7 @@ public class BrowserActivity extends BaseActivity {
                   FragmentManager fragmentManager = getSupportFragmentManager();
                   fragmentManager.beginTransaction()
                       .replace(R.id.webview_content,
-                          BrowserFragment.newInstance(share.url, APIConstants.SHARE_TYPE, id))
+                          BrowserFragment.newInstance(share.url, APIConstants.SHARE_TYPE, id,share.title))
                       .commit();
                 }
               }, new Response.ErrorListener() {

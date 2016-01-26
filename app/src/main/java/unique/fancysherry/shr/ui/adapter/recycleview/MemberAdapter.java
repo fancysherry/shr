@@ -25,16 +25,12 @@ import unique.fancysherry.shr.ui.activity.UserActivity;
 /**
  * Created by fancysherry on 15-7-14.
  */
-public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>
-    implements
-    View.OnClickListener
-{
+public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
   private List<User> items = null;
 
   private Context context;
 
-  public MemberAdapter(Context pContext)
-  {
+  public MemberAdapter(Context pContext) {
     this.context = pContext;
     setHasStableIds(true);
   }
@@ -90,26 +86,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
   public long getItemId(int position) {
     return items.get(position).hashCode();
   }
-
-  @Override
-  public void onClick(View v) {
-    if (mOnItemClickListener != null) {
-      // 注意这里使用getTag方法获取数据
-      mOnItemClickListener.onItemClick(v, (User) v.getTag());
-    }
-  }
-
-  private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-
-  public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-    this.mOnItemClickListener = listener;
-  }
-
-  public interface OnRecyclerViewItemClickListener {
-    void onItemClick(View view, User data);
-  }
-
-
 
   public static class ViewHolder extends RecyclerView.ViewHolder
   {

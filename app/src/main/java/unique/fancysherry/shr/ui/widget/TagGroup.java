@@ -1,22 +1,18 @@
 package unique.fancysherry.shr.ui.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import unique.fancysherry.shr.R;
+
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.ui.widget.Dialog.OnItemClickListener;
 
 /**
  * Created by fancysherry on 15-10-6.
@@ -162,13 +158,11 @@ public class TagGroup extends ViewGroup {
       Log.e("tag", "   " + tags[1]);
       appendTag(tags[1]);
       appendTag("@me");
-    }
-    else if (tags.length == 1) {
+    } else if (tags.length == 1) {
       appendTag(tags[0]);
       Log.e("tag", "   " + tags[0]);
       appendTag("@me");
-    }
-    else if (tags.length > 2) {
+    } else if (tags.length > 2) {
       appendTag(tags[0]);
       appendTag(tags[1]);
       appendTag("@me");
@@ -191,11 +185,11 @@ public class TagGroup extends ViewGroup {
    */
   public void setAllTagsDailog(String... tags) {
     removeAllViews();
+    appendTag("@me");
     for (final String tag : tags) {
       appendTag(tag);
       Log.e("tag", "   " + tag);
     }
-    appendTag("@me");
     appendTag("<-");
   }
 
@@ -217,12 +211,10 @@ public class TagGroup extends ViewGroup {
       Log.e("tag", "   " + tags[0]);
       Log.e("tag", "   " + tags[1]);
       appendTag(tags[1]);
-    }
-    else if (tags.length == 1) {
+    } else if (tags.length == 1) {
       appendTag("+");
       appendTag(tags[0]);
-    }
-    else if (tags.length > 2) {
+    } else if (tags.length > 2) {
       appendTag("+");
       appendTag(tags[0]);
       appendTag(tags[1]);

@@ -55,6 +55,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="用户名"
+            android:textColor="#333333"
             android:textSize="14sp" />
 
         <View
@@ -91,6 +92,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="密码"
+            android:textColor="#333333"
             android:textSize="14sp" />
 
         <View
@@ -104,25 +106,26 @@
     <Button
         android:id="@+id/login_activity_login_button"
         android:layout_width="270dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button_corner"
         android:text="登陆"
+        style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/pure_white"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/login_activity_forget_password_button"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="270dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
         android:text="忘记密码?"
         android:textColor="#c2c2c2"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -132,13 +135,13 @@
             android:id="@+id/login_activity_register_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:background="#ffffff"
             android:text="注册"
-            android:textColor="#c2c2c2"
-            android:textSize="17sp" />
+            android:textColor="#46C4D0"
+            android:textSize="15sp" />
     </RelativeLayout>
 
 </LinearLayout>

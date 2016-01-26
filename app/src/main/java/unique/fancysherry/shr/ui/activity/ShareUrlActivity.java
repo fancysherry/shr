@@ -141,7 +141,7 @@ public class ShareUrlActivity extends BaseActivity {
   public void start_dialog()
   {
     // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
-    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
+    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
     // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
     for (int i = 0; i < mUser.groups.size(); i++) {
       test_taggroup.add(mUser.groups.get(i).name);
@@ -155,7 +155,7 @@ public class ShareUrlActivity extends BaseActivity {
     if (null != fragment) {
       ft.remove(fragment);
     }
-    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_OUT);
+    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_OUT,"这是一条分享的标题");
     dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
     dialogFragment.show(ft, "ShrDialog");
     // tagGroup.setTagsDailog(test_taggroup);

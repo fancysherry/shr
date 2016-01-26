@@ -123,8 +123,8 @@ public class DateUtil {
   // 计算日期天数的差值
   public static int dateDValue(String date_max, String date_min) throws ParseException {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    String maxTime = getTime(date_max);
-    String minTime = getTime(date_min);
+    String maxTime = getTime8(date_max);
+    String minTime = getTime8(date_min);
     Date maxTime_val = format.parse(maxTime);
     Date minTime_val = format.parse(minTime);
     return Math.abs((int) (maxTime_val.getTime() - minTime_val.getTime()) / 86400000);
@@ -147,8 +147,8 @@ public class DateUtil {
   // 判断日期是否相同
   public static boolean isDateEquals(String date_max, String date_min) throws ParseException {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    String maxTime = getTime(date_max);
-    String minTime = getTime(date_min);
+    String maxTime = getTime8(date_max);
+    String minTime = getTime8(date_min);
     Date maxTime_val = format.parse(maxTime);
     Date minTime_val = format.parse(minTime);
     if ((int) (maxTime_val.getTime() - minTime_val.getTime()) / 86400000 == 0)
@@ -161,7 +161,7 @@ public class DateUtil {
   // 将日期转化为列表日期的输出格式，eg:今天，昨天，x月x日，
   public static String toListDate(String date) throws ParseException {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    String oldTime = getTime(date);
+    String oldTime = getTime8(date);
     String nowTime = getNowTime();
     Date oldTime_val = format.parse(oldTime);
     Date nowTime_val = format.parse(nowTime);
@@ -183,14 +183,14 @@ public class DateUtil {
   }
 
   public static String toDate(String date) throws ParseException {
-    String time = getTime(date);
+    String time = getTime8(date);
     String date_year = time.substring(0, 4);
     String date_month = time.substring(5, 7);
     String date_day = time.substring(8, 10);
     return date_year + "年" + date_month + "月" + date_day + "日";
   }
 
-  private static String getTime(String time) {
+  public static String getTime8(String time) {
     Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]");
     Matcher matcher = pattern.matcher(time);
     if (matcher.find()) {
@@ -206,8 +206,7 @@ public class DateUtil {
   }
 
 
-  public static String getTime4(String time)
-  {
+  public static String getTime4(String time) {
     Pattern pattern = Pattern.compile("[0-9][0-9][0-9][0-9]");
     Matcher matcher = pattern.matcher(time);
     if (matcher.find()) {

@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="今天"
-        android:textColor="#c2c2c2"
-        android:textSize="15sp"
+        android:textColor="#a3a3a3"
+        android:textSize="13sp"
         />
 
 

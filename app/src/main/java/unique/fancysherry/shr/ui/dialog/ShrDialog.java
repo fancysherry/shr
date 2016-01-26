@@ -1,15 +1,5 @@
 package unique.fancysherry.shr.ui.dialog;
 
-import android.os.Bundle;
-
-import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 
 import unique.fancysherry.shr.R;
@@ -18,6 +8,15 @@ import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
 import unique.fancysherry.shr.ui.otto.ShareUrlAction;
 import unique.fancysherry.shr.ui.widget.TagGroup;
+
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by fancysherry on 15-12-1.
@@ -28,13 +27,16 @@ public class ShrDialog extends DialogFragment {
   private TagGroup user_groups_tagGroup;
   private ImageView dialog_shr_content_exit;
   private String share_location;
+  private String title;
   private static ArrayList<String> test_taggroup = new ArrayList<>();
 
-  public static ShrDialog newInstance(ArrayList<String> test_taggroup, String share_location) {
+  public static ShrDialog newInstance(ArrayList<String> test_taggroup, String share_location,
+      String share_title) {
     ShrDialog dialogFragment = new ShrDialog();
     Bundle bundle = new Bundle();
     bundle.putString(APIConstants.TYPE, share_location);
     bundle.putStringArrayList("taggroup", test_taggroup);
+    bundle.putString("title", share_title);
     dialogFragment.setArguments(bundle);
 
     return dialogFragment;
@@ -46,6 +48,7 @@ public class ShrDialog extends DialogFragment {
 
     share_location = getArguments().getString(APIConstants.TYPE);
     test_taggroup = getArguments().getStringArrayList("taggroup");
+    title = getArguments().getString("title");
 
     // int styleNum = 1;
     // int style = 0;
@@ -77,9 +80,11 @@ public class ShrDialog extends DialogFragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.dialog_shr_content_test, container);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.dialog_shr_content, container);
     dialog_shr_content_title = (TextView) view.findViewById(R.id.dialog_shr_content_title);
+    dialog_shr_content_title.setText(title);
     dialog_shr_content_intro = (EditText) view.findViewById(R.id.dialog_shr_content_intro);
     dialog_shr_content_exit = (ImageView) view.findViewById(R.id.dialog_shr_content_exit);
     dialog_shr_content_exit.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +110,7 @@ public class ShrDialog extends DialogFragment {
             mShareUrlAction.setComment(comment);
             BusProvider.getInstance().post(mShareUrlAction);
           } else if (share_location.equals(APIConstants.SHARE_FORWARD)) {
-            ForwardUrlAction mForwardUrlAction=new ForwardUrlAction();
+            ForwardUrlAction mForwardUrlAction = new ForwardUrlAction();
             mForwardUrlAction.setGroup_name(tag);
             mForwardUrlAction.setComment(comment);
             BusProvider.getInstance().post(mForwardUrlAction);

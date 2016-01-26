@@ -57,10 +57,12 @@ public class BrowserFragment extends BaseFragment {
   public static final String KEY_URL = "key_url";
   public static final String SHARE_TYPE = "share_type";
   public static final String SHARE_ID = "share_id";
+  public static final String SHARE_TITLE="share_title";
 
   private String url;
   private String share_type;
   private String share_id;
+  private String share_title;
   private String html;
   private String group_id;// inboxshare to share
 
@@ -99,12 +101,13 @@ public class BrowserFragment extends BaseFragment {
   ImageView webview_top_primary_button;
 
 
-  public static BrowserFragment newInstance(String url, String share_type, String share_id) {
+  public static BrowserFragment newInstance(String url, String share_type, String share_id,String title) {
     BrowserFragment fragment = new BrowserFragment();
     Bundle args = new Bundle();
     args.putString(KEY_URL, url);
     args.putString(SHARE_TYPE, share_type);
     args.putString(SHARE_ID, share_id);
+    args.putString(SHARE_TITLE,title);
     fragment.setArguments(args);
     return fragment;
   }
@@ -119,6 +122,7 @@ public class BrowserFragment extends BaseFragment {
       url = getArguments().getString(KEY_URL);
       share_type = getArguments().getString(SHARE_TYPE);
       share_id = getArguments().getString(SHARE_ID);
+      share_title=getArguments().getString(SHARE_TITLE);
     }
 
     handler = new Handler();
@@ -433,7 +437,7 @@ public class BrowserFragment extends BaseFragment {
 
   public void start_dialog() {
     // LayoutInflater mLayoutInflater = getActivity().getLayoutInflater();
-    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content_test, null);
+    // View diaglog_view = mLayoutInflater.inflate(R.layout.dialog_shr_content, null);
     // tagGroup = (TagGroup) diaglog_view.findViewById(R.id.user_groups_tagGroup);
     for (int i = 0; i < mUser.groups.size(); i++) {
       test_taggroup.add(mUser.groups.get(i).name);
@@ -447,7 +451,7 @@ public class BrowserFragment extends BaseFragment {
     if (null != fragment) {
       ft.remove(fragment);
     }
-    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_FORWARD);
+    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_FORWARD,share_title);
     dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
     dialogFragment.show(ft, "ForwardShrDialog");
   }
