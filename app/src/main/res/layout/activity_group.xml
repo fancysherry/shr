@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    android:text="UniqueStudio"
+                    android:text=""
                     android:textColor="#ff555555"
                     android:textSize="25sp" />
 
@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
-                        android:text="create in 2015"
+                        android:text=""
                         android:textColor="#ffc2c2c2"
                         android:textSize="13sp" />
 
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:text="这里有天马行空的想象力.."
+                    android:text=""
                     android:textColor="#ffc2c2c2"
                     android:textSize="13sp" />
 
@@ -124,7 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="222"
+                        android:text=""
                         android:textColor="#555555"
                         android:textSize="22sp" />
 
@@ -155,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="333"
+                        android:text=""
                         android:textColor="#555555"
                         android:textSize="22sp" />
 
@@ -186,20 +186,19 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/manage_group_layout_manage"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/pure_white"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:paddingRight="20dp">
 
                         <ImageView
                             android:id="@+id/group_manage_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="16dp"
                             android:src="@drawable/icon_groupsettings" />
 
@@ -207,29 +206,36 @@
                             android:id="@+id/group_manage_text"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/group_manage_button"
                             android:gravity="center_vertical"
                             android:text="组管理"
                             android:textColor="#ff333333"
                             android:textSize="14sp" />
-                    </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/icon_enter" />
+                    </RelativeLayout>
 
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/manage_group_layout_invite"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_marginTop="1dp"
                         android:background="@color/pure_white"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:paddingRight="20dp">
 
                         <ImageView
                             android:id="@+id/group_invite_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="16dp"
                             android:src="@drawable/icon_invitenew" />
 
@@ -237,13 +243,22 @@
                             android:id="@+id/group_invite_text"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:layout_gravity="center_vertical"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@id/group_invite_button"
                             android:gravity="center_vertical"
                             android:text="邀请成员"
                             android:textColor="#ff333333"
                             android:textSize="14sp" />
-                    </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/icon_enter" />
+
+                    </RelativeLayout>
 
 
                     <LinearLayout
