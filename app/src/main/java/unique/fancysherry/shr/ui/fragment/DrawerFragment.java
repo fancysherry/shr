@@ -110,7 +110,6 @@ public class DrawerFragment extends BaseFragment {
         mBadgeView_notify_invite.setBadgeCount(notify_invite_size);
         LogUtil.e("notify_invite_size  " + notify_invite_size);
         notify_invite_size = 0;
-
       }
     };
   }
@@ -121,19 +120,12 @@ public class DrawerFragment extends BaseFragment {
     View view = inflater.inflate(
         R.layout.navigation_drawer, container, false);
     ButterKnife.inject(this, view);
-    drawer_message_title.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        selectItem("notification");
-      }
-    });
-    drawer_at_title.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        selectItem("at_me");
-      }
-    });
+    initView();
+    initAdapter();
+    return view;
+  }
 
+  public void initView() {
     mBadgeView_notify_invite = new BadgeView(getActivity());
     mBadgeView_notify_invite.setTargetView(drawer_message_title);
     mBadgeView_notify_invite.setBadgeMargin(0, 0, 8, 0);
@@ -145,25 +137,26 @@ public class DrawerFragment extends BaseFragment {
     mBadgeView_at.setBadgeMargin(0, 0, 8, 0);
     mBadgeView_at.setBadgeGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT | Gravity.END);
     mBadgeView_at.setBadgeCount(0);
+  }
 
-    portrait.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+  @OnClick({R.id.drawer_add_group_layout, R.id.drawer_setting, R.id.drawer_header_portrait,
+      R.id.drawer_message_title, R.id.drawer_at_title})
+  public void click(View mView) {
+    switch (mView.getId()) {
+      case R.id.drawer_header_portrait:
         Intent mIntent = new Intent(getActivity(), UserActivity.class);
         Bundle mBundle = new Bundle();
         mBundle.putParcelable("user", user);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
         mDrawerLayout.closeDrawers();
-      }
-    });
-    initAdapter();
-    return view;
-  }
-
-  @OnClick({R.id.drawer_add_group_layout, R.id.drawer_setting})
-  public void click(View mView) {
-    switch (mView.getId()) {
+        break;
+      case R.id.drawer_message_title:
+        selectItem("notification");
+        break;
+      case R.id.drawer_at_title:
+        selectItem("at_me");
+        break;
       case R.id.drawer_add_group_layout:
         break;
       case R.id.drawer_setting:
@@ -204,17 +197,6 @@ public class DrawerFragment extends BaseFragment {
   // 更新适配器数据
   public void refreshData(List<Group> groups) {
     drawItemAdapter.setData(groups, null);
-  }
-
-  private String getListTitle(int position) {
-    // if (position == 0)
-    // return getString(R.string.fragment_notification);
-    // else if (2 <= position && position < item_max_size)
-    // return group_name_list.get(position - 2);
-    // else if (position == 1)
-    // return getString(R.string.fragment_share_content);
-    // else
-    return null;
   }
 
   /**
