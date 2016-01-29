@@ -12,6 +12,18 @@
  */
 package unique.fancysherry.shr.ui.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountManager;
+import unique.fancysherry.shr.account.UserBean;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
+import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.config.SApplication;
+import unique.fancysherry.shr.util.system.ResourceHelper;
+
 import android.app.ActivityOptions;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
@@ -26,11 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.DataChangeAction;
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.system.ResourceHelper;
+import com.android.volley.Request;
 
 /**
  * Abstract activity with toolbar, navigation drawer and cast support. Needs to be extended by
@@ -43,8 +51,7 @@ import unique.fancysherry.shr.util.system.ResourceHelper;
  * a {@link ListView} with id 'drawerList'.
  * 在抽象类中抽离出了toolbar和drawertoggle的逻辑
  */
-public abstract class BaseMainActivity extends ActionBarActivity
-{
+public abstract class BaseMainActivity extends ActionBarActivity {
   public Toolbar mToolbar;
   private ActionBarDrawerToggle mDrawerToggle;
   private DrawerLayout mDrawerLayout;
@@ -80,7 +87,7 @@ public abstract class BaseMainActivity extends ActionBarActivity
     @Override
     public void onDrawerOpened(View drawerView) {
       LogUtil.e("drawer open");
-      DataChangeAction mDataChangeAction=new DataChangeAction();
+      DataChangeAction mDataChangeAction = new DataChangeAction();
       mDataChangeAction.setStr(DataChangeAction.MESSAGE_COUNT);
       BusProvider.getInstance().post(mDataChangeAction);
       if (mDrawerToggle != null) mDrawerToggle.onDrawerOpened(drawerView);
@@ -209,8 +216,7 @@ public abstract class BaseMainActivity extends ActionBarActivity
           ResourceHelper.getThemeColor(this, R.attr.colorPrimary, android.R.color.black));
       setSupportActionBar(mToolbar);
       updateDrawerToggle();
-    }
-    else {
+    } else {
       setSupportActionBar(mToolbar);
     }
 
@@ -231,6 +237,25 @@ public abstract class BaseMainActivity extends ActionBarActivity
     if (isRoot) {
       mDrawerToggle.syncState();
     }
+  }
+
+  public Map<String, String> getHeader() {
+    Map<String, String> headers = new HashMap<String, String>();
+    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
+    if (currentUser != null && currentUser.getCookieHolder() != null) {
+      currentUser.getCookieHolder().generateCookieString();
+      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
+    }
+//    headers.put("Accept-Encoding", "gzip, deflate");
+    headers
+        .put(
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+    return headers;
+  }
+
+  public void executeRequest(Request request) {
+    SApplication.getRequestManager().executeRequest(request, this);
   }
 
   /**

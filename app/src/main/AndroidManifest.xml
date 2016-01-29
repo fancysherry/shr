@@ -22,23 +22,22 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.LauncherActivity"
-            android:label="@string/title_activity_launcher"
+            android:label="@string/app_name"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme"></activity>
+            android:theme="@style/FullScreenTheme" />
         <activity android:name=".ui.activity.ShareUrlActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -91,7 +90,6 @@
             android:name=".ui.activity.GroupChangeManagerActivity"
             android:label="@string/title_activity_group_change_manager"
             android:theme="@style/ToolbarTheme" />
-
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -99,6 +97,9 @@
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:theme="@style/ToolbarTheme" />
 
         <service
             android:name=".sync.SyncService"
@@ -112,6 +113,11 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+
+        <activity
+            android:name=".ui.activity.GroupMemberActivity"
+            android:theme="@style/ToolbarTheme" />
+        <activity android:name=".ui.activity.SettingActivity"></activity>
     </application>
 
 </manifest>

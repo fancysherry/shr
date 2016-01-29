@@ -14,7 +14,6 @@ import unique.fancysherry.shr.util.config.LocalConfig;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import butterknife.ButterKnife;
@@ -75,16 +74,14 @@ public class WelcomeActivity extends BaseActivity {
   }
 
   protected void loginSuccessfully(LoginRequest.FormResult model) {
-    String sessionid = login_request.cookies;
-    // 多账号
-    // if (AccountManager.getInstance().getCurrentUser() == null) {
-    AccountManager.getInstance().addAccount(new AccountBean(username, password));
-    // }
+    AccountManager.getInstance()
+        .addAccount(new AccountBean(username, password));
     AccountManager.getInstance().getCurrentUser().getCookieHolder()
-        .saveCookie(sessionid);
+        .saveCookie(login_request.cookies);
     LocalConfig.setFirstLaunch(false);
-    Intent intent_enter_mainactivity = new Intent(activity, MainActivity.class);
-    startActivity(intent_enter_mainactivity);
+    Intent mIntent = new Intent(activity, MainActivity.class);
+    startActivity(mIntent);
     finish();
+
   }
 }

@@ -10,6 +10,7 @@ import unique.fancysherry.shr.io.request.LoginRequest;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.config.LocalConfig;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,10 +21,12 @@ public class LauncherActivity extends BaseActivity {
   public String username;
   public String password;
   private LoginRequest<LoginRequest.FormResult> login_request;
+  private Activity activity;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    activity = this;
     if (LocalConfig.isFirstRegister()) {
       Intent intent_register = new Intent(this, RegisterActivity.class);
       startActivity(intent_register);
@@ -53,7 +56,12 @@ public class LauncherActivity extends BaseActivity {
               public void onResponse(LoginRequest.FormResult result) {
                 if (result.message.equals("success")) {
                   LogUtil.e("login success");
-                  loginSuccessfully(result);
+                  runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                      loginSuccessfully();
+                    }
+                  });
                 }
               }
             }, new Response.ErrorListener() {
@@ -65,18 +73,14 @@ public class LauncherActivity extends BaseActivity {
     executeRequest(login_request);
   }
 
-  protected void loginSuccessfully(LoginRequest.FormResult model) {
-    String sessionid = login_request.cookies;
-    // 多账号
-    // if (AccountManager.getInstance().getCurrentUser() == null) {
-    AccountManager.getInstance().addAccount(new AccountBean(username, password));
-    // }
+  protected void loginSuccessfully() {
+    AccountManager.getInstance()
+        .addAccount(new AccountBean(username, password));
     AccountManager.getInstance().getCurrentUser().getCookieHolder()
-        .saveCookie(sessionid);
+        .saveCookie(login_request.cookies);
     LocalConfig.setFirstLaunch(false);
-    Intent mIntent = new Intent(this, MainActivity.class);
+    Intent mIntent = new Intent(activity, MainActivity.class);
     startActivity(mIntent);
     finish();
   }
-
 }

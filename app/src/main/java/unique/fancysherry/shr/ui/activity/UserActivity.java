@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
@@ -25,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,11 +75,8 @@ public class UserActivity extends BaseActivity {
   private UserShareAdapter userShareAdapter;
   private Activity context;
   private User mUser;
+  public boolean ismine = true;
   private ArrayList<String> test_taggroup = new ArrayList<>();// todo 目前最大组的数量是20个
-  private Handler handler;
-  private Runnable runnable;
-  private Runnable runnable_black;
-  private String is_mine_id;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +87,27 @@ public class UserActivity extends BaseActivity {
     context = this;
     initializeToolbar(mToolbar);
 
-    handler = new Handler();
-    runnable = new Runnable() {
-      @Override
-      public void run() {
+    String mine_user_id = AccountManager.getInstance().getCurrentUser().getAccountBean().id;
+    if (getIntent().getParcelableExtra("user") != null && mine_user_id != null) {
+      mUser = getIntent().getParcelableExtra("user");
+      if (mine_user_id.equals(mUser.id)) {
+        getUserData();
+        user_edit.setBackgroundResource(R.drawable.icon_edit_white);
+        user_edit.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent mIntent = new Intent(context, UserInformationResetActivity.class);
+            mIntent.putExtra("user_id", mUser.id);
+            mIntent.putExtra("user_avatar", mUser.avatar);
+            mIntent.putExtra("user_intro", mUser.brief);
+            mIntent.putExtra("user_name", mUser.nickname);
+            // mIntent.putExtra("user_email", mUser.email);
+            startActivity(mIntent);
+          }
+        });
+      } else if (!mine_user_id.equals(mUser.id)) {
+        getUserData();
+        ismine = false;
         user_edit.setBackgroundResource(R.drawable.ic_more);
         user_edit.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -108,46 +122,9 @@ public class UserActivity extends BaseActivity {
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
           }
         });
-        initData();
       }
-    };
-    runnable_black = new Runnable() {
-      @Override
-      public void run() {
-        if (menuWindow.putblack.getText().equals("屏蔽用户")) {
-          Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
-          // menuWindow.change_text("取消屏蔽");
-          ((TextView) menuWindow.getContentView().findViewById(R.id.putblack)).setText("取消屏蔽");
-        } else if (menuWindow.putblack.getText().equals("取消屏蔽"))
-
-        {
-          Toast.makeText(context, "取消拉黑", Toast.LENGTH_LONG).show();
-          // menuWindow.change_text("屏蔽用户");
-          ((TextView) menuWindow.getContentView().findViewById(R.id.putblack)).setText("屏蔽用户");
-        }
-      }
-    };
-
-
-    if (getIntent().getParcelableExtra("user") != null) {
-      user_edit.setBackgroundResource(R.drawable.icon_edit_white);
-      user_edit.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          Intent mIntent = new Intent(context, UserInformationResetActivity.class);
-          mIntent.putExtra("user_id", mUser.id);
-          mIntent.putExtra("user_avatar", mUser.avatar);
-          mIntent.putExtra("user_intro", mUser.brief);
-          mIntent.putExtra("user_name", mUser.nickname);
-          // mIntent.putExtra("user_email", mUser.email);
-          startActivity(mIntent);
-        }
-      });
-      mUser = getIntent().getParcelableExtra("user");
-      initData();
-    } else if (getIntent().getExtras().getString("user_id") != null) {
-      is_mine_id = getIntent().getExtras().getString("user_id");
-      getUserData(is_mine_id);
+    } else {
+      LogUtil.e("data is null");
     }
   }
 
@@ -157,7 +134,6 @@ public class UserActivity extends BaseActivity {
     public void onClick(View v) {
       // 隐藏弹出窗口
       menuWindow.dismiss();
-
       switch (v.getId()) {
         case R.id.putblack://
           showDialog(ConfirmDialog.PUT_BLACKLIST_CONFIRM);
@@ -193,7 +169,7 @@ public class UserActivity extends BaseActivity {
 
   public void put_blacklist() {
     Map<String, String> params = new HashMap<>();
-    params.put("blacked_user_id", is_mine_id);
+    params.put("blacked_user_id", mUser.id);
 
     GsonRequest<GsonRequest.FormResult> put_blacklist_request =
         new GsonRequest<>(Request.Method.POST,
@@ -204,7 +180,22 @@ public class UserActivity extends BaseActivity {
               @Override
               public void onResponse(GsonRequest.FormResult result) {
                 if (result.message.equals("success")) {
-                  handler.post(runnable_black);
+                  runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                      if (menuWindow.putblack.getText().equals("屏蔽用户")) {
+                        Toast.makeText(context, "拉黑", Toast.LENGTH_LONG).show();
+                        // menuWindow.change_text("取消屏蔽");
+                        ((TextView) menuWindow.getContentView().findViewById(R.id.putblack))
+                            .setText("取消屏蔽");
+                      } else if (menuWindow.putblack.getText().equals("取消屏蔽")) {
+                        Toast.makeText(context, "取消拉黑", Toast.LENGTH_LONG).show();
+                        // menuWindow.change_text("屏蔽用户");
+                        ((TextView) menuWindow.getContentView().findViewById(R.id.putblack))
+                            .setText("屏蔽用户");
+                      }
+                    }
+                  });
                 }
               }
             }, new Response.ErrorListener() {
@@ -218,7 +209,7 @@ public class UserActivity extends BaseActivity {
 
   public void cancel_put_blacklist() {
     Map<String, String> params = new HashMap<>();
-    params.put("cancelled_user_id", is_mine_id);
+    params.put("cancelled_user_id", mUser.id);
 
     GsonRequest<GsonRequest.FormResult> cancel_put_blacklist_request =
         new GsonRequest<>(Request.Method.POST,
@@ -228,8 +219,9 @@ public class UserActivity extends BaseActivity {
             new Response.Listener<GsonRequest.FormResult>() {
               @Override
               public void onResponse(GsonRequest.FormResult result) {
-                if (result.message.equals("success"))
-                  handler.post(runnable_black);
+                if (result.message.equals("success")) {
+                  // todo
+                }
               }
             }, new Response.ErrorListener() {
               @Override
@@ -240,42 +232,23 @@ public class UserActivity extends BaseActivity {
     executeRequest(cancel_put_blacklist_request);
   }
 
-  public void getUserData(String user_id) {
-    GsonRequest<User> user_request =
-        new GsonRequest<>(Request.Method.GET,
-            APIConstants.BASE_URL + "/homepage?uid=" + user_id,
-            getHeader(), null,
-            User.class,
-            new Response.Listener<User>() {
-              @Override
-              public void onResponse(User pUser) {
-                // shareAdapter.setData(shares.shares);
-                // mShares = shares.shares;
-                mUser = pUser;
-                handler.post(runnable);
-              }
-            }, new Response.ErrorListener() {
-              @Override
-              public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
-              }
-            });
-    executeRequest(user_request);
-  }
-
   public void getUserData() {
     GsonRequest<User> user_request =
         new GsonRequest<>(Request.Method.GET,
-            APIConstants.BASE_URL + "/homepage",
+            APIConstants.BASE_URL + "/homepage?uid=" + mUser.id,
             getHeader(), null,
             User.class,
             new Response.Listener<User>() {
               @Override
               public void onResponse(User pUser) {
-                // shareAdapter.setData(shares.shares);
-                // mShares = shares.shares;
                 mUser = pUser;
-                handler.post(runnable);
+                runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    LogUtil.e("get data");
+                    initData();
+                  }
+                });
               }
             }, new Response.ErrorListener() {
               @Override
@@ -299,14 +272,15 @@ public class UserActivity extends BaseActivity {
   }
 
   public void initAdapter() {
-    int viewHeight = (DensityUtils.dp2px(this, 112) + 50) * mUser.shares.size()+100;
+    LogUtil.e("load share list");
+    int viewHeight = (DensityUtils.dp2px(this, 112) + 50) * mUser.shares.size() + 100;
     shr_list.getLayoutParams().height = viewHeight;
     shr_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
     userShareAdapter = new UserShareAdapter(this);
-    userShareAdapter.setData(mUser.shares);
-    shr_list.setAdapter(userShareAdapter);
     shr_list.addItemDecoration(new UserItemDecoration());
+    shr_list.setAdapter(userShareAdapter);
+    userShareAdapter.setData(mUser.shares);
     userShareAdapter.setOnItemClickListener(new UserShareAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Share data) {
@@ -319,6 +293,7 @@ public class UserActivity extends BaseActivity {
   }
 
   private void initData() {
+    LogUtil.e("init data start");
     shr_number.setText(String.valueOf(mUser.shares.size()) + " 分享");
     gratitude_number.setText(String.valueOf(mUser.gratitude_shares_sum) + " 感谢");
     group_name.setText(mUser.groups.get(0).name);
@@ -327,8 +302,6 @@ public class UserActivity extends BaseActivity {
     imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
     user_nickname.setText(mUser.nickname);
     initAdapter();
-
-
     if (mUser.groups.size() <= 20) {
       for (int i = 0; i < mUser.groups.size(); i++) {
         if (mUser.groups.get(i).name == null)

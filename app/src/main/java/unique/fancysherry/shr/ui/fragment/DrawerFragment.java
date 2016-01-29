@@ -9,6 +9,7 @@ import unique.fancysherry.shr.io.model.Notify;
 import unique.fancysherry.shr.io.model.NotifyList;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.activity.SettingActivity;
 import unique.fancysherry.shr.ui.activity.UserActivity;
 import unique.fancysherry.shr.ui.adapter.recycleview.DrawItemAdapter;
 import unique.fancysherry.shr.ui.otto.BusProvider;
@@ -21,7 +22,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -158,6 +159,18 @@ public class DrawerFragment extends BaseFragment {
     });
     initAdapter();
     return view;
+  }
+
+  @OnClick({R.id.drawer_add_group_layout, R.id.drawer_setting})
+  public void click(View mView) {
+    switch (mView.getId()) {
+      case R.id.drawer_add_group_layout:
+        break;
+      case R.id.drawer_setting:
+        Intent intent_setting = new Intent(getActivity(), SettingActivity.class);
+        startActivity(intent_setting);
+        break;
+    }
   }
 
   public void initAdapter() {

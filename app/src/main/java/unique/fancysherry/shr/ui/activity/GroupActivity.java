@@ -1,39 +1,38 @@
 package unique.fancysherry.shr.ui.activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.adapter.recycleview.MemberAdapter;
 import unique.fancysherry.shr.util.DateUtil;
 import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.system.DensityUtils;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class GroupActivity extends BaseActivity {
   @InjectView(R.id.group_create_time)
@@ -46,7 +45,6 @@ public class GroupActivity extends BaseActivity {
   TextView group_layout_member_count;
   @InjectView(R.id.group_create_name)
   TextView group_create_name;
-  RecyclerView group_member_list;
 
   private TextView active_member_layout1_name;
   private SimpleDraweeView active_member_layout1_portrait;
@@ -66,7 +64,7 @@ public class GroupActivity extends BaseActivity {
   private Runnable runnable;
   private Runnable runnable_user;
   private Runnable runnable_group_users;
-  private MemberAdapter manageAdapter;
+
   private Activity context;
   @InjectView(R.id.group_activity_toolbar)
   Toolbar mToolbar;
@@ -109,8 +107,22 @@ public class GroupActivity extends BaseActivity {
         initGroupUserData();
       }
     };
+  }
 
-
+  @OnClick({R.id.group_layout_share, R.id.group_layout_member})
+  public void click(View mView) {
+    switch (mView.getId()) {
+      case R.id.group_layout_member:
+        Intent intent_group_member = new Intent(context, GroupMemberActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putParcelable("group", group);
+        intent_group_member.putExtras(mBundle);
+        startActivity(intent_group_member);
+        break;
+      case R.id.group_layout_share:
+        context.finish();
+        break;
+    }
   }
 
   private void initView_not_manage() {
@@ -129,9 +141,6 @@ public class GroupActivity extends BaseActivity {
     LinearLayout group_notmanage_framelayout_part2 =
         (LinearLayout) findViewById(R.id.group_notmanage_framelayout_part2);
     group_notmanage_framelayout_part2.setVisibility(View.VISIBLE);
-    group_member_list =
-        (RecyclerView) findViewById(R.id.group_activity_group_members_list_notmanage);
-    initAdapter();
   }
 
   private void initView_manage() {
@@ -150,12 +159,10 @@ public class GroupActivity extends BaseActivity {
     LinearLayout group_manage_framelayout_part1 =
         (LinearLayout) findViewById(R.id.group_manage_framelayout_part1);
     group_manage_framelayout_part1.setVisibility(View.VISIBLE);
-    group_member_list = (RecyclerView) findViewById(R.id.group_activity_group_members_list);
-    LinearLayout manage_group_layout_manage =
-        (LinearLayout) findViewById(R.id.manage_group_layout_manage);
-    LinearLayout manage_group_layout_invite =
-        (LinearLayout) findViewById(R.id.manage_group_layout_invite);
-    initAdapter();
+    RelativeLayout manage_group_layout_manage =
+        (RelativeLayout) findViewById(R.id.manage_group_layout_manage);
+    RelativeLayout manage_group_layout_invite =
+        (RelativeLayout) findViewById(R.id.manage_group_layout_invite);
     manage_group_layout_invite.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -190,7 +197,6 @@ public class GroupActivity extends BaseActivity {
   }
 
   public void initGroupUserData() {
-    manageAdapter.setData(group_users);
     int size = group_users.size();
     List<User> temp = new ArrayList<>();
     temp.addAll(group_users);
@@ -203,8 +209,7 @@ public class GroupActivity extends BaseActivity {
       active_member_layout3_name.setVisibility(View.INVISIBLE);
       active_member_layout4_portrait.setVisibility(View.INVISIBLE);
       active_member_layout4_name.setVisibility(View.INVISIBLE);
-    }
-    else if (size == 1) {
+    } else if (size == 1) {
       active_member_layout2_portrait.setVisibility(View.INVISIBLE);
       active_member_layout2_name.setVisibility(View.INVISIBLE);
       active_member_layout3_portrait.setVisibility(View.INVISIBLE);
@@ -215,8 +220,7 @@ public class GroupActivity extends BaseActivity {
       active_member_layout1_name.setText(temp.get(0).name);
       active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(0).avatar));
-    }
-    else if (size == 2) {
+    } else if (size == 2) {
       active_member_layout3_portrait.setVisibility(View.INVISIBLE);
       active_member_layout3_name.setVisibility(View.INVISIBLE);
       active_member_layout4_portrait.setVisibility(View.INVISIBLE);
@@ -228,8 +232,7 @@ public class GroupActivity extends BaseActivity {
       active_member_layout2_name.setText(temp.get(1).name);
       active_member_layout2_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(1).avatar));
-    }
-    else if (size == 3) {
+    } else if (size == 3) {
       active_member_layout4_portrait.setVisibility(View.INVISIBLE);
       active_member_layout4_name.setVisibility(View.INVISIBLE);
       select_active(temp);
@@ -243,9 +246,7 @@ public class GroupActivity extends BaseActivity {
       active_member_layout3_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
           + temp.get(2).avatar));
 
-    }
-    else if (size >= 4)
-    {
+    } else if (size >= 4) {
       select_active(temp);
       active_member_layout1_name.setText(temp.get(0).name);
       active_member_layout1_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL
@@ -276,15 +277,6 @@ public class GroupActivity extends BaseActivity {
       finish();
     }
     return super.onOptionsItemSelected(item);
-  }
-
-  private void initAdapter() {
-    int viewHeight = DensityUtils.dp2px(this, 60) * group.users.size();
-    group_member_list.getLayoutParams().height = viewHeight;
-    manageAdapter = new MemberAdapter(this);
-    group_member_list.setLayoutManager(new LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL, false));
-    group_member_list.setAdapter(manageAdapter);
   }
 
   @Override

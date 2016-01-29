@@ -90,7 +90,12 @@ public class LoginActivity extends BaseActivity {
               public void onResponse(LoginRequest.FormResult result) {
                 if (result.message.equals("success")) {
                   LogUtil.e("login success");
-                  loginSuccessfully(result);
+                  runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                      loginSuccessfully();
+                    }
+                  });
                 }
               }
             }, new Response.ErrorListener() {
@@ -102,17 +107,16 @@ public class LoginActivity extends BaseActivity {
     executeRequest(login_request);
   }
 
-  protected void loginSuccessfully(LoginRequest.FormResult model) {
-    // 多账号
-    // if (AccountManager.getInstance().getCurrentUser() == null) {
-    AccountManager.getInstance().addAccount(new AccountBean(username, password));
-    // }
+  protected void loginSuccessfully() {
+    AccountManager.getInstance()
+        .addAccount(new AccountBean(username, password));
     AccountManager.getInstance().getCurrentUser().getCookieHolder()
         .saveCookie(login_request.cookies);
     LocalConfig.setFirstLaunch(false);
     Intent mIntent = new Intent(context, MainActivity.class);
     startActivity(mIntent);
     finish();
+
   }
 
   @Override

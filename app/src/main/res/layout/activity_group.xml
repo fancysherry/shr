@@ -27,7 +27,7 @@
                     <LinearLayout
                         android:id="@+id/group_header_up"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="300dp"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/group_backgroud"
                         android:orientation="vertical"></LinearLayout>
@@ -192,7 +192,7 @@
                         android:layout_height="55dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/pure_white"
-                        android:paddingRight="20dp">
+                        android:paddingRight="10dp">
 
                         <ImageView
                             android:id="@+id/group_manage_button"
@@ -229,7 +229,7 @@
                         android:layout_height="55dp"
                         android:layout_marginTop="1dp"
                         android:background="@color/pure_white"
-                        android:paddingRight="20dp">
+                        android:paddingRight="10dp">
 
                         <ImageView
                             android:id="@+id/group_invite_button"
@@ -420,35 +420,6 @@
                         </LinearLayout>
 
 
-                        <LinearLayout
-                            android:id="@+id/group_member"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
-                            android:background="@color/pure_white"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:id="@+id/group_member_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:text="@string/group_member"
-                                android:textColor="#c2c2c2"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                        <!--todo-->
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/group_activity_group_members_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="1dp"
-                            android:background="@color/pure_white"
-                            android:paddingLeft="25dp"
-                            android:paddingRight="25dp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -618,34 +589,8 @@
                         </LinearLayout>
 
 
-                        <LinearLayout
-                            android:id="@+id/group_member_notmanage"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
-                            android:background="@color/pure_white"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/group_member_text_notmanage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:text="@string/group_member"
-                                android:textColor="#c2c2c2"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
                         <!--todo-->
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/group_activity_group_members_list_notmanage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="1dp"
-                            android:background="@color/pure_white"
-                            android:paddingLeft="25dp"
-                            android:paddingRight="25dp" />
+
                     </LinearLayout>
                 </LinearLayout>
             </FrameLayout>

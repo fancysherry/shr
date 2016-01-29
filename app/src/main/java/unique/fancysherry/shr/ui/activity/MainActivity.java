@@ -7,8 +7,8 @@ import java.util.Map;
 import org.json.JSONArray;
 
 import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.account.AccountBean;
 import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
@@ -22,7 +22,6 @@ import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.util.LogUtil;
 import unique.fancysherry.shr.util.UrlFromString;
 import unique.fancysherry.shr.util.config.LocalConfig;
-import unique.fancysherry.shr.util.config.SApplication;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -30,7 +29,6 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -66,10 +64,7 @@ public class MainActivity extends BaseMainActivity
 
   private String text_from_clipboard = null;
   private ClipboardManager clipboard = null;
-
   private User user;
-  private Handler handler;
-  private Runnable runnable;
 
   private EditText dialog_intro_input;
   private ImageView group_intro;
@@ -82,26 +77,11 @@ public class MainActivity extends BaseMainActivity
     activity = this;
     setContentView(R.layout.activity_main);
     BusProvider.getInstance().register(this);
+    getUserData();
     initView();
     initializeToolbar();
     getSupportActionBar().setTitle("消息");
     mToolbar.setOnMenuItemClickListener(onMenuItemClick);
-
-
-    // 默认加载第一个组的信息
-    handler = new Handler();
-    runnable = new Runnable() {
-      @Override
-      public void run() {
-        // LogUtil.e("first load ");
-        // LogUtil.e("first load "+user.groups.get(0).name);
-        // fragmentManager
-        // .beginTransaction()
-        // .replace(R.id.container,
-        // ShareContentFragment.newInstance(user.groups.get(0).name))
-        // .commit();
-      }
-    };
   }
 
   @Override
@@ -138,14 +118,11 @@ public class MainActivity extends BaseMainActivity
     }
   };
 
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
   }
-
-
 
   @Override
   protected void initView() {
@@ -161,8 +138,6 @@ public class MainActivity extends BaseMainActivity
         startActivity(mIntent);
       }
     });
-
-
     mDrawerFragment =
         (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -178,9 +153,7 @@ public class MainActivity extends BaseMainActivity
         .replace(R.id.container,
             InboxShareFragment.newInstance())
         .commit();
-
     group_intro.setVisibility(View.INVISIBLE);
-    getUserData();
   }
 
 
@@ -266,7 +239,12 @@ public class MainActivity extends BaseMainActivity
               @Override
               public void onResponse(User pUser) {
                 user = pUser;
-                handler.post(runnable);
+                String username =
+                    AccountManager.getInstance().getCurrentUser().getAccountBean().username;
+                String password =
+                    AccountManager.getInstance().getCurrentUser().getAccountBean().pwd;
+                AccountManager.getInstance()
+                    .modifyAccount(new AccountBean(username, password, pUser.nickname, pUser.id));
               }
             }, new Response.ErrorListener() {
               @Override
@@ -276,27 +254,6 @@ public class MainActivity extends BaseMainActivity
             });
     executeRequest(group_share_request);
   }
-
-  public Map<String, String> getHeader() {
-    Map<String, String> headers = new HashMap<String, String>();
-    UserBean currentUser = AccountManager.getInstance().getCurrentUser();
-    if (currentUser != null && currentUser.getCookieHolder() != null) {
-      currentUser.getCookieHolder().generateCookieString();
-      headers.put("Cookie", currentUser.getCookieHolder().generateCookieString());
-    }
-    headers.put("Accept-Encoding", "gzip, deflate");
-    headers
-        .put(
-            "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-    return headers;
-  }
-
-
-  public void executeRequest(Request request) {
-    SApplication.getRequestManager().executeRequest(request, this);
-  }
-
 
   private boolean checkShare() {
     checkClipboard();

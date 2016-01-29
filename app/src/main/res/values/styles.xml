@@ -160,7 +160,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginTop">0.5dp</item>
         <item name="android:layout_marginRight">30dp</item>
-        <item name="android:layout_marginLeft">72dp</item>
+        <item name="android:layout_marginLeft">80dp</item>
     </style>
 
     <style name="view_item_message_divider">

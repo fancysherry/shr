@@ -5,6 +5,9 @@ import java.util.List;
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
+import unique.fancysherry.shr.ui.activity.UserActivity;
+import unique.fancysherry.shr.util.LogUtil;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,13 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-import unique.fancysherry.shr.ui.activity.UserActivity;
 
 /**
  * Created by fancysherry on 15-7-14.
@@ -35,8 +34,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     setHasStableIds(true);
   }
 
-  public void setData(List<User> items)
-  {
+  public void setData(List<User> items) {
     this.items = items;
     Log.e("memberAdapter", "size   " + items.size());
     notifyDataSetChanged();
@@ -63,11 +61,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     holder.member_item_portrait.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        LogUtil.e("click");
         Intent mIntent = new Intent(context, UserActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("user_id", items.get(position).id);
+        mBundle.putParcelable("user", items.get(position));
         mIntent.putExtras(mBundle);
         context.startActivity(mIntent);
+        LogUtil.e("click end");
       }
     });
     // holder.member_item_level.setText(items.get(position).level);
@@ -87,8 +87,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     return items.get(position).hashCode();
   }
 
-  public static class ViewHolder extends RecyclerView.ViewHolder
-  {
+  public static class ViewHolder extends RecyclerView.ViewHolder {
     SimpleDraweeView member_item_portrait;
     TextView member_item_name;
     TextView member_item_level;

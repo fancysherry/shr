@@ -3,16 +3,15 @@ package unique.fancysherry.shr.account;
 import java.util.ArrayList;
 import java.util.List;
 
+import unique.fancysherry.shr.util.LogUtil;
+import unique.fancysherry.shr.util.config.LocalConfig;
+
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.LocalConfig;
-
 public class AccountManager implements IAccountManager {
-
   private List<UserBean> userModelList;
   private Gson mGson;
 
@@ -82,6 +81,7 @@ public class AccountManager implements IAccountManager {
 
   @Override
   public void modifyAccount(AccountBean bean) {
+    LogUtil.e("account modify");
     int index = getAccountIndex(bean.username);
     if (index != -1) {
       userModelList.get(index).setAccountBean(bean);
@@ -100,8 +100,7 @@ public class AccountManager implements IAccountManager {
     if (index == -1) {
       userModelList.add(new UserBean(bean));
       userIndex = userIndex + 1;
-    }
-    else
+    } else
       userIndex = index;// userindex 记录的是当前用户index
     saveAccountData();
   }
@@ -127,6 +126,7 @@ public class AccountManager implements IAccountManager {
   private void saveAccountData() {
     LocalConfig.putUserAccountString(mGson.toJson(getAccounts()));
     LogUtil.e("accounts:" + mGson.toJson(getAccounts()));
+    LogUtil.e("account index: " + userIndex);
     LocalConfig.putUserIndex(userIndex);
   }
 
@@ -139,7 +139,7 @@ public class AccountManager implements IAccountManager {
   }
 
   public void saveNewPassword(String new_password) {
-    getCurrentUser().mAccountBean.pwd=new_password;
+    getCurrentUser().mAccountBean.pwd = new_password;
     saveAccountData();
   }
 }
