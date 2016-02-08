@@ -5,7 +5,7 @@
              tools:context="com.unique.fancysherry.scan.ui.fragment.SetttingFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/unique_group_share_list"
+        android:id="@+id/group_share_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>

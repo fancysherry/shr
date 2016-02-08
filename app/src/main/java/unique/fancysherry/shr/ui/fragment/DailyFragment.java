@@ -35,26 +35,28 @@ import com.android.volley.VolleyError;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * to handle interaction events.
- * Use the {@link InboxShareFragment#newInstance} factory method to
+ * Use the {@link DailyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InboxShareFragment extends BaseFragment {
+public class DailyFragment extends BaseFragment {
   private List<InboxShare> inbox_shares_data = new ArrayList<>();
   private InboxShareAdapter inboxShareAdapter;
   private RecyclerView inbox_share_list;
   private LinearLayout linearLayout;
 
   private Handler handler;
+  private Runnable runnable;
   private Runnable runnable_changle_layout;
+  private Runnable runnable_tagGroup;
   private User mUser;
 
   // TODO: Rename and change types and number of parameters
-  public static InboxShareFragment newInstance() {
-    InboxShareFragment fragment = new InboxShareFragment();
+  public static DailyFragment newInstance() {
+    DailyFragment fragment = new DailyFragment();
     return fragment;
   }
 
-  public InboxShareFragment() {
+  public DailyFragment() {
     // Required empty public constructor
   }
 

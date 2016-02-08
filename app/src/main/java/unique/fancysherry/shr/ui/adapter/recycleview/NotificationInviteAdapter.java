@@ -9,7 +9,6 @@ import unique.fancysherry.shr.io.model.Notify;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.activity.UserActivity;
 import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.DataChangeAction;
 import unique.fancysherry.shr.ui.otto.NotifyInviteAction;
 
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +53,7 @@ public class NotificationInviteAdapter
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView =
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item,
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_invite_accept_list_item,
             parent, false);
     // itemView.setOnClickListener(this);
     return new ViewHolder(itemView, this, context);

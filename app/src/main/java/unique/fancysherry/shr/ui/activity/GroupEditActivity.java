@@ -98,7 +98,7 @@ public class GroupEditActivity extends BaseActivity {
         startActivity(mIntent);
         break;
       case R.id.change_group_manager_layout:
-        Intent mIntent_change = new Intent(context, GroupMemberDeleteActivity.class);
+        Intent mIntent_change = new Intent(context, GroupChangeManagerActivity.class);
         Bundle mBundle_change = new Bundle();
         mBundle_change.putString("group_id", group_id);
         mIntent_change.putExtras(mBundle_change);

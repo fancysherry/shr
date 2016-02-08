@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.Share;
@@ -41,10 +37,8 @@ import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
 import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
-import unique.fancysherry.shr.ui.dialog.ShrDialog;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
 
 
 /**
@@ -131,7 +125,7 @@ public class ShareContentFragment extends BaseFragment {
     // Inflate the layout for this fragment
     View view;
     view = inflater.inflate(R.layout.fragment_share_content, container, false);
-    share_list = (RecyclerView) view.findViewById(R.id.unique_group_share_list);
+    share_list = (RecyclerView) view.findViewById(R.id.group_share_list);
     share_list.setLayoutManager(new LinearLayoutManager(getActivity(),
         LinearLayoutManager.VERTICAL, false));
     linearLayout = (LinearLayout) view.findViewById(R.id.no_content_layout);

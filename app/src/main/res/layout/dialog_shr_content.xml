@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/shrdialog_corner"
     android:orientation="vertical"
-
     >
 
     <LinearLayout

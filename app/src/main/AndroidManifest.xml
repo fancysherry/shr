@@ -37,7 +37,9 @@
         <activity android:name=".ui.activity.ShareUrlActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -117,6 +119,11 @@
         <activity
             android:name=".ui.activity.GroupMemberActivity"
             android:theme="@style/ToolbarTheme" />
+
+        <service
+            android:name=".sync.NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
