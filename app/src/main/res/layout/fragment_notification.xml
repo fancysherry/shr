@@ -1,14 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:padding="10dp"
-             tools:context="com.unique.fancysherry.scan.ui.fragment.StartListFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context="com.unique.fancysherry.scan.ui.fragment.StartListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/invite_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center" />
 </FrameLayout>

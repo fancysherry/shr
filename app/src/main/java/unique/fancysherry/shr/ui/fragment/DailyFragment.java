@@ -11,7 +11,7 @@ import unique.fancysherry.shr.io.model.InboxShareList;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
-import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
+import unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration.ShrItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.InboxShareAdapter;
 import unique.fancysherry.shr.util.LogUtil;
 
@@ -82,7 +82,7 @@ public class DailyFragment extends BaseFragment {
   public void initAdapter() {
     inboxShareAdapter = new InboxShareAdapter(getActivity());
     inbox_share_list.setAdapter(inboxShareAdapter);
-    inbox_share_list.addItemDecoration(new DividerItemDecoration(20, "inboxshare"));
+    inbox_share_list.addItemDecoration(new ShrItemDecoration(20, "inboxshare"));
     inboxShareAdapter
         .setOnItemClickListener(new InboxShareAdapter.OnRecyclerViewItemClickListener() {
           @Override

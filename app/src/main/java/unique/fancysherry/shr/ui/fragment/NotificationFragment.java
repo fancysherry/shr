@@ -1,7 +1,16 @@
 package unique.fancysherry.shr.ui.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.NotifyList;
+import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration.NotificationItemDecoration;
+import unique.fancysherry.shr.ui.adapter.recycleview.NotificationAdapter;
+import unique.fancysherry.shr.ui.otto.BusProvider;
+import unique.fancysherry.shr.ui.otto.DataChangeAction;
+import unique.fancysherry.shr.ui.otto.NotifyInviteAction;
+import unique.fancysherry.shr.util.LogUtil;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,29 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.squareup.otto.Subscribe;
 
-import org.json.JSONArray;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
-import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.NotifyList;
-import unique.fancysherry.shr.io.model.Share;
-import unique.fancysherry.shr.io.model.User;
-import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.activity.BrowserActivity;
-import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
-import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
-import unique.fancysherry.shr.ui.adapter.recycleview.NotificationInviteAdapter;
-import unique.fancysherry.shr.ui.otto.BusProvider;
-import unique.fancysherry.shr.ui.otto.DataChangeAction;
-import unique.fancysherry.shr.ui.otto.NotifyInviteAction;
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +40,7 @@ public class NotificationFragment extends BaseFragment {
   private Runnable runnable_accept_invite;
   private Handler handler;
   private NotifyList notifyList;
-  private NotificationInviteAdapter notificationInviteAdapter;
+  private NotificationAdapter notificationAdapter;
 
   public static NotificationFragment newInstance(String param1, String param2) {
     NotificationFragment fragment = new NotificationFragment();
@@ -76,7 +62,7 @@ public class NotificationFragment extends BaseFragment {
     runnable_get_invite_list = new Runnable() {
       @Override
       public void run() {
-        notificationInviteAdapter.setData(notifyList.notifies);
+        notificationAdapter.setData(notifyList.notifies);
       }
     };
     BusProvider.getInstance().register(this);
@@ -95,9 +81,9 @@ public class NotificationFragment extends BaseFragment {
   public void initAdapter() {
     invite_list.setLayoutManager(new LinearLayoutManager(getActivity(),
         LinearLayoutManager.VERTICAL, false));
-    notificationInviteAdapter = new NotificationInviteAdapter(getActivity());
-    invite_list.setAdapter(notificationInviteAdapter);
-
+    notificationAdapter = new NotificationAdapter(getActivity());
+    invite_list.setAdapter(notificationAdapter);
+    invite_list.addItemDecoration(new NotificationItemDecoration());
   }
 
   public void get_invite_list() {

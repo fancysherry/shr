@@ -1,4 +1,4 @@
-package unique.fancysherry.shr.ui.adapter.recycleview;
+package unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
@@ -8,21 +8,23 @@ import java.util.List;
 
 import unique.fancysherry.shr.io.model.InboxShare;
 import unique.fancysherry.shr.io.model.Share;
+import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
+import unique.fancysherry.shr.ui.adapter.recycleview.InboxShareAdapter;
 
 /**
  * Created by fancysherry on 15-7-30.
  */
-public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+public class ShrItemDecoration extends RecyclerView.ItemDecoration {
   private int space = 20;// default
 
   private String type;
 
-  public DividerItemDecoration(int space, String type) {
+  public ShrItemDecoration(int space, String type) {
     this.space = space;
     this.type = type;
   }
 
-  public DividerItemDecoration() {}
+  public ShrItemDecoration() {}
 
   //
   // public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {

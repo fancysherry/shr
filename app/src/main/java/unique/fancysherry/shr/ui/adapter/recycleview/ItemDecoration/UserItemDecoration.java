@@ -1,4 +1,4 @@
-package unique.fancysherry.shr.ui.adapter.recycleview;
+package unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

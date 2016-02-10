@@ -35,7 +35,7 @@ import unique.fancysherry.shr.io.model.ShareList;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
-import unique.fancysherry.shr.ui.adapter.recycleview.DividerItemDecoration;
+import unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration.ShrItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.widget.TagGroup;
 import unique.fancysherry.shr.util.LogUtil;
@@ -137,7 +137,7 @@ public class ShareContentFragment extends BaseFragment {
   public void initAdapter() {
     groupShareAdapter = new GroupShareAdapter(getActivity());
     share_list.setAdapter(groupShareAdapter);
-    share_list.addItemDecoration(new DividerItemDecoration(20, "share"));
+    share_list.addItemDecoration(new ShrItemDecoration(20, "share"));
     groupShareAdapter
         .setOnItemClickListener(new GroupShareAdapter.OnRecyclerViewItemClickListener() {
           @Override

@@ -4,9 +4,9 @@ package unique.fancysherry.shr.io.model;
  * Created by fancysherry on 15-12-3.
  */
 public class Notify {
-    /**
-     * NOTIFY TYPE
-     */
+  /**
+   * NOTIFY TYPE
+   */
   public static final String COMMENT = "COMMENT";
   public static final String SHARE = "SHARE";
   public static final String FOLLOW = "FOLLOW";
@@ -24,5 +24,7 @@ public class Notify {
   public String user_id;
   public String nickname;
   public String avatar;
-  public boolean isfinish=false;
+  public String content;
+  public String title;
+  public boolean isfinish = false;
 }

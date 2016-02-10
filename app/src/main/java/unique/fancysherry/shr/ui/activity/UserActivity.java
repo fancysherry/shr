@@ -10,7 +10,7 @@ import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.ui.adapter.recycleview.UserItemDecoration;
+import unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration.UserItemDecoration;
 import unique.fancysherry.shr.ui.adapter.recycleview.UserShareAdapter;
 import unique.fancysherry.shr.ui.dialog.ConfirmDialog;
 import unique.fancysherry.shr.ui.otto.BusProvider;

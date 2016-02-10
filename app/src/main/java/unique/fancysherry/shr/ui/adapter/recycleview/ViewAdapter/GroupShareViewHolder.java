@@ -27,8 +27,7 @@ import unique.fancysherry.shr.util.IconLoad;
 /**
  * Created by fancysherry on 15-10-9.
  */
-public class GroupShareViewHolder extends RecyclerView.ViewHolder
-{
+public class GroupShareViewHolder extends RecyclerView.ViewHolder {
   // ImageView share_icon;
   SimpleDraweeView share_icon;
   TextView share_title;
@@ -75,25 +74,8 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
       e.printStackTrace();
     }
 
-    // try {
-    // // share_icon.setImageURI(getIconUri(share.url));
-    // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-    // } catch (MalformedURLException e) {
-    // e.printStackTrace();
-    // }
-
-
     if (!share.intro.equals(""))
       user_introduce.setText(share.intro);
-
-    // try {
-    // // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-    // PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(share.url));
-    // // share_icon.setImageURI(getIconUri(share.url));
-    // Log.e("share_url", share.url);
-    // } catch (MalformedURLException e) {
-    // e.printStackTrace();
-    // }
     view.setTag(share);
   }
 
@@ -107,34 +89,10 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
-
-    // if (!inboxshare.intro.equals(""))
-    // user_introduce.setText(share.intro);
-
-    // try {
-    // // IconLoad.load(share_icon, IconFinder.getIconUrlString(share.url));
-    // PhotoLoader.loadImg(share_icon, IconFinder.getIconUrlString(inboxshare.url));
-    // // share_icon.setImageURI(getIconUri(share.url));
-    // Log.e("share_url", inboxshare.url);
-    // } catch (MalformedURLException e) {
-    // e.printStackTrace();
-    // }
     view.setTag(inboxshare);
   }
 
-  // private Uri getIconUri(String url) throws MalformedURLException {
-  // String icon_url = IconFinder.getIconUrlString(url);
-  // if (icon_url != null) {
-  // Log.e("icon_url", icon_url);
-  // Log.e("icon_Uri", Uri.parse(icon_url).toString());
-  // return Uri.parse(icon_url);
-  // }
-  // else
-  // return null;
-  // }
-
-  private String shareUserText(Share share)
-  {
+  private String shareUserText(Share share) {
     String result = null;
     int size = share.others.size() + 1;
     if (size > 3)
@@ -142,7 +100,6 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder
           share.others.get(0).name + "," +
           share.others.get(1).name +
           "等" + size + "人分享过";
-
     else if (size == 1)
       result = share.origin.nickname + "分享过";
     else
