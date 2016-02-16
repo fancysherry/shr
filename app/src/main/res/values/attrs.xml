@@ -16,6 +16,13 @@
   -->
 <resources>
 
+    <declare-styleable name="RichText">
+        <attr name="placeHolder" format="reference" />
+        <attr name="errorImage" format="reference" />
+        <attr name="default_width" format="dimension" />
+        <attr name="default_height" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="ProgressWheel">
         <attr name="pwText" format="string"/>
         <attr name="pwTextColor" format="color"/>
