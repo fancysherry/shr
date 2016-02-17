@@ -1,6 +1,14 @@
 package unique.fancysherry.shr.ui.fragment;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import unique.fancysherry.shr.R;
+import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.util.LogUtil;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,37 +16,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import unique.fancysherry.shr.R;
-import unique.fancysherry.shr.account.AccountManager;
-import unique.fancysherry.shr.account.UserBean;
-import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.request.GsonRequest;
-import unique.fancysherry.shr.util.LogUtil;
-import unique.fancysherry.shr.util.config.SApplication;
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewGroupFragment extends BaseFragment {
   OnNewGroupListener onNewGroupLisner;
+
   public interface OnNewGroupListener {
     public void OnNewGroupFinish(String group_name);
   }
 
   private EditText new_group_name;
   private EditText new_group_introduce;
-  private ImageView new_group_button;
+  private Button new_group_button;
   private Handler mHandler;
   private Runnable mRunnable;
 
@@ -66,7 +64,7 @@ public class NewGroupFragment extends BaseFragment {
     View view = inflater.inflate(R.layout.fragment_new_group, container, false);
     new_group_name = (EditText) view.findViewById(R.id.new_group_name);
     new_group_introduce = (EditText) view.findViewById(R.id.new_group_introduce);
-    new_group_button = (ImageView) view.findViewById(R.id.new_group_button);
+    new_group_button = (Button) view.findViewById(R.id.new_group_button);
     new_group_button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

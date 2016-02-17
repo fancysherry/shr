@@ -103,6 +103,7 @@ public class GsonRequest<T> extends Request<T> {
     public String cookie;
     public String key;
     public String reason;
+    public List<String> share_id_list;
   }
 
 

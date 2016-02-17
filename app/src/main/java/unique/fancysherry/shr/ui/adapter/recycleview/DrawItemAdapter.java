@@ -4,17 +4,14 @@ import java.util.List;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.model.Group;
-import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.ui.widget.BadgeView;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -44,7 +41,7 @@ public class DrawItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   {
     this.item_message_count = item_message_count;
     this.group_item = group_item;
-    group_item.add(new Group()); // view type 2
+//    group_item.add(new Group()); // view type 2
     notifyDataSetChanged();
   }
 
@@ -91,12 +88,12 @@ public class DrawItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   public int getItemViewType(int position) {
 
     // Implement your logic here
-    if (position != group_item.size()-1) {
+//    if (position != group_item.size()-1) {
       return Feature.COMMON.ordinal();
-    }
-    else {
-      return Feature.ADD.ordinal();
-    }
+    // }
+    // else {
+    // return Feature.ADD.ordinal();
+    // }
   }
 
   @Override

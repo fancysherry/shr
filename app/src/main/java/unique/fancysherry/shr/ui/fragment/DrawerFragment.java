@@ -140,7 +140,7 @@ public class DrawerFragment extends BaseFragment {
   }
 
   @OnClick({R.id.drawer_add_group_layout, R.id.drawer_setting, R.id.drawer_header_portrait,
-      R.id.drawer_message_title, R.id.drawer_at_title})
+      R.id.drawer_message_title, R.id.drawer_at_title, R.id.drawer_daily_title})
   public void click(View mView) {
     switch (mView.getId()) {
       case R.id.drawer_header_portrait:
@@ -157,7 +157,14 @@ public class DrawerFragment extends BaseFragment {
       case R.id.drawer_at_title:
         selectItem("at_me");
         break;
+      case R.id.drawer_daily_title:
+        selectItem("daily");
+        break;
       case R.id.drawer_add_group_layout:
+        if (mDrawerLayout != null) {
+          mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+        mCallbacks.onAddGroupListener();
         break;
       case R.id.drawer_setting:
         Intent intent_setting = new Intent(getActivity(), SettingActivity.class);
@@ -180,9 +187,9 @@ public class DrawerFragment extends BaseFragment {
           if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
           }
-          if (mCallbacks != null) {
-            mCallbacks.onAddGroupListener();
-          }
+          // if (mCallbacks != null) {
+          // mCallbacks.onAddGroupListener();
+          // }
         }
       }
     });

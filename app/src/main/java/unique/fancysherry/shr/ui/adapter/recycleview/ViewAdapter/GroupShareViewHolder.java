@@ -1,28 +1,24 @@
 package unique.fancysherry.shr.ui.adapter.recycleview.ViewAdapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import java.net.MalformedURLException;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.Util.PhotoLoader;
 import unique.fancysherry.shr.io.model.InboxShare;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.InboxShareAdapter;
 import unique.fancysherry.shr.util.IconFinder;
-import unique.fancysherry.shr.util.IconLoad;
+
+import android.content.Context;
+import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * Created by fancysherry on 15-10-9.
@@ -38,7 +34,8 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder {
   Context context;
   View view;
 
-  public GroupShareViewHolder(View itemView, GroupShareAdapter pGroupShareAdapter, Context pContext) {
+  public GroupShareViewHolder(View itemView, GroupShareAdapter pGroupShareAdapter,
+      Context pContext) {
     super(itemView);
     this.context = pContext;
     this.share_icon = (SimpleDraweeView) itemView.findViewById(R.id.share_list_item_share_icon);
@@ -51,7 +48,8 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder {
     this.view = itemView;
   }
 
-  public GroupShareViewHolder(View itemView, InboxShareAdapter pGroupShareAdapter, Context pContext) {
+  public GroupShareViewHolder(View itemView, InboxShareAdapter pGroupShareAdapter,
+      Context pContext) {
     super(itemView);
     this.context = pContext;
     this.share_icon = (SimpleDraweeView) itemView.findViewById(R.id.share_list_item_share_icon);
@@ -73,9 +71,10 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder {
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
-
-    if (!share.intro.equals(""))
-      user_introduce.setText(share.intro);
+    if (share.intro != null) {
+      if (!share.intro.equals(""))
+        user_introduce.setText(share.intro);
+    }
     view.setTag(share);
   }
 
@@ -102,12 +101,10 @@ public class GroupShareViewHolder extends RecyclerView.ViewHolder {
           "等" + size + "人分享过";
     else if (size == 1)
       result = share.origin.nickname + "分享过";
-    else
-    {
+    else {
       int count = 0;
       result = share.origin.nickname;
-      for (User user : share.others)
-      {
+      for (User user : share.others) {
         result = result + "," + share.others.get(count).name;
       }
       result = result + "分享过";

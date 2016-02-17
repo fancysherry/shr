@@ -12,6 +12,7 @@ import unique.fancysherry.shr.account.AccountManager;
 import unique.fancysherry.shr.io.APIConstants;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.ui.fragment.DailyFragment;
 import unique.fancysherry.shr.ui.fragment.DrawerFragment;
 import unique.fancysherry.shr.ui.fragment.InboxShareFragment;
 import unique.fancysherry.shr.ui.fragment.NewGroupFragment;
@@ -174,6 +175,13 @@ public class MainActivity extends BaseMainActivity
           .beginTransaction()
           .replace(R.id.container,
               InboxShareFragment.newInstance())
+          .commit();
+      group_intro.setVisibility(View.INVISIBLE);
+    } else if (group_name.equals("daily")) {
+      fragmentManager
+          .beginTransaction()
+          .replace(R.id.container,
+              DailyFragment.newInstance())
           .commit();
       group_intro.setVisibility(View.INVISIBLE);
     } else {
