@@ -1,34 +1,34 @@
 package unique.fancysherry.shr.ui.fragment;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
-import unique.fancysherry.shr.io.model.InboxShare;
-import unique.fancysherry.shr.io.model.InboxShareList;
-import unique.fancysherry.shr.io.model.User;
-import unique.fancysherry.shr.io.request.GsonRequest;
+import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.ui.activity.BrowserActivity;
+import unique.fancysherry.shr.ui.adapter.recycleview.GroupShareAdapter;
 import unique.fancysherry.shr.ui.adapter.recycleview.ItemDecoration.ShrItemDecoration;
-import unique.fancysherry.shr.ui.adapter.recycleview.InboxShareAdapter;
-import unique.fancysherry.shr.util.LogUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 /**
@@ -39,16 +39,11 @@ import com.android.volley.VolleyError;
  * create an instance of this fragment.
  */
 public class DailyFragment extends BaseFragment {
-  private List<InboxShare> inbox_shares_data = new ArrayList<>();
-  private InboxShareAdapter inboxShareAdapter;
+  private List<Share> daily_data = new ArrayList<>();
+  private GroupShareAdapter groupShareAdapter;
   private RecyclerView inbox_share_list;
-  private LinearLayout linearLayout;
 
-  private Handler handler;
-  private Runnable runnable;
-  private Runnable runnable_changle_layout;
-  private Runnable runnable_tagGroup;
-  private User mUser;
+
 
   // TODO: Rename and change types and number of parameters
   public static DailyFragment newInstance() {
@@ -64,29 +59,16 @@ public class DailyFragment extends BaseFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     getShareList();
-    handler = new Handler();
-    runnable_changle_layout = new Runnable() {
-      @Override
-      public void run() {
-        if (inbox_shares_data.size() == 0) {
-          inbox_share_list.setVisibility(View.INVISIBLE);
-          linearLayout.setVisibility(View.VISIBLE);
-        } else {
-          inbox_share_list.setVisibility(View.VISIBLE);
-          linearLayout.setVisibility(View.INVISIBLE);
-        }
-      }
-    };
   }
 
   public void initAdapter() {
-    inboxShareAdapter = new InboxShareAdapter(getActivity());
-    inbox_share_list.setAdapter(inboxShareAdapter);
+    groupShareAdapter = new GroupShareAdapter(getActivity());
+    inbox_share_list.setAdapter(groupShareAdapter);
     inbox_share_list.addItemDecoration(new ShrItemDecoration(20, "inboxshare"));
-    inboxShareAdapter
-        .setOnItemClickListener(new InboxShareAdapter.OnRecyclerViewItemClickListener() {
+    groupShareAdapter
+        .setOnItemClickListener(new GroupShareAdapter.OnRecyclerViewItemClickListener() {
           @Override
-          public void onItemClick(View view, InboxShare data) {
+          public void onItemClick(View view, Share data) {
             Intent mIntent = new Intent(getActivity(), BrowserActivity.class);
             mIntent.putExtra("id", data.id);
             mIntent.putExtra(APIConstants.TYPE, APIConstants.INBOX_SHARE_TYPE);
@@ -108,42 +90,44 @@ public class DailyFragment extends BaseFragment {
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view;
-    view = inflater.inflate(R.layout.fragment_share_content, container, false);
-    inbox_share_list = (RecyclerView) view.findViewById(R.id.group_share_list);
+    view = inflater.inflate(R.layout.fragment_daily, container, false);
+    inbox_share_list = (RecyclerView) view.findViewById(R.id.daily_list);
     inbox_share_list.setLayoutManager(new LinearLayoutManager(getActivity(),
         LinearLayoutManager.VERTICAL, false));
-    linearLayout = (LinearLayout) view.findViewById(R.id.no_content_layout);
-    linearLayout.setVisibility(View.INVISIBLE);
     initAdapter();
     return view;
   }
 
   public void getShareList() {
-    GsonRequest<InboxShareList> group_share_request =
-        new GsonRequest<>(Request.Method.GET,
-            APIConstants.BASE_URL + "/inbox_share",
-            getHeader(), null,
-            InboxShareList.class,
-            new Response.Listener<InboxShareList>() {
+    JSONObject param = new JSONObject();
+    try {
+      param.put("action", "all");
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    JsonObjectRequest daily_request =
+        new JsonObjectRequest(APIConstants.BASE_URL + "/daily", param,
+            new Response.Listener<JSONObject>() {
               @Override
-              public void onResponse(InboxShareList inbox_shares) {
-                inbox_shares_data = inbox_shares.inbox_shares;
+              public void onResponse(JSONObject response) {
                 try {
-                  // groupShareAdapter.setTimeViewSize(DateUtil.calDaySize(shares_data));
-                  inboxShareAdapter.setData(inbox_shares.inbox_shares);
-                  // groupShareAdapter.setViewTypeArray();
-                } catch (ParseException e) {
+                  String message = response.getString("message");
+                  JSONArray share_id_list = response.getJSONArray("share_id_list");
+                  daily_data = new Gson().fromJson(share_id_list.toString(),
+                      new TypeToken<List<Share>>() {}.getType());
+
+                } catch (JSONException e) {
                   e.printStackTrace();
                 }
-                handler.post(runnable_changle_layout);
               }
             }, new Response.ErrorListener() {
               @Override
-              public void onErrorResponse(VolleyError pVolleyError) {
-                LogUtil.e("response error " + pVolleyError);
+              public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
               }
             });
-    executeRequest(group_share_request);
+    executeRequest(daily_request);
   }
 
 }
