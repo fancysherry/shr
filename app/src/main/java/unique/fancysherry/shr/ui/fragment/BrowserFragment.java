@@ -2,12 +2,15 @@ package unique.fancysherry.shr.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import unique.fancysherry.shr.R;
 import unique.fancysherry.shr.io.APIConstants;
+import unique.fancysherry.shr.io.model.Blog;
 import unique.fancysherry.shr.io.model.Group;
 import unique.fancysherry.shr.io.model.InboxShare;
+import unique.fancysherry.shr.io.model.Paragraph;
 import unique.fancysherry.shr.io.model.Share;
 import unique.fancysherry.shr.io.model.User;
 import unique.fancysherry.shr.io.request.GsonRequest;
@@ -16,6 +19,7 @@ import unique.fancysherry.shr.ui.activity.MainActivity;
 import unique.fancysherry.shr.ui.dialog.ShrDialog;
 import unique.fancysherry.shr.ui.otto.BusProvider;
 import unique.fancysherry.shr.ui.otto.ForwardUrlAction;
+import unique.fancysherry.shr.ui.widget.RichText;
 import unique.fancysherry.shr.util.LogUtil;
 
 import android.content.Intent;
@@ -37,6 +41,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +62,7 @@ public class BrowserFragment extends BaseFragment {
   public static final String KEY_URL = "key_url";
   public static final String SHARE_TYPE = "share_type";
   public static final String SHARE_ID = "share_id";
-  public static final String SHARE_TITLE="share_title";
+  public static final String SHARE_TITLE = "share_title";
 
   private String url;
   private String share_type;
@@ -100,14 +105,21 @@ public class BrowserFragment extends BaseFragment {
   @InjectView(R.id.webview_top_primary_button)
   ImageView webview_top_primary_button;
 
+  @InjectView(R.id.richtext_layout)
+  ScrollView richtext_layout;
+  @InjectView(R.id.richtext)
+  RichText richtext;
 
-  public static BrowserFragment newInstance(String url, String share_type, String share_id,String title) {
+  private String html_text="";
+
+  public static BrowserFragment newInstance(String url, String share_type, String share_id,
+      String title) {
     BrowserFragment fragment = new BrowserFragment();
     Bundle args = new Bundle();
     args.putString(KEY_URL, url);
     args.putString(SHARE_TYPE, share_type);
     args.putString(SHARE_ID, share_id);
-    args.putString(SHARE_TITLE,title);
+    args.putString(SHARE_TITLE, title);
     fragment.setArguments(args);
     return fragment;
   }
@@ -122,7 +134,7 @@ public class BrowserFragment extends BaseFragment {
       url = getArguments().getString(KEY_URL);
       share_type = getArguments().getString(SHARE_TYPE);
       share_id = getArguments().getString(SHARE_ID);
-      share_title=getArguments().getString(SHARE_TITLE);
+      share_title = getArguments().getString(SHARE_TITLE);
     }
 
     handler = new Handler();
@@ -196,7 +208,7 @@ public class BrowserFragment extends BaseFragment {
   }
 
   @OnClick({R.id.webview_top_primary_button, R.id.webview_top_share_button,
-      R.id.webview_bottom_dismiss_button, R.id.webview_bottom_like_button})
+      R.id.webview_bottom_dismiss_button, R.id.webview_bottom_like_button, R.id.share_text_or_html})
   public void click(View mView) {
     switch (mView.getId()) {
       case R.id.webview_top_primary_button:
@@ -215,8 +227,48 @@ public class BrowserFragment extends BaseFragment {
         else if (webview_bottom_like_button.getTag().toString().equals("cancel like"))
           cancel_thank_request();
         refreshData();
+      case R.id.share_text_or_html:
+        richtext_layout.setVisibility(View.VISIBLE);
+        mWebview.setVisibility(View.INVISIBLE);
+        loadRichText();
         break;
     }
+  }
+
+  private void loadRichText() {
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("url", url);
+    GsonRequest<Blog> richtext_request =
+        new GsonRequest<>(Request.Method.POST, "http://139.129.22.121:24300", getHeader(),
+            params, Blog.class,
+            new Response.Listener<Blog>() {
+              @Override
+              public void onResponse(Blog mBlog) {
+                List<Paragraph> items = mBlog.items;
+                String title = mBlog.title;
+                html_text = "";
+                for (Paragraph paragraph : items) {
+                  if (paragraph.type.equals("text"))
+                    html_text +=
+                        "<p><span style=\"font-size: 14px;\">" + paragraph.data + "</span></p";
+                  else if (paragraph.type.equals("image"))
+                    html_text += "<p><img title=\"\" src=\"" + paragraph.data
+                        + "\" height=\"197\" width=\"250\" style=\"cursor: pointer;\"></p>";
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                   richtext.setRichText(html_text);
+                }
+                });
+              }
+            }, new Response.ErrorListener() {
+              @Override
+              public void onErrorResponse(VolleyError pVolleyError) {
+                LogUtil.e("response error " + pVolleyError);
+              }
+            });
+    executeRequest(richtext_request);
   }
 
   private void initWebView() {
@@ -243,30 +295,6 @@ public class BrowserFragment extends BaseFragment {
 
     mWebview.setWebViewClient(new MyWebViewClient());
     mWebview.setWebChromeClient(new MyWebChromeClient());
-
-    // Runnable mRunnable = new Runnable() {
-    // @Override
-    // public void run() {
-    // try {
-    // URL mURL = new URL(url);
-    // Readability readability = new Readability(mURL, 5000); // URL
-    // readability.init();
-    // html = readability.outerHtml();
-    // LogUtil.e(html);
-    // } catch (MalformedURLException e) {
-    // e.printStackTrace();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // handler.post(runnable_load_webview_data);
-    // }
-    // };
-    // new Thread(mRunnable).start();
-
-
-    // mWebview.loadUrl(url);
-    // mWebview.loadDataWithBaseURL("file:///android_asset/", builder.toString(), "text/html",
-    // "UTF-8", "");
   }
 
   public void refresh() {
@@ -451,7 +479,8 @@ public class BrowserFragment extends BaseFragment {
     if (null != fragment) {
       ft.remove(fragment);
     }
-    ShrDialog dialogFragment = ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_FORWARD,share_title);
+    ShrDialog dialogFragment =
+        ShrDialog.newInstance(test_taggroup, APIConstants.SHARE_FORWARD, share_title);
     dialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ShrDialog);
     dialogFragment.show(ft, "ForwardShrDialog");
   }

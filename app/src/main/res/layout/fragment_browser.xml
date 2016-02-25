@@ -1,22 +1,53 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.unique.fancysherry.scan.ui.fragment.EndListFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.unique.fancysherry.scan.ui.fragment.EndListFragment">
 
-    <WebView
-        android:id="@+id/webview"
-        android:layout_marginTop="48dp"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp">
+
+        <ScrollView
+            android:id="@+id/richtext_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <unique.fancysherry.shr.ui.widget.RichText
+                android:id="@+id/richtext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:default_height="50dp"
+                tools:default_width="50dp"
+                />
+        </ScrollView>
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/webview_top_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="top"
-        android:background="@color/pure_white"
-        >
+        android:background="@color/pure_white">
+
+
+        <TextView
+            android:id="@+id/share_text_or_html"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:text="切换"
+            android:textColor="#333333"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/share_count"
@@ -25,17 +56,17 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
-            android:text=""
+            android:text="投递"
             android:textColor="#333333"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/webview_top_share_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/share_count"
             android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@id/share_count"
             android:src="@drawable/icon_shareout_black"
 
             />
@@ -45,11 +76,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/webview_top_share_button"
-            android:textColor="#333333"
-            android:text="原文"
             android:layout_marginRight="20dp"
-            android:textSize="15sp"/>
+            android:layout_toLeftOf="@id/webview_top_share_button"
+            android:text="原文"
+            android:textColor="#333333"
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/webview_top_primary_button"
@@ -58,15 +89,14 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/primary_content"
-            android:src="@drawable/icon_link"/>
-
+            android:src="@drawable/icon_link" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="#c2c2c2"/>
+            android:background="#c2c2c2" />
 
     </RelativeLayout>
 
@@ -75,12 +105,12 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="left|bottom"
-        android:background="@color/pure_white"
-        >
+        android:background="@color/pure_white">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#c2c2c2"/>
+            android:background="#c2c2c2" />
 
         <!--<de.hdodenhof.circleimageview.CircleImageView-->
         <!--android:id="@+id/webview_content_back_button"-->
@@ -100,8 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_back_grey"
-            />
+            android:src="@drawable/icon_back_grey" />
 
 
         <TextView
@@ -113,28 +142,27 @@
             android:layout_marginRight="25dp"
             android:text="11"
             android:textColor="#c2c2c2"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/webview_bottom_comment_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/comment_count"
             android:layout_marginRight="7dp"
-            android:src="@drawable/icon_comment"
-            />
+            android:layout_toLeftOf="@id/comment_count"
+            android:src="@drawable/icon_comment" />
 
         <TextView
             android:id="@+id/like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/webview_bottom_comment_button"
-            android:textColor="#c2c2c2"
-            android:text="11"
             android:layout_marginRight="20dp"
-            android:textSize="15sp"/>
+            android:layout_toLeftOf="@id/webview_bottom_comment_button"
+            android:text="11"
+            android:textColor="#c2c2c2"
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/webview_bottom_like_button"
@@ -143,13 +171,11 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/like_count"
-            android:tag="like"
-            android:src="@drawable/icon_thanks"/>
+            android:src="@drawable/icon_thanks"
+            android:tag="like" />
 
     </RelativeLayout>
     <!-- TODO: Update blank fragment layout -->
-
-
 
 
 </FrameLayout>
