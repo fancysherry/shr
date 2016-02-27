@@ -49,9 +49,11 @@ public class LoginActivity extends BaseActivity {
         WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.activity_login);
     ButterKnife.inject(this);
-    AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
-    username = mAccountBean.username;
-    login_username.setText(username);
+    if (LocalConfig.isFirstLaunch()&&(!LocalConfig.isFirstRegister())) {
+      AccountBean mAccountBean = AccountManager.getInstance().getCurrentUser().mAccountBean;
+      username = mAccountBean.username;
+      login_username.setText(username);
+    }
   }
 
   @OnClick({R.id.login_activity_login_button, R.id.login_activity_register_button,
