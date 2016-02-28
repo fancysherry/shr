@@ -27,7 +27,7 @@ public class LauncherActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     activity = this;
-    if (LocalConfig.isFirstRegister()) {
+    if (LocalConfig.isFirstRegister()&&LocalConfig.isFirstLaunch()) {
       Intent intent_register = new Intent(this, RegisterActivity.class);
       startActivity(intent_register);
       finish();
