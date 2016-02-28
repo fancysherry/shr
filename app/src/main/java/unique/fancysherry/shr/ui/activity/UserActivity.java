@@ -86,6 +86,7 @@ public class UserActivity extends BaseActivity {
     ButterKnife.inject(this);
     context = this;
     initializeToolbar(mToolbar);
+    initAdapter();
 
     String mine_user_id = AccountManager.getInstance().getCurrentUser().getAccountBean().id;
     if (getIntent().getParcelableExtra("user") != null && mine_user_id != null) {
@@ -271,16 +272,19 @@ public class UserActivity extends BaseActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  public void initAdapter() {
+  public void loadListData() {
     LogUtil.e("load share list");
     int viewHeight = (DensityUtils.dp2px(this, 112) + 50) * mUser.shares.size() + 100;
     shr_list.getLayoutParams().height = viewHeight;
+    userShareAdapter.setData(mUser.shares);
+  }
+
+  public void initAdapter() {
     shr_list.setLayoutManager(new LinearLayoutManager(this,
         LinearLayoutManager.VERTICAL, false));
     userShareAdapter = new UserShareAdapter(this);
     shr_list.addItemDecoration(new UserItemDecoration());
     shr_list.setAdapter(userShareAdapter);
-    userShareAdapter.setData(mUser.shares);
     userShareAdapter.setOnItemClickListener(new UserShareAdapter.OnRecyclerViewItemClickListener() {
       @Override
       public void onItemClick(View view, Share data) {
@@ -301,7 +305,7 @@ public class UserActivity extends BaseActivity {
     introduce.setText(mUser.brief);
     imageview_portrait.setImageURI(Uri.parse(APIConstants.BASE_URL + mUser.avatar));
     user_nickname.setText(mUser.nickname);
-    initAdapter();
+    loadListData();
     if (mUser.groups.size() <= 20) {
       for (int i = 0; i < mUser.groups.size(); i++) {
         if (mUser.groups.get(i).name == null)
